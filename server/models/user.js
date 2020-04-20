@@ -2,9 +2,9 @@ module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
     "users",
     {
-      accesscode: DataTypes.STRING,
-      roomname: DataTypes.STRING,
-      username: DataTypes.STRING,
+      access_code: DataTypes.STRING,
+      room_name: DataTypes.STRING,
+      user_name: DataTypes.STRING,
     },
     {
       timestamps: false,

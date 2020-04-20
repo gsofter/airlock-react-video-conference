@@ -4,16 +4,17 @@ const models = require("../models");
 const login = async (req, res, next) => {
   try {
     const { passcode } = req.body;
-    const { User, Room } = models;
+    const { User } = models;
     const user = await User.findOne({
-      where: { accesscode: passcode },
-      attributes: ["roomname", "username", "accesscode"],
+      where: { access_code: passcode },
+      attributes: ["room_name", "user_name", "access_code"],
     });
 
     if (user) {
       const userdata = {
-        username: user.username,
-        accesscode: user.accesscode,
+        username: user.user_name,
+        accesscode: user.access_code,
+        roomname: user.room_name,
       };
       const token = jwt.sign(userdata, process.env.AUTH_TOKEN_SECRET, {
         expiresIn: "24h",

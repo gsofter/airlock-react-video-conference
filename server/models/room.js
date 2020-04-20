@@ -2,9 +2,9 @@ module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
     "rooms",
     {
-      roomname: DataTypes.STRING,
-      roomowner: DataTypes.STRING,
-      roommode: DataTypes.STRING,
+      name: DataTypes.STRING,
+      access_code: DataTypes.STRING,
+      mode: DataTypes.STRING,
     },
     {
       timestamps: false,

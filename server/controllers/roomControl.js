@@ -17,13 +17,13 @@ const createRoom = async (req, res, next) => {
     const { roomname, roommode } = req.body;
 
     const newRoom = await Room.create(
-      { roomname, roommode, roomowner: accesscode },
-      { fields: ["roomowner", "roomname", "roommode"] }
+      { name: roomname, mode: roommode, access_code: accesscode },
+      { fields: ["name", "access_code", "mode"] }
     );
 
     const updatedUser = await User.update(
-      { roomname: newRoom.roomname },
-      { where: { accesscode: accesscode } }
+      { room_name: newRoom.name },
+      { where: { access_code: accesscode } }
     );
 
     const token = new AccessToken(

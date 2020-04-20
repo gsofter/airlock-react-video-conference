@@ -6,10 +6,11 @@ module.exports = async (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.AUTH_TOKEN_SECRET);
     const { User } = models;
     const user = await User.findOne({
-      where: { accesscode: decodedToken.accesscode },
-      attributes: ["roomname", "username", "accesscode"],
+      where: { access_code: decodedToken.accesscode },
+      attributes: ["room_name", "user_name", "access_code"],
     });
 
+    console.log(user);
     if (user) {
       next();
     } else throw "Invalid token";
