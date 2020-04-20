@@ -8,8 +8,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
-import 'bootstrap/dist/css/bootstrap.css'
 import { Typography } from '@material-ui/core'
+import 'bootstrap/dist/css/bootstrap.css'
 const useStyles = makeStyles((theme) => ({
   watch: {
     margin: theme.spacing(3, 0, 2),
