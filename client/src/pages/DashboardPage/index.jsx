@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '5rem',
   },
   leftContent: {
-    padding: '2rem',
+    padding: theme.spacing(2),
   },
   leftTitle: {
     width: '60%',
@@ -57,11 +57,39 @@ const useStyles = makeStyles((theme) => ({
   rightContent: {
     padding: theme.spacing(2),
   },
+
+  rightTitle: {
+    width: '60%',
+    textAlign: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    fontWeight: 800,
+    fontFamily: 'Arial',
+  },
+
   buttonEnter: {
     marginLeft: 'auto',
     marginRight: 'auto',
     width: theme.spacing(60),
     marginTop: theme.spacing(10),
+    marginBottom: theme.spacing(10),
+  },
+
+  borderLine: {
+    border: '1px solid black',
+  },
+
+  roomTitle: {
+    fontFamily: 'arial',
+    fontWeight: 800,
+    textAlign: 'center',
+  },
+
+  buttonDelete: {
+    width: theme.spacing(30),
+    marginTop: theme.spacing(5),
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 }))
 
@@ -69,22 +97,15 @@ const DashboardPage = () => {
   const history = useHistory
   const classes = useStyles()
   return (
-    <Container max-width="md" className={classes.main}>
+    <Container max-width="lg" className={classes.main}>
       <div className={`row ${classes.hero}`}>
         <Typography variant="h3" className={classes.pageTitle}>
           <img src="./assets/brand-logo.png" />
           Room's Dashboard
         </Typography>
       </div>
-      <Grid container spacing={3} className={classes.content}>
-        <Grid
-          container
-          item
-          lg={6}
-          md={6}
-          sm={12}
-          className={classes.leftContent}
-        >
+      <Grid container className={classes.content}>
+        <Grid container item xs className={classes.leftContent}>
           <Typography variant="h4" className={classes.leftTitle}>
             invite your friends to join your room.
           </Typography>
@@ -117,14 +138,48 @@ const DashboardPage = () => {
             ></TextField>
           </form>
         </Grid>
-        <Grid container item sm={6} xs={12} className={classes.rightContent}>
-          <Typography variant="h4" className={classes.leftTitle}>
-            Room XXXXXXXXX
-          </Typography>
-          <div className="container">
-            <div className="col-md-6 col-sm-6 col-lg-6">asdf</div>
-          </div>
+        <Grid
+          container
+          item
+          xs
+          className={classes.rightContent}
+          direction="column"
+        >
+          <Grid item>
+            <Typography variant="h4" className={classes.roomTitle}>
+              Room
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs
+            container
+            direction="column"
+            spacing={1}
+            className="mt-3"
+          >
+            <Grid container item xs spacing={1}>
+              <Grid item xs className={classes.borderLine}></Grid>
+              <Grid item xs className={classes.borderLine}></Grid>
+            </Grid>
+            <Grid container item xs spacing={1}>
+              <Grid item xs className={classes.borderLine}></Grid>
+              <Grid item xs className={classes.borderLine}></Grid>
+            </Grid>
+          </Grid>
+          <Grid item className="text-center">
+            <Button
+              variant="contained"
+              color="secondary"
+              fullWidth
+              className={classes.buttonDelete}
+            >
+              DELETE
+            </Button>
+          </Grid>
         </Grid>
+      </Grid>
+      <Grid item xs className="text-center">
         <Button
           variant="contained"
           color="primary"
