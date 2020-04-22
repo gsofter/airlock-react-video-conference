@@ -17,6 +17,8 @@ export const loginSuccess = createAction(LOGIN_SUCCESS)
 export const configAuth = createAction(CONFIG_AUTH)
 export const createRoomSuccess = createAction(CREATE_ROOM_SUCCESS)
 export const createRoomFailed = createAction(CREATE_ROOM_FAILED)
+export const deleteRoomSuccess = createAction(DELETE_ROOM_SUCCESS)
+export const deleteRoomFailed = createAction(DELETE_ROOM_FAILED)
 
 export const checkAuth = () => async (dispatch) => {
   try {
@@ -31,7 +33,9 @@ export const checkAuth = () => async (dispatch) => {
 export const loginRequest = (passcode) => async (dispatch) => {
   dispatch(loginStart())
   try {
+    console.log('loginRequest')
     const res = await api.userLogin(passcode)
+    console.log(res)
     dispatch(loginSuccess(res.data))
   } catch (e) {
     dispatch(loginFailed())
@@ -39,14 +43,17 @@ export const loginRequest = (passcode) => async (dispatch) => {
   }
 }
 
-export const createRoom = (name, mode) => async (dispatch, getState) => {
+export const createRoom = (room_name, room_mode) => async (
+  dispatch,
+  getState,
+) => {
   try {
     const auth = getState().auth
     const res = await api.createRoom(
       auth.token,
-      auth.user.access_code,
-      name,
-      mode,
+      auth.access_code,
+      room_name,
+      room_mode,
     )
     dispatch(createRoomSuccess(res.data))
   } catch (e) {
@@ -54,10 +61,14 @@ export const createRoom = (name, mode) => async (dispatch, getState) => {
   }
 }
 
-export const deleteRoom = () => async (dispatch) => {
+export const deleteRoom = () => async (dispatch, getState) => {
   try {
-    const res = await api.deleteRoom()
-    dispatch(configAuth(res.data))
+    const state = getState()
+    const res = await api.deleteRoom(
+      state.auth.access_code,
+      state.auth.room_name,
+    )
+    dispatch(deleteRoomSuccess(res.data))
   } catch (e) {
     throw e
   }

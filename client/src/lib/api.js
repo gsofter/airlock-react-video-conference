@@ -20,9 +20,12 @@ export const createRoom = (token, access_code, name, mode) => {
     },
   )
 }
-export const deleteRoom = () => {
+export const deleteRoom = (access_code, room_name) => {
   const token = getAccessToken()
-  return axios.delete(`${endpoint}/delete_room`, {
+  console.log('access_code', access_code)
+  console.log('room_name', room_name)
+  return axios.delete(`${endpoint}/room`, {
+    params: { access_code, room_name },
     headers: { Authorization: `Bearer ${token}` },
   })
 }

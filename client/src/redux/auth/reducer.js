@@ -7,10 +7,10 @@ dotenv.config()
 
 let initState = {
   token: '',
-  user: {},
-  room: {},
+  access_code: '',
+  user_name: '',
+  room_name: '',
 }
-console.log(initState)
 
 const authReducer = handleActions(
   {
@@ -25,39 +25,21 @@ const authReducer = handleActions(
       return {
         ...state,
         token: token,
-        user: {
-          ...action.payload.user,
-        },
-        room: {
-          ...action.payload.room,
-        },
+        ...action.payload.user,
       }
     },
     [actions.CREATE_ROOM_SUCCESS]: (state, action) => {
       const newRoom = action.payload
       return {
         ...state,
-        room: {
-          ...state.room,
-          ...newRoom,
-        },
+        ...action.payload,
       }
     },
     [actions.DELETE_ROOM_FAILED]: (state) => {
       return state
     },
-    [actions.CONFIG_AUTH]: (state, action) => {
-      setAccessToken(action.payload)
-      const decoded = jwt.verify(
-        action.payload,
-        process.env.REACT_APP_AUTH_SECRET,
-      )
-      return {
-        token: action.payload,
-        name: decoded.username,
-        room: decoded.roomname,
-        authorizing: false,
-      }
+    [actions.DELETE_ROOM_SUCCESS]: (state) => {
+      return { ...state, room_name: '' }
     },
   },
   initState,

@@ -11,30 +11,25 @@ const models = require("../models");
  */
 const login = async (req, res, next) => {
   try {
+    // get input passcode
     const { passcode } = req.body;
-    const { User } = models;
+    const { User, Room } = models;
+    // find user for passcode
     const user = await User.findOne({
       where: { access_code: passcode },
       attributes: ["room_name", "user_name", "access_code"],
     });
 
-    if (user) {
-      console.log("user => ", user);
-      const userData = {
-        user_name: user.user_name,
-        access_code: user.access_code,
-        room_name: user.room_name,
-      };
-      const token = jwt.sign(userData, process.env.AUTH_TOKEN_SECRET, {
-        expiresIn: "24h",
-      });
-      console.log("userData => ", userData);
-      res.send({ token, user });
-    } else {
-      res.status(404).json({
-        error: "User not found",
-      });
-    }
+    // generate token
+    const userData = {
+      access_code: user.access_code,
+      user_name: user.user_name,
+      room_name: user.room_name,
+    };
+    const token = jwt.sign(userData, process.env.AUTH_TOKEN_SECRET, {
+      expiresIn: "24h",
+    });
+    res.send({ token, user });
   } catch (err) {
     res.status(500).json({
       error: new Error("Invalid request"),
@@ -47,15 +42,17 @@ const login = async (req, res, next) => {
  * Returns user data for corresponding user for accesscode
  *
  * @method GET
- * @param { passcode: ''}
+ * @param
  * @return { token, user, room }
  */
 const getUser = async (req, res, next) => {
   try {
+    console.log("GET USER CALLED!");
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.AUTH_TOKEN_SECRET);
 
     const { User, Room } = models;
+    // get user
     const user = await User.findOne({
       where: { access_code: decodedToken.access_code },
       attributes: ["room_name", "user_name", "access_code"],
@@ -63,28 +60,15 @@ const getUser = async (req, res, next) => {
 
     if (user) {
       const userData = {
-        user_name: user.user_name,
         access_code: user.access_code,
+        user_name: user.user_name,
         room_name: user.room_name,
       };
-
       const token = jwt.sign(userData, process.env.AUTH_TOKEN_SECRET, {
         expiresIn: "24h",
       });
 
-      const room = Room.findOne({
-        where: { access_code: user.access_code },
-      });
-
-      roomData = room
-        ? {
-            name: room.name,
-            access_code: room.access_code,
-            mode: room.mode,
-          }
-        : {};
-
-      res.send({ token, user, room: roomData });
+      res.send({ token, user });
     } else {
       res.status(404).json({
         error: "User not found",

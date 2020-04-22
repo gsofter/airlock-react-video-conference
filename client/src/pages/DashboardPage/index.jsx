@@ -1,16 +1,25 @@
 import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
 import { Typography, Grid, TextField, Button } from '@material-ui/core'
-import 'bootstrap/dist/css/bootstrap.css'
-import useStyles from './styles'
-import { userDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ConfirmDialog from '../../components/Dialogs/ConfirmDialog'
+import { deleteRoom } from '../../redux/auth/actions'
+import useStyles from './styles'
+import 'bootstrap/dist/css/bootstrap.css'
+
 const DashboardPage = () => {
   const classes = useStyles()
   const userData = useSelector((state) => state.auth)
-  const { user, room } = userData
+  const { user_name, room_name, access_code } = userData
   const [showDeleteDlg, setShowDeleteDlg] = useState(false)
-  const handleDeleteRoom = () => {}
+  const dispatch = useDispatch()
+  const handleDeleteRoom = () => {
+    try {
+      dispatch(deleteRoom())
+    } catch (e) {
+      console.log(e)
+    }
+  }
   const onClkDelete = (event) => {
     setShowDeleteDlg(true)
   }
@@ -31,7 +40,7 @@ const DashboardPage = () => {
       <div className={`row ${classes.hero}`}>
         <Typography variant="h3" className={classes.pageTitle}>
           <img src="./assets/brand-logo.png" />
-          <span className={classes.username}>{user.user_name}</span>'s Dashboard
+          <span className={classes.username}>{user_name}</span>'s Dashboard
         </Typography>
       </div>
       <Grid container className={classes.content}>
@@ -78,17 +87,10 @@ const DashboardPage = () => {
         >
           <Grid item>
             <Typography variant="h4" className={classes.subtitle}>
-              Room <span className={classes.roomname}> {room.room_name} </span>
+              Room <span className={classes.roomname}> {room_name} </span>
             </Typography>
           </Grid>
-          <Grid
-            item
-            xs
-            container
-            direction="column"
-            spacing={1}
-            className="mt-4"
-          >
+          <Grid item xs direction="column" spacing={1} className="mt-4">
             <Grid container item xs spacing={1}>
               <Grid item xs className={classes.board}>
                 AAAA
