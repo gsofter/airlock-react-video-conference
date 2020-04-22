@@ -1,112 +1,49 @@
-import React from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
-import {
-  Typography,
-  Grid,
-  Divider,
-  TextField,
-  Paper,
-  Button,
-} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core'
+import { Typography, Grid, TextField, Button } from '@material-ui/core'
 import 'bootstrap/dist/css/bootstrap.css'
-
-const useStyles = makeStyles((theme) => ({
-  main: {
-    marginTop: '3rem',
-  },
-  hero: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily: 'Arial',
-  },
-  content: {
-    marginTop: '5rem',
-  },
-  leftContent: {
-    padding: theme.spacing(2),
-  },
-  leftTitle: {
-    width: '60%',
-    textAlign: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    fontWeight: 800,
-    fontFamily: 'Arial',
-  },
-  leftDescription: {
-    marginTop: '1.5rem',
-  },
-  pageTitle: {
-    fontFamily: 'Arial',
-    fontWeight: 800,
-  },
-  form: {
-    marginTop: theme.spacing(1),
-  },
-
-  formControl: {
-    marginTop: theme.spacing(3),
-  },
-
-  paper: {
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-  rightContent: {
-    padding: theme.spacing(2),
-  },
-
-  rightTitle: {
-    width: '60%',
-    textAlign: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    fontWeight: 800,
-    fontFamily: 'Arial',
-  },
-
-  buttonEnter: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: theme.spacing(60),
-    marginTop: theme.spacing(10),
-    marginBottom: theme.spacing(10),
-  },
-
-  borderLine: {
-    border: '1px solid black',
-  },
-
-  roomTitle: {
-    fontFamily: 'arial',
-    fontWeight: 800,
-    textAlign: 'center',
-  },
-
-  buttonDelete: {
-    width: theme.spacing(30),
-    marginTop: theme.spacing(5),
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-}))
-
+import useStyles from './styles'
+import { userDispatch, useSelector } from 'react-redux'
+import ConfirmDialog from '../../components/Dialogs/ConfirmDialog'
 const DashboardPage = () => {
-  const history = useHistory
   const classes = useStyles()
+  const userData = useSelector((state) => state.auth)
+  const { user, room } = userData
+  const [showDeleteDlg, setShowDeleteDlg] = useState(false)
+  const handleDeleteRoom = () => {}
+  const onClkDelete = (event) => {
+    setShowDeleteDlg(true)
+  }
   return (
     <Container max-width="lg" className={classes.main}>
+      <ConfirmDialog
+        isOpen={showDeleteDlg}
+        title="Confirm"
+        description="Are you sure to delete room? If you click OK, your room will be permanently removed"
+        disagreeText="Cancel"
+        agreeText="DELETE"
+        handleDisagree={() => setShowDeleteDlg(false)}
+        handleAgree={() => {
+          handleDeleteRoom()
+          setShowDeleteDlg(false)
+        }}
+      />
       <div className={`row ${classes.hero}`}>
         <Typography variant="h3" className={classes.pageTitle}>
           <img src="./assets/brand-logo.png" />
-          Room's Dashboard
+          <span className={classes.username}>{user.user_name}</span>'s Dashboard
         </Typography>
       </div>
       <Grid container className={classes.content}>
-        <Grid container item xs className={classes.leftContent}>
-          <Typography variant="h4" className={classes.leftTitle}>
+        <Grid
+          container
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          className={classes.leftContent}
+        >
+          <Typography variant="h4" className={classes.subtitle}>
             invite your friends to join your room.
           </Typography>
           <Typography variant="h6" className={classes.leftDescription}>
@@ -128,26 +65,20 @@ const DashboardPage = () => {
               disabled
               className={classes.formControl}
             ></TextField>
-            <TextField
-              label="LINK"
-              variant="outlined"
-              value="event.squareparty.com/?ref=1d825664d1"
-              fullWidth
-              disabled
-              className={classes.formControl}
-            ></TextField>
           </form>
         </Grid>
         <Grid
           container
           item
-          xs
+          xs={12}
+          sm={12}
+          md={6}
           className={classes.rightContent}
           direction="column"
         >
           <Grid item>
-            <Typography variant="h4" className={classes.roomTitle}>
-              Room
+            <Typography variant="h4" className={classes.subtitle}>
+              Room <span className={classes.roomname}> {room.room_name} </span>
             </Typography>
           </Grid>
           <Grid
@@ -156,15 +87,23 @@ const DashboardPage = () => {
             container
             direction="column"
             spacing={1}
-            className="mt-3"
+            className="mt-4"
           >
             <Grid container item xs spacing={1}>
-              <Grid item xs className={classes.borderLine}></Grid>
-              <Grid item xs className={classes.borderLine}></Grid>
+              <Grid item xs className={classes.board}>
+                AAAA
+              </Grid>
+              <Grid item xs className={classes.board}>
+                AAAA
+              </Grid>
             </Grid>
             <Grid container item xs spacing={1}>
-              <Grid item xs className={classes.borderLine}></Grid>
-              <Grid item xs className={classes.borderLine}></Grid>
+              <Grid item xs className={classes.board}>
+                AAAA
+              </Grid>
+              <Grid item xs className={classes.board}>
+                AAAA
+              </Grid>
             </Grid>
           </Grid>
           <Grid item className="text-center">
@@ -173,6 +112,7 @@ const DashboardPage = () => {
               color="secondary"
               fullWidth
               className={classes.buttonDelete}
+              onClick={onClkDelete}
             >
               DELETE
             </Button>

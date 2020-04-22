@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import MenuItem from '@material-ui/core/MenuItem'
 import AlertDialog from '../Dialogs/AlertDialog'
@@ -13,28 +12,7 @@ import { useCookies } from 'react-cookie'
 import HttpStatus from 'http-status-codes'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import actions from '../../redux/auth/actions'
-import tactions from '../../redux/twilio/actions'
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}))
-
+import useStyles from './style'
 const CreateRoom = () => {
   const classes = useStyles()
   const [roomMode, setRoomMode] = useState('public')
@@ -69,13 +47,13 @@ const CreateRoom = () => {
       .then((res) => {
         const twilioToken = res.data
         setCookie('airlock_twilio_token', twilioToken)
-        dispatch(tactions.setToken(twilioToken))
+        // dispatch(tactions.setToken(twilioToken))
         history.push('/dashboard')
       })
       .catch((error) => {
         if (error.response.status === HttpStatus.UNAUTHORIZED) {
           removeCookie('airlock_access_token')
-          dispatch(actions.loginFail())
+          // dispatch(actions.loginFail())
         }
         setDialogShow(true)
       })

@@ -5,11 +5,14 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { CookiesProvider } from 'react-cookie'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import Reducer from './redux'
+import thunk from 'redux-thunk'
+import logger from 'redux-logger'
+import { composeWithDevTools } from 'redux-devtools-extension'
 const store = createStore(
   Reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  composeWithDevTools(applyMiddleware(thunk, logger)),
 )
 
 ReactDOM.render(

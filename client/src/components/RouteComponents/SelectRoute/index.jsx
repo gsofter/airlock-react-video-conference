@@ -3,10 +3,9 @@ import { Route, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 const SelectRoute = ({ children, ...rest }) => {
-  console.log('SelectRoute')
-  const { token: accessToken, room } = useSelector((state) => state.auth)
+  const { token: accessToken, user, room } = useSelector((state) => state.auth)
   const isAuthenticated = accessToken ? true : false
-  const hasRoom = room ? true : false
+  const hasRoom = Object.keys(room).length !== 0 ? true : false
   return (
     <Route
       {...rest}

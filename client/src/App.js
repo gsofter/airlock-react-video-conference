@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Route,
   BrowserRouter as Router,
@@ -10,9 +10,15 @@ import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
 import SelectRoute from './components/RouteComponents/SelectRoute'
 import DashboardRoute from './components/RouteComponents/DashboardRoute'
-import { useCookies } from 'react-cookie'
+import LoginRoute from './components/RouteComponents/LoginRoute'
+import { useDispatch } from 'react-redux'
+import { checkAuth } from './redux/auth/actions'
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies('airlock_access_token')
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(checkAuth())
+  }, [dispatch])
+
   return (
     <Router>
       <Switch>
@@ -25,7 +31,9 @@ function App() {
         <DashboardRoute path="/dashboard">
           <DashboardPage />
         </DashboardRoute>
-        <Route path="/login" component={LoginPage} />
+        <LoginRoute path="/login">
+          <LoginPage />
+        </LoginRoute>
       </Switch>
     </Router>
   )

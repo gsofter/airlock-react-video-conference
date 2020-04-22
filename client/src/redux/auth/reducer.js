@@ -1,59 +1,56 @@
-import actions from './actions'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import { handleActions } from 'redux-actions'
+import * as actions from './actions'
+import { setAccessToken, getAccessToken } from '../../lib/cookie'
 dotenv.config()
 
-function accessCookie(cookieName) {
-  var name = cookieName + '='
-  var allCookieArray = document.cookie.split(';')
-  for (var i = 0; i < allCookieArray.length; i++) {
-    var temp = allCookieArray[i].trim()
-    if (temp.indexOf(name) == 0) return temp.substring(name.length, temp.length)
-  }
-  return ''
+let initState = {
+  token: '',
+  user: {},
+  room: {},
 }
-
-const initToken = accessCookie('airlock_access_token')
-let initState = {}
-if (initToken) {
-  let decoded = jwt.verify(initToken, process.env.REACT_APP_AUTH_SECRET)
-  initState = {
-    token: initToken,
-    name: decoded.username || '',
-    room: decoded.roomname || '',
-  }
-} else {
-  initState = {
-    token: initToken,
-    name: '',
-    room: '',
-  }
-}
-
 console.log(initState)
-const authReducer = (state = initState, action) => {
-  switch (action.type) {
-    case actions.LOGIN:
+
+const authReducer = handleActions(
+  {
+    [actions.LOGIN_START]: (state) => ({ ...state, authorizing: true }),
+    [actions.LOGIN_FAILED]: (state) => {
+      setAccessToken('')
+      return initState
+    },
+    [actions.LOGIN_SUCCESS]: (state, action) => {
+      const token = action.payload.token
+      setAccessToken(token)
+      return {
+        ...state,
+        token: token,
+        user: {
+          ...action.payload.user,
+        },
+        room: {
+          ...action.payload.room,
+        },
+      }
+    },
+
+    [actions.DELETE_ROOM_FAILED]: (state) => {
+      return state
+    },
+    [actions.CONFIG_AUTH]: (state, action) => {
+      setAccessToken(action.payload)
       const decoded = jwt.verify(
-        action.token,
+        action.payload,
         process.env.REACT_APP_AUTH_SECRET,
       )
-
-      action.setCookie(action.token)
       return {
-        token: action.token,
+        token: action.payload,
         name: decoded.username,
         room: decoded.roomname,
+        authorizing: false,
       }
-    case actions.LOGOUT:
-      //   removeCookie('airlock_access_token')
-      return { token: null, name: null, room: null }
-    case actions.LOGIN_FAIL:
-      //   removeCookie('airlock_access_token')
-      return { token: null, name: null, room: null }
-    default:
-      return state
-  }
-}
-
+    },
+  },
+  initState,
+)
 export default authReducer
