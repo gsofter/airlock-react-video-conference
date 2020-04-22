@@ -33,7 +33,16 @@ const authReducer = handleActions(
         },
       }
     },
-
+    [actions.CREATE_ROOM_SUCCESS]: (state, action) => {
+      const newRoom = action.payload
+      return {
+        ...state,
+        room: {
+          ...state.room,
+          ...newRoom,
+        },
+      }
+    },
     [actions.DELETE_ROOM_FAILED]: (state) => {
       return state
     },

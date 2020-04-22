@@ -10,6 +10,16 @@ export const checkAuth = async () => {
     headers: { Authorization: `Bearer ${token}` },
   })
 }
+
+export const createRoom = (token, access_code, name, mode) => {
+  return axios.post(
+    `${endpoint}/room`,
+    { access_code, name, mode },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  )
+}
 export const deleteRoom = () => {
   const token = getAccessToken()
   return axios.delete(`${endpoint}/delete_room`, {
