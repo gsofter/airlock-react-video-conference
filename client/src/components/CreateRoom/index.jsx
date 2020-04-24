@@ -7,29 +7,41 @@ import Container from '@material-ui/core/Container'
 import MenuItem from '@material-ui/core/MenuItem'
 import AlertDialog from '../Dialogs/AlertDialog'
 import { useDispatch } from 'react-redux'
-import { createRoom } from '../../redux/auth/actions'
 import useStyles from './style'
+import * as api from '../../lib/api'
+import { createRoom } from '../../redux/room/actions'
 
 const CreateRoom = () => {
   const classes = useStyles()
   const [roomMode, setRoomMode] = useState('public')
   const [roomName, setRoomName] = useState('')
   const [dialogShow, setDialogShow] = useState(false)
+  const [error, setError] = useState(false)
   const dispatch = useDispatch()
   const onChangeRoomMode = useCallback((e) => {
     setRoomMode(e.target.value)
   }, [])
 
   const onChangeRoomName = useCallback((e) => {
+    setError(false)
     setRoomName(e.target.value)
   }, [])
 
-  const onCreateRoom = (e) => {
-    e.preventDefault()
-    try {
+  const onCreateRoom = useCallback(
+    async (e) => {
+      e.preventDefault()
       dispatch(createRoom(roomName, roomMode))
-    } catch (e) {}
-  }
+        .then(() => {
+          console.log('CREATING ROOM SUCCESS')
+        })
+        .catch((e) => {
+          console.log(e.message)
+          console.log('CREATING ROOM FAILED')
+          setError(true)
+        })
+    },
+    [dispatch, roomMode, roomName],
+  )
 
   return (
     <Container maxWidth="xs">
@@ -59,6 +71,8 @@ const CreateRoom = () => {
             label="Choose a name"
             value={roomName}
             onChange={onChangeRoomName}
+            error={error}
+            helperText={error ? 'Invalid Name' : ''}
           />
 
           <TextField

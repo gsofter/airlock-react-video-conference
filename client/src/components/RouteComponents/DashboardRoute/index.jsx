@@ -3,17 +3,14 @@ import { Route, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 const DashboardRoute = ({ children, ...rest }) => {
-  const { token: accessToken, user_name, room_name } = useSelector(
-    (state) => state.auth,
-  )
-  const isAuthenticated = accessToken ? true : false
-  const hasRoom = room_name ? true : false
+  const userData = useSelector((state) => state.user)
+  const roomData = useSelector((state) => state.room)
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        isAuthenticated ? (
-          hasRoom ? (
+        userData.name ? (
+          roomData.name ? (
             children
           ) : (
             <Redirect

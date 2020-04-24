@@ -4,36 +4,12 @@ import JoinRoom from '../../components/JoinRoom'
 import RandomRoom from '../../components/RandomRoom'
 import Container from '@material-ui/core/Container'
 import Button from '@material-ui/core/Button'
-import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import { Typography } from '@material-ui/core'
+import useStyles from './styles'
 import 'bootstrap/dist/css/bootstrap.css'
-const useStyles = makeStyles((theme) => ({
-  watch: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-  brand: {
-    marginTop: theme.spacing(3),
-    textAlign: 'center',
-  },
-  roomcontainer: {
-    marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(2),
-  },
-  brandtext: {
-    fontSize: '1.5rem',
-  },
-}))
 
 const SelectPage = () => {
   const classes = useStyles()

@@ -17,6 +17,4 @@ router.get("/db/user", async function (req, res, nex) {
 router.post("/login", userControl.login);
 router.use("/user", userRouter);
 router.use("/room", roomRouter);
-//router.post("/create_room", auth, roomControl.createRoom);
-//router.post("/delete_room", auth, roomControl.deleteRoom);
 module.exports = router;

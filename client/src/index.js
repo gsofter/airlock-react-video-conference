@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import './style.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import { CookiesProvider } from 'react-cookie'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import Reducer from './redux'
@@ -16,13 +15,9 @@ const store = createStore(
 )
 
 ReactDOM.render(
-  <React.StrictMode>
-    <CookiesProvider>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </CookiesProvider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root'),
 )
 

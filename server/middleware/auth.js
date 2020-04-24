@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
     const { User } = models;
     const user = await User.findOne({
       where: { access_code: decodedToken.access_code },
-      attributes: ["room_name", "user_name", "access_code"],
+      attributes: ["name", "access_code", "room_name"],
     });
 
     if (user) {
@@ -17,7 +17,7 @@ module.exports = async (req, res, next) => {
   } catch {
     console.log("middleware : AUTH : FAILED! ");
     res.status(401).json({
-      error: new Error("Invalid Request"),
+      error: "TOKEN EXPIRED",
     });
   }
 };

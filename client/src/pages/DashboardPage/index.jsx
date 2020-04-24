@@ -1,34 +1,47 @@
 import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
 import { Typography, Grid, TextField, Button } from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/Delete'
 import { useDispatch, useSelector } from 'react-redux'
 import ConfirmDialog from '../../components/Dialogs/ConfirmDialog'
-import { deleteRoom } from '../../redux/auth/actions'
+import { deleteRoom, leaveRoom } from '../../redux/room/actions'
 import useStyles from './styles'
 import 'bootstrap/dist/css/bootstrap.css'
 
 const DashboardPage = () => {
   const classes = useStyles()
-  const userData = useSelector((state) => state.auth)
-  const { user_name, room_name, access_code } = userData
+  const userData = useSelector((state) => state.user)
+  const roomData = useSelector((state) => state.room)
   const [showDeleteDlg, setShowDeleteDlg] = useState(false)
+  const [showLeaveDlg, setShowLeaveDlg] = useState(false)
   const dispatch = useDispatch()
+  // const memberList = Array(4).forEach()
   const handleDeleteRoom = () => {
-    try {
-      dispatch(deleteRoom())
-    } catch (e) {
-      console.log(e)
-    }
+    dispatch(deleteRoom())
+      .then((res) => {
+        alert('Your room has been delted')
+      })
+      .catch((e) => {
+        alert("Can 't remove the room")
+      })
+  }
+
+  const handleLeaveRoom = () => {
+    dispatch(leaveRoom())
   }
   const onClkDelete = (event) => {
     setShowDeleteDlg(true)
+  }
+
+  const onClkLeave = (event) => {
+    setShowLeaveDlg(true)
   }
   return (
     <Container max-width="lg" className={classes.main}>
       <ConfirmDialog
         isOpen={showDeleteDlg}
-        title="Confirm"
-        description="Are you sure to delete room? If you click OK, your room will be permanently removed"
+        title="Are you sure to delete room?"
+        description=""
         disagreeText="Cancel"
         agreeText="DELETE"
         handleDisagree={() => setShowDeleteDlg(false)}
@@ -37,10 +50,22 @@ const DashboardPage = () => {
           setShowDeleteDlg(false)
         }}
       />
+      <ConfirmDialog
+        isOpen={showLeaveDlg}
+        title="Are you sure to leave room?"
+        description=""
+        disagreeText="Cancel"
+        agreeText="Leave"
+        handleDisagree={() => setShowLeaveDlg(false)}
+        handleAgree={() => {
+          handleLeaveRoom()
+          setShowLeaveDlg(false)
+        }}
+      />
       <div className={`row ${classes.hero}`}>
         <Typography variant="h3" className={classes.pageTitle}>
-          <img src="./assets/brand-logo.png" />
-          <span className={classes.username}>{user_name}</span>'s Dashboard
+          <img src="./assets/brand-logo.png" alt="brand" />
+          <span className={classes.username}>{userData.name}</span>'s Dashboard
         </Typography>
       </div>
       <Grid container className={classes.content}>
@@ -87,36 +112,51 @@ const DashboardPage = () => {
         >
           <Grid item>
             <Typography variant="h4" className={classes.subtitle}>
-              Room <span className={classes.roomname}> {room_name} </span>
+              Room <span className={classes.roomname}> {roomData.name} </span>
             </Typography>
           </Grid>
-          <Grid item xs direction="column" spacing={1} className="mt-4">
+          <Grid
+            container
+            item
+            xs
+            direction="column"
+            spacing={1}
+            className="mt-4"
+          >
             <Grid container item xs spacing={1}>
               <Grid item xs className={classes.board}>
-                AAAA
+                {roomData.members.length > 0 ? roomData.members[0].name : ''}
               </Grid>
               <Grid item xs className={classes.board}>
-                AAAA
+                {roomData.members.length > 1 ? roomData.members[1].name : ''}
               </Grid>
             </Grid>
             <Grid container item xs spacing={1}>
               <Grid item xs className={classes.board}>
-                AAAA
+                {roomData.members.length > 2 ? roomData.members[2].name : ''}
               </Grid>
               <Grid item xs className={classes.board}>
-                AAAA
+                {roomData.members.length > 3 ? roomData.members[3].name : ''}
               </Grid>
             </Grid>
           </Grid>
-          <Grid item className="text-center">
+          <Grid item className="text-center" spacing={1}>
             <Button
               variant="contained"
               color="secondary"
-              fullWidth
+              startIcon={<DeleteIcon />}
               className={classes.buttonDelete}
               onClick={onClkDelete}
             >
               DELETE
+            </Button>
+
+            <Button
+              variant="contained"
+              className={classes.buttonLeave}
+              onClick={onClkLeave}
+            >
+              LEAVE
             </Button>
           </Grid>
         </Grid>

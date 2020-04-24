@@ -3,31 +3,27 @@ import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}))
+import useStyles from './style'
+import { joinRoom } from '../../redux/room/actions'
+import { useDispatch } from 'react-redux'
 
 const JoinRoom = () => {
+  const [roomName, setRoomName] = useState('')
   const classes = useStyles()
+  const onChangeRoomName = useCallback((e) => setRoomName(e.target.value), [])
+  const dispatch = useDispatch()
+  const onSubmit = (e) => {
+    e.preventDefault()
+    dispatch(joinRoom(roomName))
+      .then((res) => {
+        console.log('JOIN succes')
+      })
+      .catch((e) => {
+        console.log('JOIN ROOM FAILED')
+      })
+  }
+
   return (
     <Container maxWidth="xs">
       <CssBaseline />
@@ -39,7 +35,7 @@ const JoinRoom = () => {
           Have your friends already created a room ? Enter the name of the room
           to join it.
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -48,6 +44,8 @@ const JoinRoom = () => {
             name="roomname"
             label="Enter room name"
             autoComplete=""
+            value={roomName}
+            onChange={onChangeRoomName}
           />
 
           <Button

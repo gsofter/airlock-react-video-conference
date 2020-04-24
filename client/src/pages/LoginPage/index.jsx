@@ -9,27 +9,36 @@ import Container from '@material-ui/core/Container'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import AlertDialog from '../../components/Dialogs/AlertDialog'
+import * as userActions from '../../redux/user/actions'
+import * as roomActions from '../../redux/room/actions'
 import useStyles from './styles'
-import * as authActions from '../../redux/auth/actions'
 
-const LonginRoom = () => {
-  const history = useHistory()
+const LoginPage = () => {
   const location = useLocation()
   const { from } = location.state || { from: { pathname: '/' } }
   const classes = useStyles()
   const [passcode, setPasscode] = useState('')
   const dispatch = useDispatch()
   const [dialogShow, setDialogShow] = useState(false)
-
+  const [error, setError] = useState(false)
   const onChangePasscode = useCallback((e) => {
+    setError(false)
     setPasscode(e.target.value)
   }, [])
 
-  const onSubmit = (e) => {
-    e.preventDefault()
-    dispatch(authActions.loginRequest(passcode))
-    history.push(from)
-  }
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+      dispatch(userActions.loginRequest(passcode))
+        .then(() => {
+          dispatch(userActions.checkAuth())
+        })
+        .catch((error) => {
+          setError(true)
+        })
+    },
+    [dispatch, passcode],
+  )
 
   return (
     <Container maxWidth="xs">
@@ -48,7 +57,7 @@ const LonginRoom = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={onSubmit}>
+        <form className={classes.form} onSubmit={onSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -56,8 +65,10 @@ const LonginRoom = () => {
             fullWidth
             name="passcode"
             label="passcode"
-            autoComplete=""
+            value={passcode}
             onChange={onChangePasscode}
+            error={error}
+            helperText={error && 'Invalid access code'}
           />
 
           <Button
@@ -75,4 +86,4 @@ const LonginRoom = () => {
   )
 }
 
-export default LonginRoom
+export default LoginPage

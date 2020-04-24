@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 800,
     fontFamily: 'Arial',
     minHeight: '5.125rem',
-    textAlign: 'center',
     margin: '0 auto',
   },
 
@@ -64,10 +63,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   buttonDelete: {
-    width: theme.spacing(30),
+    // width: theme.spacing(30),
     marginTop: theme.spacing(5),
-    marginLeft: 'auto',
-    marginRight: 'auto',
+  },
+
+  buttonLeave: {
+    // width: theme.spacing(30),
+    marginTop: theme.spacing(5),
+    marginLeft: theme.spacing(1),
   },
   username: {
     color: 'rgba(0, 0, 0, 0.4)',

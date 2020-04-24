@@ -12,11 +12,15 @@ import SelectRoute from './components/RouteComponents/SelectRoute'
 import DashboardRoute from './components/RouteComponents/DashboardRoute'
 import LoginRoute from './components/RouteComponents/LoginRoute'
 import { useDispatch } from 'react-redux'
-import { checkAuth } from './redux/auth/actions'
+import { checkAuth } from './redux/user/actions'
+import { joinRoom } from './redux/room/actions'
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(checkAuth())
+    console.log('AUTH CHECKING')
+    dispatch(checkAuth()).then(() => {
+      console.log('AUTH SUCCESS')
+    })
   }, [dispatch])
 
   return (
