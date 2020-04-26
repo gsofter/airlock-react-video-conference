@@ -15,20 +15,6 @@ const roomReducer = handleActions(
       ...action.payload,
     }),
     [actions.JOIN_ROOM_FAILED]: () => initState,
-    [actions.CREATE_ROOM_SUCCESS]: (state, action) => {
-      return {
-        ...state,
-        ...action.payload,
-      }
-    },
-
-    [actions.DELETE_ROOM_FAILED]: (state) => {
-      return state
-    },
-
-    [actions.DELETE_ROOM_SUCCESS]: (state) => {
-      return initState
-    },
 
     [actions.SET_ROOM_DATA]: (state, action) => {
       if (action.payload === null) return initState
@@ -38,6 +24,12 @@ const roomReducer = handleActions(
         mode: action.payload.mode,
         members: action.payload.members,
         isOwner: action.payload.isOwner,
+      }
+    },
+    [actions.SET_ROOM_MEMBERS]: (state, action) => {
+      return {
+        ...state,
+        members: [...action.payload],
       }
     },
   },

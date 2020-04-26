@@ -54,7 +54,7 @@ const login = async (req, res, next) => {
  * @method GET
  * @param
  * @return {* user: {}, room: {} }
- * @description user => { access_code: string, name: string }
+ * @description user => { access_code: string, name: string, my_room_name: string}
  * @description room => { name: string, owner_access_code: string, mode: string, members: string, isOwner: boolean}
  */
 const getAuth = async (req, res, next) => {
@@ -109,11 +109,19 @@ const getAuth = async (req, res, next) => {
       }
     }
 
+    const myRoom = await Room.findOne({
+      where: { owner_access_code: user.access_code },
+      attributes: ["name"],
+    });
+
+    let my_room_name = myRoom ? myRoom.name : "";
     const userData = {
       name: user.name,
       access_code: user.access_code,
+      my_room_name: my_room_name,
     };
 
+    console.log(userData);
     res.send({ user: userData, room: roomData });
   } catch (err) {
     console.log(err);

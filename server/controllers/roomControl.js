@@ -244,4 +244,172 @@ const joinRoom = async (req, res, next) => {
   }
 };
 
-module.exports = { createRoom, deleteRoom, joinRoom };
+/**
+ *
+ * Return room data after join room and user
+ * - if room not exists =>  406 { "type": "NOT_ACCEPTABLE"}
+ * - if user not found => 406 { "type" : "NOT_ACCEPTABLE"}
+ *
+ * @param {* access_code: string } req.query
+ * @return {...room, isOwner: Boolean, members: [members]}
+ */
+
+const joinRandomRoom = async (req, res, next) => {
+  try {
+    console.log("JOINRANDOMROOM CALLED!");
+    const { User, Room } = models;
+    const { access_code } = req.query;
+
+    const allRooms = await Room.findAndCountAll({
+      where: { mode: "public" },
+      attributes: ["name", "owner_access_code", "mode"],
+    });
+
+    if (allRooms.count == 0) {
+      // if room not exists =>  406 { "type": "NOT_ACCEPTABLE"}
+      res.status(HttpStatus.NOT_ACCEPTABLE).json({
+        type: "NO_ROOM",
+      });
+    }
+
+    let rooms = allRooms.rows;
+    let randomId, randomRoom, randomRoomMembers;
+    while (rooms) {
+      randomId = Math.floor(Math.random() * rooms.length);
+      randomRoom = rooms[randomId];
+      randomRoomMembers = await User.findAndCountAll({
+        where: { room_name: randomRoom.name },
+      });
+      if (randomRoomMembers.count >= 4) {
+        rooms.splice(randomId, 1);
+        continue;
+      }
+      if (rooms.length === 0) {
+        // if room not exists =>  406 { "type": "NOT_ACCEPTABLE"}
+        res.status(HttpStatus.NOT_ACCEPTABLE).json({
+          type: "NOT_ACCEPTABLE",
+        });
+        return;
+      }
+      break;
+    }
+
+    const user = await User.findOne({
+      where: { access_code: access_code },
+    });
+
+    if (!user) {
+      // if room not exists =>  406 { "type": "NOT_ACCEPTABLE"}
+      res.status(HttpStatus.NOT_ACCEPTABLE).json({
+        type: "NOT_ACCEPTABLE",
+      });
+      return;
+    }
+
+    user.room_name = randomRoom.name;
+    await user.save();
+
+    const roomData = {
+      name: randomRoom.name,
+      owner_access_code: randomRoom.owner_access_code,
+      mode: randomRoom.mode,
+      members: randomRoomMembers.rows,
+      isOwner: randomRoom.owner_access_code === user.access_code ? true : false,
+    };
+    res.send(roomData);
+  } catch (e) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      error: e.message,
+    });
+  }
+};
+
+/**
+ *
+ * Leave the current room for current user
+ * - user not found => 406 { type: 'USER_NOT_FOUND' error: string}
+ *
+ * @param access_code
+ * @return { type: 'SUCCESS' }
+ */
+
+const leaveRoom = async (req, res, next) => {
+  try {
+    const { User } = models;
+    const { access_code } = req.query;
+
+    const user = await User.findOne({
+      where: { access_code: access_code },
+      attributes: ["id", "name", "room_name", "access_code"],
+    });
+
+    if (!user) {
+      // user not found => 406 { type: 'USER_NOT_FOUND' error: string}
+      res.status(HttpStatus.NOT_ACCEPTABLE).json({
+        type: "USER_NOT_FOUND",
+      });
+      return;
+    }
+
+    await User.update(
+      {
+        room_name: null,
+      },
+      {
+        omitNull: false,
+        where: { access_code: access_code },
+      }
+    );
+
+    res.send({ type: "SUCCESS", message: "User has leaved the room" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: err.message,
+    });
+  }
+};
+
+/**
+ *
+ * Get room members
+ * - room not exit => 406 { "type": "ROOM_NOT_FOUND"}
+ * @param room_name
+ * @return { type: 'SUCCESS' }
+ */
+const getRoomMembers = async (req, res, next) => {
+  try {
+    const { User, Room } = models;
+    const { room_name } = req.query;
+
+    const room = await Room.findOne({
+      where: { name: room_name },
+    });
+
+    if (!room) {
+      // room not exit => 406 { "type": "ROOM_NOT_FOUND"}
+      res.status(HttpStatus.NOT_ACCEPTABLE).json({
+        type: "ROOM_NOT_FOUND",
+      });
+      return;
+    }
+    const members = await User.findAndCountAll({
+      where: { room_name, room_name },
+    });
+    return res.send(members.rows);
+  } catch (e) {
+    console.log(e);
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      error: e.message,
+    });
+  }
+};
+
+module.exports = {
+  createRoom,
+  deleteRoom,
+  joinRoom,
+  joinRandomRoom,
+  leaveRoom,
+  getRoomMembers,
+};

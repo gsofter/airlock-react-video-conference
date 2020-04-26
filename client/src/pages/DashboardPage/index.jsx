@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Container from '@material-ui/core/Container'
 import { Typography, Grid, TextField, Button } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { useDispatch, useSelector } from 'react-redux'
 import ConfirmDialog from '../../components/Dialogs/ConfirmDialog'
-import { deleteRoom, leaveRoom } from '../../redux/room/actions'
+import {
+  deleteRoom,
+  leaveRoom,
+  updateRoomMembers,
+} from '../../redux/room/actions'
 import useStyles from './styles'
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -15,14 +19,30 @@ const DashboardPage = () => {
   const [showDeleteDlg, setShowDeleteDlg] = useState(false)
   const [showLeaveDlg, setShowLeaveDlg] = useState(false)
   const dispatch = useDispatch()
+  const UPDATE_INTERVAL = 1000
   // const memberList = Array(4).forEach()
+
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      dispatch(updateRoomMembers())
+        .then(() => {
+          console.log('SUCCESSS')
+        })
+        .catch((error) => {})
+    }, UPDATE_INTERVAL)
+
+    return () => {
+      clearInterval(timerId)
+    }
+  }, [dispatch])
+
   const handleDeleteRoom = () => {
     dispatch(deleteRoom())
       .then((res) => {
-        alert('Your room has been delted')
+        console.log('ROOM DELETE SUCCESS')
       })
       .catch((e) => {
-        alert("Can 't remove the room")
+        console.log('ROOM DELETE FAILED')
       })
   }
 

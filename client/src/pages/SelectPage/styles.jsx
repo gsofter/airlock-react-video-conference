@@ -7,9 +7,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   paper: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(3, 1, 10, 1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+    height: '100%',
+    position: 'relative',
   },
   brand: {
     marginTop: theme.spacing(3),

@@ -27,38 +27,37 @@ const JoinRoom = () => {
   return (
     <Container maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h3">
-          JOIN
-        </Typography>
-        <Typography variant="body2" gutterBottom>
-          Have your friends already created a room ? Enter the name of the room
-          to join it.
-        </Typography>
-        <form className={classes.form} noValidate onSubmit={onSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="roomname"
-            label="Enter room name"
-            autoComplete=""
-            value={roomName}
-            onChange={onChangeRoomName}
-          />
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            JOIN
-          </Button>
-        </form>
-      </div>
+      <Typography component="h1" variant="h3">
+        JOIN
+      </Typography>
+      <Typography variant="body2" gutterBottom>
+        Have your friends already created a room ? Enter the name of the room to
+        join it.
+      </Typography>
+      <form className={classes.form} noValidate onSubmit={onSubmit}>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="roomname"
+          label="Enter room name"
+          autoComplete=""
+          value={roomName}
+          onChange={onChangeRoomName}
+        />
+
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
+          JOIN
+        </Button>
+      </form>
     </Container>
   )
 }

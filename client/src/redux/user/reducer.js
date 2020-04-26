@@ -5,12 +5,11 @@ import { setAccessToken } from '../../lib/cookie'
 let initState = {
   access_code: '',
   name: '',
-  isAuth: false,
+  my_room_name: '',
 }
 
 const userReducer = handleActions(
   {
-    [actions.LOGIN_START]: (state) => state,
     [actions.LOGIN_FAILED]: () => {
       setAccessToken('')
       return initState
@@ -18,18 +17,27 @@ const userReducer = handleActions(
     [actions.LOGIN_SUCCESS]: (state, action) => {
       const token = action.payload.token
       setAccessToken(token)
-      return { ...state, isAuth: true }
+      return state
     },
-    [actions.UPDATE_ROOM_NAME]: (state, action) => {
-      const room_name = action.payload
-      return { ...state, room_name: room_name }
-    },
+
     [actions.SET_USER_DATA]: (state, action) => {
       if (action.payload === null) return initState
       return {
+        ...action.payload,
+      }
+    },
+
+    [actions.CREATE_MY_ROOM]: (state, action) => {
+      return {
         ...state,
-        access_code: action.payload.access_code,
-        name: action.payload.name,
+        my_room_name: action.payload,
+      }
+    },
+
+    [actions.DELETE_MY_ROOM]: (state) => {
+      return {
+        ...state,
+        my_room_name: '',
       }
     },
   },

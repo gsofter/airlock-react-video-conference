@@ -15,7 +15,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    position: 'absolute',
+    bottom: theme.spacing(1),
+    right: theme.spacing(1),
+    width: 'calc(100% - 16px)',
   },
 }))
 export default useStyles

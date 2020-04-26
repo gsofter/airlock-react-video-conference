@@ -10,9 +10,10 @@ import Divider from '@material-ui/core/Divider'
 import { Typography } from '@material-ui/core'
 import useStyles from './styles'
 import 'bootstrap/dist/css/bootstrap.css'
-
+import { useSelector } from 'react-redux'
 const SelectPage = () => {
   const classes = useStyles()
+  const userData = useSelector((state) => state.user)
   return (
     <Container maxwidth="sm">
       <div className={classes.brand}>
@@ -20,7 +21,11 @@ const SelectPage = () => {
           <span className="brand-img">
             <img src="./assets/brand-logo.png" alt="asdf" />
           </span>
-          <span className={classes.brandtext}> Airlock</span>
+          <span className={classes.brandtext}>
+            <Typography variant="h4" component="span" color="secondary">
+              {userData.name}
+            </Typography>
+          </span>
         </div>
         <div className={classes.description}>
           <Typography variant="body2" gutterBottom>
