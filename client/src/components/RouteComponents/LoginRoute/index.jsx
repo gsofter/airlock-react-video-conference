@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 const LoginRoute = ({ children, ...rest }) => {
   const userData = useSelector((state) => state.user)
-  const roomData = useSelector((state) => state.room)
+  // const roomData = useSelector((state) => state.room)
   return (
     <Route
       {...rest}

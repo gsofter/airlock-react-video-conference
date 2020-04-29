@@ -1,14 +1,16 @@
-import actions from './actions'
+import { handleActions } from 'redux-actions'
+import * as actions from './actions'
 const initState = {
   token: '',
 }
-const twilioReducer = (state = initState, action) => {
-  switch (action.type) {
-    case actions.SET_TOKEN:
-      return { token: action.token }
-    default:
-      return state
-  }
-}
+
+const twilioReducer = handleActions(
+  {
+    [actions.SET_TWILIO_TOKEN]: (state, action) => {
+      return { token: action.payload }
+    },
+  },
+  initState,
+)
 
 export default twilioReducer

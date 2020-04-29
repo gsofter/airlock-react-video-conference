@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
 import { Typography, Grid, TextField, Button } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -9,6 +10,7 @@ import {
   leaveRoom,
   updateRoomMembers,
 } from '../../redux/room/actions'
+import { getTwilioToken } from '../../redux/twilio/actions'
 import useStyles from './styles'
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -20,15 +22,12 @@ const DashboardPage = () => {
   const [showLeaveDlg, setShowLeaveDlg] = useState(false)
   const dispatch = useDispatch()
   const UPDATE_INTERVAL = 1000
+  let history = useHistory()
   // const memberList = Array(4).forEach()
 
   useEffect(() => {
     const timerId = setInterval(() => {
       dispatch(updateRoomMembers())
-        .then(() => {
-          console.log('SUCCESSS')
-        })
-        .catch((error) => {})
     }, UPDATE_INTERVAL)
 
     return () => {
@@ -55,6 +54,13 @@ const DashboardPage = () => {
 
   const onClkLeave = (event) => {
     setShowLeaveDlg(true)
+  }
+
+  const onClkEnter = (event) => {
+    dispatch(getTwilioToken()).then(() => {
+      console.log('GET ACCESS TOKEN SUCCESS')
+      history.push('/video_conference')
+    })
   }
   return (
     <Container max-width="lg" className={classes.main}>
@@ -160,7 +166,7 @@ const DashboardPage = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item className="text-center" spacing={1}>
+          <Grid container item className="text-center" spacing={1}>
             <Button
               variant="contained"
               color="secondary"
@@ -187,6 +193,7 @@ const DashboardPage = () => {
           color="primary"
           size="large"
           className={classes.buttonEnter}
+          onClick={onClkEnter}
         >
           doors are opening in 15 Days : 11 Hours : 33 Minutes
         </Button>

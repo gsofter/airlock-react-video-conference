@@ -123,3 +123,17 @@ export const getRoomMembers = (room_name) => {
     headers: { Authorization: `Bearer ${token}` },
   })
 }
+
+/**
+ *
+ * Return twilio token for user
+ *
+ * @param
+ * @return {* token:string }
+ */
+export const getTwilioToken = () => {
+  const token = getAccessToken()
+  return axios.get(`${endpoint}/twilio/token`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}

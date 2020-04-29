@@ -8,12 +8,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import AlertDialog from '../Dialogs/AlertDialog'
 import { useDispatch, useSelector } from 'react-redux'
 import useStyles from './style'
-import * as api from '../../lib/api'
-import {
-  createRoom,
-  joinRoom,
-  deleteRoomSuccess,
-} from '../../redux/room/actions'
+
+import { createRoom, joinRoom } from '../../redux/room/actions'
 
 const CreateRoom = () => {
   const classes = useStyles()

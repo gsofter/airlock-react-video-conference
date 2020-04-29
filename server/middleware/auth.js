@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
     });
 
     if (user) {
-      console.log("middleware : AUTH : SUCCESS! ");
+      req.auth_user = user;
       next();
     } else throw "Invalid token";
   } catch {

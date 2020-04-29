@@ -79,7 +79,6 @@ export const leaveRoom = () => async (dispatch, getState) => {
 
 export const updateRoomMembers = () => async (dispatch, getState) => {
   try {
-    console.log('UPDATE ROOM MEMBERS')
     const room = getState().room
     const res = await api.getRoomMembers(room.name)
     dispatch(setRoomMembers(res.data))

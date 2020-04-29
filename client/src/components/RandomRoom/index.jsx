@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Typography from '@material-ui/core/Typography'
@@ -9,17 +9,20 @@ import { useDispatch } from 'react-redux'
 const RandomRoom = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const onJoinRandomRoom = (e) => {
-    e.preventDefault()
-    dispatch(joinRandomRoom())
-      .then(() => {
-        console.log('JOIN RANDOM ROOM SUCCESS')
-      })
-      .catch((err) => {
-        console.log(err.message)
-        alert('Not available room!')
-      })
-  }
+  const onJoinRandomRoom = useCallback(
+    (e) => {
+      e.preventDefault()
+      dispatch(joinRandomRoom())
+        .then(() => {
+          console.log('JOIN RANDOM ROOM SUCCESS')
+        })
+        .catch((err) => {
+          console.log(err.message)
+          alert('Not available room!')
+        })
+    },
+    [dispatch],
+  )
   return (
     <Container maxWidth="xs">
       <CssBaseline />

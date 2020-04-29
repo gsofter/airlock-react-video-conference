@@ -8,11 +8,14 @@ import { createStore, applyMiddleware } from 'redux'
 import Reducer from './redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import AirlockTheme from './config/theme'
 const store = createStore(Reducer, composeWithDevTools(applyMiddleware(thunk)))
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <AirlockTheme>
+      <App />
+    </AirlockTheme>
   </Provider>,
   document.getElementById('root'),
 )

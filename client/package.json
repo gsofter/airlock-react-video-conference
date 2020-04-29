@@ -28,7 +28,8 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "twilio": "^3.42.2"
+    "twilio": "^3.42.2",
+    "twilio-video": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

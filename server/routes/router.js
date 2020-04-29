@@ -5,6 +5,7 @@ const auth = require("../middleware/auth");
 const models = require("../models");
 const roomRouter = require("./roomRouter");
 const userRouter = require("./userRouter");
+const twilioRouter = require("./twilioRouter");
 
 //testing route
 router.get("/db/user", async function (req, res, nex) {
@@ -17,4 +18,5 @@ router.get("/db/user", async function (req, res, nex) {
 router.post("/login", userControl.login);
 router.use("/user", userRouter);
 router.use("/room", roomRouter);
+router.use("/twilio", twilioRouter);
 module.exports = router;
