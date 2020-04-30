@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
 import { Typography, Grid, TextField, Button } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { useDispatch, useSelector } from 'react-redux'
 import ConfirmDialog from '../../components/Dialogs/ConfirmDialog'
 import {
@@ -182,6 +183,7 @@ const DashboardPage = () => {
               className={classes.buttonLeave}
               onClick={onClkLeave}
             >
+              <ExitToAppIcon />
               LEAVE
             </Button>
           </Grid>

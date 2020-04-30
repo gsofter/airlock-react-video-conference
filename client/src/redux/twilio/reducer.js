@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions'
 import * as actions from './actions'
 const initState = {
   token: '',
+  room: null,
 }
 
 const twilioReducer = handleActions(
