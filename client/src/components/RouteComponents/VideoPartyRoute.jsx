@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-const SelectRoute = ({ children, ...rest }) => {
+const VideoPartyRoute = ({ children, ...rest }) => {
   const twilioData = useSelector((state) => state.twilio)
   return (
     <Route
@@ -23,4 +23,4 @@ const SelectRoute = ({ children, ...rest }) => {
   )
 }
 
-export default SelectRoute
+export default VideoPartyRoute

@@ -10,9 +10,9 @@ import {
   Button,
 } from '@material-ui/core'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import Video from 'twilio-video'
-import LocalVideoPreview from '../../components/Conference/LocalVideoPreview'
-import Participant from '../../components/Conference/Participant'
+import Video, { Room } from 'twilio-video'
+import LocalVideoPreview from '../../components/Party/LocalVideoPreview'
+import Participant from '../../components/Party/Participant'
 import useStyles from './styles'
 import useLocalTracks from '../../hooks/useLocalTracks'
 import useRoom from '../../hooks/useRoom'
@@ -39,7 +39,7 @@ const connectionOptions = {
   preferredVideoCodecs: [{ codec: 'VP8', simulcast: true }],
 }
 
-const VideoConference = () => {
+const VideoParty = () => {
   let history = useHistory()
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -146,35 +146,15 @@ const VideoConference = () => {
       </AppBar>
       <main className={classes.mainWrapper}>
         <Container>
-          {/* <Grid container item xs direction="column">
-            <Grid container item xs>
-              <Grid item xs></Grid>
-              <Grid item xs>
-                <div> Second </div>
-              </Grid>
-            </Grid>
-            <Grid container item xs>
-              <Grid item xs>
-                {room &&
-                  room.participants.forEach((participant) => (
-                    <div>
-                      <Participant
-                        key={participant.sid}
-                        participant={participant}
-                      />
-                    </div>
-                  ))}
-              </Grid>
-              <Grid item xs>
-                
-              </Grid>
-            </Grid>
-          </Grid> */}
-          <LocalVideoPreview localTracks={localTracks} />
+          {roomState === 'disconnected' ? (
+            <LocalVideoPreview localTracks={localTracks} />
+          ) : (
+            <Room />
+          )}
         </Container>
       </main>
     </React.Fragment>
   )
 }
 
-export default VideoConference
+export default VideoParty

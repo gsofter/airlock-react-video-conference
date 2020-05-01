@@ -12,6 +12,8 @@ const theme = createMuiTheme({
   //   status: {
   //     danger: 'orange',
   //   },
+  sidebarWidth: 260,
+  sidebarMobileHeight: 90,
 })
 
 const AirlockTheme = ({ children }) => {

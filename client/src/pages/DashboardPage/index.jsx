@@ -60,7 +60,7 @@ const DashboardPage = () => {
   const onClkEnter = (event) => {
     dispatch(getTwilioToken()).then(() => {
       console.log('GET ACCESS TOKEN SUCCESS')
-      history.push('/video_conference')
+      history.push('/party')
     })
   }
   return (

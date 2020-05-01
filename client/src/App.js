@@ -11,10 +11,10 @@ import DashboardPage from './pages/DashboardPage'
 import SelectRoute from './components/RouteComponents/SelectRoute'
 import DashboardRoute from './components/RouteComponents/DashboardRoute'
 import LoginRoute from './components/RouteComponents/LoginRoute'
-import VideoConferenceRoute from './components/RouteComponents/VideoConferenceRoute'
+import VideoPartyRoute from './components/RouteComponents/VideoPartyRoute.jsx'
 import { useDispatch } from 'react-redux'
 import { checkAuth } from './redux/user/actions'
-import VideoConference from './pages/VideoConference'
+import VideoParty from './pages/VideoParty'
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -39,9 +39,9 @@ function App() {
         <DashboardRoute path="/dashboard">
           <DashboardPage />
         </DashboardRoute>
-        <VideoConferenceRoute path="/video_conference">
-          <VideoConference />
-        </VideoConferenceRoute>
+        <VideoPartyRoute path="/party">
+          <VideoParty />
+        </VideoPartyRoute>
       </Switch>
     </Router>
   )
