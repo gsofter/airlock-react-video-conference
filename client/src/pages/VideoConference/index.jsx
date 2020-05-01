@@ -15,75 +15,111 @@ import LocalVideoPreview from '../../components/Conference/LocalVideoPreview'
 import Participant from '../../components/Conference/Participant'
 import useStyles from './styles'
 import useLocalTracks from '../../hooks/useLocalTracks'
+import useRoom from '../../hooks/useRoom'
+import useHandleRoomDisconnectionErrors from '../../hooks/useHandleRoomDisconnectionErrors'
+import useHandleTrackPublicationFailed from '../../hooks/useHandleTrackPublicationFailed'
+import useHandleOnDisconnect from '../../hooks/useHandleOnDisconnect'
+import useRoomState from '../../hooks/useRoomState'
+
+const connectionOptions = {
+  bandwidthProfile: {
+    video: {
+      mode: 'collaboration',
+      dominantSpeakerPriority: 'standard',
+      renderDimensions: {
+        high: { height: 1080, width: 1920 },
+        standard: { height: 720, width: 1280 },
+        low: { height: 90, width: 160 },
+      },
+    },
+  },
+  dominantSpeaker: true,
+  maxAudioBitrate: 12000,
+  networkQuality: { local: 1, remote: 1 },
+  preferredVideoCodecs: [{ codec: 'VP8', simulcast: true }],
+}
 
 const VideoConference = () => {
   let history = useHistory()
   const classes = useStyles()
   const dispatch = useDispatch()
-  const twilioData = useSelector((state) => state.twilio)
   const roomData = useSelector((state) => state.room)
-  const { localTracks, getLocalVideoTrack } = useLocalTracks()
-  const [room, setRoom] = useState(null)
+  const twilioData = useSelector((state) => state.twilio)
   const [participants, setParticipants] = useState([])
 
-  const onErrorCallback = (error) => {
+  const { error, setError } = useState(null)
+  const onTwilioErrorCallback = (error) => {
     console.log(`ERROR: ${error.message}`, error)
-    onError(error)
+    // onError(error)
+    setError(error)
   }
 
-  useEffect(() => {
-    const participantConnected = (participant) => {
-      console.log(`${participant.identity} connected`)
-      setParticipants((prevParticipants) => [...prevParticipants, participant])
-    }
+  const { localTracks, getLocalVideoTrack } = useLocalTracks()
+  const { room, isConnecting, connect } = useRoom(
+    localTracks,
+    onTwilioErrorCallback,
+    connectionOptions,
+  )
 
-    const participantDisconnected = (participant) => {
-      setParticipants((prevParticipants) => {
-        return prevParticipants.filter((p) => p.id !== participant.id)
-      })
-    }
+  useHandleRoomDisconnectionErrors(room, onTwilioErrorCallback)
+  useHandleTrackPublicationFailed(room, onTwilioErrorCallback)
+  useHandleOnDisconnect(room, onTwilioErrorCallback)
 
-    console.log(twilioData.token)
-    Video.connect(twilioData.token, { name: roomData.name })
-      .then((room) => {
-        console.log('CONNECTION SUCCESS')
-        console.log('ROOM => ', room)
-        console.log(typeof room)
-        setRoom(room)
-        //room.on('participantConnected', participantConnected)
-        //room.on('participantDisconnected', participantDisconnected)
-        room.on('participantConnected', () => {
-          console.log('Participant connected!')
-        })
-        // room.participants.forEach(participantConnected)
-        return () => {
-          setRoom((currentRoom) => {
-            if (
-              currentRoom &&
-              currentRoom.localParticipant.state === 'connected'
-            ) {
-              currentRoom.localParticipant.tracks.forEach(function (
-                trackPublication,
-              ) {
-                trackPublication.track.stop()
-              })
-              currentRoom.disconnect()
-              return null
-            } else {
-              return currentRoom
-            }
-          })
-        }
-      })
-      .catch((e) => {
-        console.log(e)
-      })
-  }, [])
+  const roomState = useRoomState(room)
+  // useEffect(() => {
+  //   const participantConnected = (participant) => {
+  //     console.log(`${participant.identity} connected`)
+  //     setParticipants((prevParticipants) => [...prevParticipants, participant])
+  //   }
+
+  //   const participantDisconnected = (participant) => {
+  //     setParticipants((prevParticipants) => {
+  //       return prevParticipants.filter((p) => p.id !== participant.id)
+  //     })
+  //   }
+
+  //   console.log(twilioData.token)
+  //   Video.connect(twilioData.token, { name: roomData.name })
+  //     .then((room) => {
+  //       console.log('CONNECTION SUCCESS')
+  //       console.log('ROOM => ', room)
+  //       console.log(typeof room)
+  //       setRoom(room)
+  //       //room.on('participantConnected', participantConnected)
+  //       //room.on('participantDisconnected', participantDisconnected)
+  //       room.on('participantConnected', () => {
+  //         console.log('Participant connected!')
+  //       })
+  //       // room.participants.forEach(participantConnected)
+  //       return () => {
+  //         setRoom((currentRoom) => {
+  //           if (
+  //             currentRoom &&
+  //             currentRoom.localParticipant.state === 'connected'
+  //           ) {
+  //             currentRoom.localParticipant.tracks.forEach(function (
+  //               trackPublication,
+  //             ) {
+  //               trackPublication.track.stop()
+  //             })
+  //             currentRoom.disconnect()
+  //             return null
+  //           } else {
+  //             return currentRoom
+  //           }
+  //         })
+  //       }
+  //     })
+  //     .catch((e) => {
+  //       console.log(e)
+  //     })
+  // }, [])
 
   const onClkLeft = () => {
     console.log('LEFT')
     history.push('/dashboard')
   }
+
   return (
     <React.Fragment>
       <AppBar position="relative">
@@ -110,7 +146,7 @@ const VideoConference = () => {
       </AppBar>
       <main className={classes.mainWrapper}>
         <Container>
-          <Grid container item xs direction="column">
+          {/* <Grid container item xs direction="column">
             <Grid container item xs>
               <Grid item xs></Grid>
               <Grid item xs>
@@ -130,10 +166,11 @@ const VideoConference = () => {
                   ))}
               </Grid>
               <Grid item xs>
-                <LocalVideoPreview localTracks={localTracks} />
+                
               </Grid>
             </Grid>
-          </Grid>
+          </Grid> */}
+          <LocalVideoPreview localTracks={localTracks} />
         </Container>
       </main>
     </React.Fragment>

@@ -6,17 +6,18 @@ export function useLocalAudioTrack() {
 
   useEffect(() => {
     Video.createLocalAudioTrack().then((newTrack) => {
-      console.log('newTrack =>', newTrack)
+      console.log('newAudioTrack =>', newTrack)
       setTrack(newTrack)
     })
   }, [])
 
   useEffect(() => {
-    console.log('track => ', track)
+    console.log('Audio track => ', track)
     const handleStopped = () => setTrack(undefined)
     if (track) {
       track.on('stopped', handleStopped)
       return () => {
+        console.log('AUDIO TRACK STOPPED')
         track.off('stopped', handleStopped)
       }
     }
@@ -54,6 +55,7 @@ export function useLocalVideoTrack() {
     if (track) {
       track.on('stopped', handleStopped)
       return () => {
+        console.log('VIDEO TRACK STOPPED')
         track.off('stopped', handleStopped)
       }
     }

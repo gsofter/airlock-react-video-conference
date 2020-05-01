@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
-export default function useRoomState() {
-  const { room } = useVideoContext()
+export default function useRoomState(room) {
   const [state, setState] = useState('disconnected')
 
   useEffect(() => {
