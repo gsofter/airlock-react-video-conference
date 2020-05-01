@@ -26,9 +26,7 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     flexGrow: 1,
   },
-  exitButton: {
-    marginLeft: 'auto',
-  },
+
   mainWrapper: {
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.primary.contrastText,
@@ -37,10 +35,6 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
-  },
-  title: {
-    fontFamily: 'arial',
-    fontWeight: '600',
   },
 }))
 

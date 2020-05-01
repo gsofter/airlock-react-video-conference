@@ -9,7 +9,7 @@ import {
   Container,
   Button,
 } from '@material-ui/core'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+
 import Video, { Room } from 'twilio-video'
 import LocalVideoPreview from '../../components/Party/LocalVideoPreview'
 import Participant from '../../components/Party/Participant'
@@ -20,6 +20,7 @@ import useHandleRoomDisconnectionErrors from '../../hooks/useHandleRoomDisconnec
 import useHandleTrackPublicationFailed from '../../hooks/useHandleTrackPublicationFailed'
 import useHandleOnDisconnect from '../../hooks/useHandleOnDisconnect'
 import useRoomState from '../../hooks/useRoomState'
+import MenuBar from '../../components/Party/MenuBar'
 
 const connectionOptions = {
   bandwidthProfile: {
@@ -122,28 +123,7 @@ const VideoParty = () => {
 
   return (
     <React.Fragment>
-      <AppBar position="relative">
-        <Toolbar>
-          <Typography
-            variant="h5"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            <img src="./assets/brand-logo.png" />
-            {roomData.name}
-          </Typography>
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.exitButton}
-            onClick={onClkLeft}
-          >
-            <ExitToAppIcon />
-            LEFT
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <MenuBar roomTitle={roomData.name} onClkLeft={onClkLeft} />
       <main className={classes.mainWrapper}>
         <Container>
           {roomState === 'disconnected' ? (
