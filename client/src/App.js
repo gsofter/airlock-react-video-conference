@@ -15,6 +15,7 @@ import VideoPartyRoute from './components/RouteComponents/VideoPartyRoute.jsx'
 import { useDispatch } from 'react-redux'
 import { checkAuth } from './redux/user/actions'
 import VideoParty from './pages/VideoParty'
+import VideoPartyProvider from './components/Party/VideoPartyProvider'
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -40,7 +41,9 @@ function App() {
           <DashboardPage />
         </DashboardRoute>
         <VideoPartyRoute path="/party">
-          <VideoParty />
+          <VideoPartyProvider>
+            <VideoParty />
+          </VideoPartyProvider>
         </VideoPartyRoute>
       </Switch>
     </Router>

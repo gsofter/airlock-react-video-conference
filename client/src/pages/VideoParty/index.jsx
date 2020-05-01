@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import Video from 'twilio-video'
 import Grid from '@material-ui/core/Grid'
 import {
   AppBar,
@@ -9,36 +10,14 @@ import {
   Container,
   Button,
 } from '@material-ui/core'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 
-import Video, { Room } from 'twilio-video'
+import Room from '../../components/Party/Room'
 import LocalVideoPreview from '../../components/Party/LocalVideoPreview'
-import Participant from '../../components/Party/Participant'
 import useStyles from './styles'
-import useLocalTracks from '../../hooks/useLocalTracks'
-import useRoom from '../../hooks/useRoom'
-import useHandleRoomDisconnectionErrors from '../../hooks/useHandleRoomDisconnectionErrors'
-import useHandleTrackPublicationFailed from '../../hooks/useHandleTrackPublicationFailed'
-import useHandleOnDisconnect from '../../hooks/useHandleOnDisconnect'
 import useRoomState from '../../hooks/useRoomState'
 import MenuBar from '../../components/Party/MenuBar'
-
-const connectionOptions = {
-  bandwidthProfile: {
-    video: {
-      mode: 'collaboration',
-      dominantSpeakerPriority: 'standard',
-      renderDimensions: {
-        high: { height: 1080, width: 1920 },
-        standard: { height: 720, width: 1280 },
-        low: { height: 90, width: 160 },
-      },
-    },
-  },
-  dominantSpeaker: true,
-  maxAudioBitrate: 12000,
-  networkQuality: { local: 1, remote: 1 },
-  preferredVideoCodecs: [{ codec: 'VP8', simulcast: true }],
-}
+import useVideoPartyContext from '../../hooks/useVideoPartyContext'
 
 const VideoParty = () => {
   let history = useHistory()
@@ -46,88 +25,38 @@ const VideoParty = () => {
   const dispatch = useDispatch()
   const roomData = useSelector((state) => state.room)
   const twilioData = useSelector((state) => state.twilio)
-  const [participants, setParticipants] = useState([])
-
-  const { error, setError } = useState(null)
-  const onTwilioErrorCallback = (error) => {
-    console.log(`ERROR: ${error.message}`, error)
-    // onError(error)
-    setError(error)
-  }
-
-  const { localTracks, getLocalVideoTrack } = useLocalTracks()
-  const { room, isConnecting, connect } = useRoom(
-    localTracks,
-    onTwilioErrorCallback,
-    connectionOptions,
-  )
-
-  useHandleRoomDisconnectionErrors(room, onTwilioErrorCallback)
-  useHandleTrackPublicationFailed(room, onTwilioErrorCallback)
-  useHandleOnDisconnect(room, onTwilioErrorCallback)
-
-  const roomState = useRoomState(room)
-  // useEffect(() => {
-  //   const participantConnected = (participant) => {
-  //     console.log(`${participant.identity} connected`)
-  //     setParticipants((prevParticipants) => [...prevParticipants, participant])
-  //   }
-
-  //   const participantDisconnected = (participant) => {
-  //     setParticipants((prevParticipants) => {
-  //       return prevParticipants.filter((p) => p.id !== participant.id)
-  //     })
-  //   }
-
-  //   console.log(twilioData.token)
-  //   Video.connect(twilioData.token, { name: roomData.name })
-  //     .then((room) => {
-  //       console.log('CONNECTION SUCCESS')
-  //       console.log('ROOM => ', room)
-  //       console.log(typeof room)
-  //       setRoom(room)
-  //       //room.on('participantConnected', participantConnected)
-  //       //room.on('participantDisconnected', participantDisconnected)
-  //       room.on('participantConnected', () => {
-  //         console.log('Participant connected!')
-  //       })
-  //       // room.participants.forEach(participantConnected)
-  //       return () => {
-  //         setRoom((currentRoom) => {
-  //           if (
-  //             currentRoom &&
-  //             currentRoom.localParticipant.state === 'connected'
-  //           ) {
-  //             currentRoom.localParticipant.tracks.forEach(function (
-  //               trackPublication,
-  //             ) {
-  //               trackPublication.track.stop()
-  //             })
-  //             currentRoom.disconnect()
-  //             return null
-  //           } else {
-  //             return currentRoom
-  //           }
-  //         })
-  //       }
-  //     })
-  //     .catch((e) => {
-  //       console.log(e)
-  //     })
-  // }, [])
-
+  const roomState = useRoomState()
+  const { connect, localTracks } = useVideoPartyContext()
   const onClkLeft = () => {
     console.log('LEFT')
     history.push('/dashboard')
   }
 
+  const onClkJoinToParty = (event) => {
+    console.log('JOINTOPARTY')
+    event.preventDefault()
+    connect(twilioData.token)
+  }
   return (
     <React.Fragment>
       <MenuBar roomTitle={roomData.name} onClkLeft={onClkLeft} />
       <main className={classes.mainWrapper}>
-        <Container>
+        <Container spacing={10}>
           {roomState === 'disconnected' ? (
-            <LocalVideoPreview localTracks={localTracks} />
+            <div>
+              <div>
+                <Typography variant="h4"> Camera Preview </Typography>
+                <LocalVideoPreview localTracks={localTracks} />
+              </div>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={onClkJoinToParty}
+              >
+                <ArrowForwardIcon />
+                Join to Party
+              </Button>
+            </div>
           ) : (
             <Room />
           )}

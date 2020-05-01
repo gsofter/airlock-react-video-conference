@@ -23,8 +23,10 @@ export default function useRoom(localTracks, onError, options) {
       return Video.connect(token, { ...options, tracks: [] }).then(
         (newRoom) => {
           setRoom(newRoom)
+          console.log(newRoom)
 
           newRoom.once('disconnected', () => {
+            console.log('ROOM DISCONNECTED')
             // Reset the room only after all other `disconnected` listeners have been called.
             setTimeout(() => setRoom(new EventEmitter()))
             window.removeEventListener(
