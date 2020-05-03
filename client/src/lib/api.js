@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { getAccessToken } from './cookie'
-const endpoint = 'http://localhost:8081'
+const endpoint = 'http://192.168.0.130:8081'
 
 /**
  *

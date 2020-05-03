@@ -2,6 +2,7 @@ import React from 'react'
 import { Participant, Track } from 'twilio-video'
 import usePublications from '../../../hooks/usePublications'
 import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
+import Publication from './Publication'
 
 /*
  *  The object model for the Room object (found here: https://www.twilio.com/docs/video/migrating-1x-2x#object-model) shows

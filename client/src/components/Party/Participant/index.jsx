@@ -1,6 +1,6 @@
 import React from 'react'
 // import ParticipantInfo from '../ParticipantInfo/ParticipantInfo'
-import ParticipantTracks from '../ParticipantTracks/ParticipantTracks'
+import ParticipantTracks from './ParticipantTracks'
 
 export default function Participant({ participant, disableAudio }) {
   return (

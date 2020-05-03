@@ -6,16 +6,12 @@ import TextField from '@material-ui/core/TextField'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
-import { useHistory, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import AlertDialog from '../../components/Dialogs/AlertDialog'
 import * as userActions from '../../redux/user/actions'
-import * as roomActions from '../../redux/room/actions'
 import useStyles from './styles'
 
 const LoginPage = () => {
-  const location = useLocation()
-  const { from } = location.state || { from: { pathname: '/' } }
   const classes = useStyles()
   const [passcode, setPasscode] = useState('')
   const dispatch = useDispatch()
