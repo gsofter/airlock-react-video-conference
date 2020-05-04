@@ -30,11 +30,16 @@ const useStyles = makeStyles((theme) => ({
   mainWrapper: {
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.primary.contrastText,
-    height: 'calc(100vh - 92px)',
+    height: 'calc(100vh - 89px)',
+    marginBottom: '0px',
   },
+
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
+  },
+  localPreview: {
+    justifyContent: 'center',
   },
 }))
 

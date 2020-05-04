@@ -52,6 +52,7 @@ const VideoPartyProvider = ({ children }) => {
       value={{
         room,
         localTracks,
+        getLocalVideoTrack,
         isConnecting,
         connect,
         onError: onTwilioErrorCallback,

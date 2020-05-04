@@ -1,4 +1,5 @@
 import React from 'react'
+import DoubleArrowIcon from '@material-ui/icons/DoubleArrow'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import {
   AppBar,
@@ -8,8 +9,10 @@ import {
   Button,
 } from '@material-ui/core'
 import useStyles from './styles'
+import useRoomState from '../../../hooks/useRoomState'
 const MenuBar = ({ roomTitle, onClkLeft }) => {
   const classes = useStyles()
+  const roomState = useRoomState()
   return (
     <AppBar position="relative">
       <Toolbar>
@@ -22,6 +25,18 @@ const MenuBar = ({ roomTitle, onClkLeft }) => {
           <img src="./assets/brand-logo.png" />
           {roomTitle}
         </Typography>
+        {roomState === 'disconnected' ? (
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.joinButton}
+          >
+            <DoubleArrowIcon />
+            Join to Party
+          </Button>
+        ) : (
+          ''
+        )}
         <Button
           variant="contained"
           color="secondary"
