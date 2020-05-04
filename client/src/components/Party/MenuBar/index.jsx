@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import useStyles from './styles'
 import useRoomState from '../../../hooks/useRoomState'
-const MenuBar = ({ roomTitle, onClkLeft }) => {
+const MenuBar = ({ roomTitle, onLeft, onJoinToParty }) => {
   const classes = useStyles()
   const roomState = useRoomState()
   return (
@@ -30,6 +30,7 @@ const MenuBar = ({ roomTitle, onClkLeft }) => {
             variant="contained"
             color="primary"
             className={classes.joinButton}
+            onClick={onJoinToParty}
           >
             <DoubleArrowIcon />
             Join to Party
@@ -41,7 +42,7 @@ const MenuBar = ({ roomTitle, onClkLeft }) => {
           variant="contained"
           color="secondary"
           className={classes.exitButton}
-          onClick={onClkLeft}
+          onClick={onLeft}
         >
           <ExitToAppIcon />
           LEFT

@@ -30,7 +30,11 @@ const VideoParty = () => {
   }
   return (
     <>
-      <MenuBar roomTitle={roomData.name} onClkLeft={onClkLeft} />
+      <MenuBar
+        roomTitle={roomData.name}
+        onLeft={onClkLeft}
+        onJoinToParty={onClkJoinToParty}
+      />
       <main className={classes.mainWrapper}>
         {roomState === 'disconnected' ? (
           <>

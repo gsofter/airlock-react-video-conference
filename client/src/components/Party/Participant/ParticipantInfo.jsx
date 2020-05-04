@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) =>
       position: 'relative',
       display: 'flex',
       alignItems: 'center',
-      height: `${(theme.sidebarWidth * 9) / 16}px`,
+      // height: `${(theme.sidebarWidth * 9) / 16}px`,
+      height: '100%',
       overflow: 'hidden',
       cursor: 'pointer',
       '& video': {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) =>
     },
     isVideoSwitchedOff: {
       '& video': {
-        filter: 'blur(4px) grayscale(1) brightness(0.5)',
+        filter: 'blur(4px) grayscale(1) brightness(1)',
       },
     },
     infoContainer: {
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme) =>
       background: 'transparent',
     },
     hideVideo: {
-      background: 'black',
+      // background: 'black',
     },
     identity: {
       background: 'rgba(0, 0, 0, 0.7)',
