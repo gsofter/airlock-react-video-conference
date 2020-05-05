@@ -36,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
   rb4: {
     gridArea: 'rb4',
   },
+  emptyScreen: {
+    backgroundColor: '#6c757d',
+    height: '100%',
+    border: '1px solid grey',
+  },
 }))
 
 const Container = styled('div')(({ theme }) => ({
@@ -58,6 +63,11 @@ const Container = styled('div')(({ theme }) => ({
   // },
 }))
 
+const EmptyParticipant = () => {
+  const classes = useStyles()
+  return <div className={classes.emptyScreen}> Not connected </div>
+}
+
 export default function Room() {
   const classes = useStyles()
   const {
@@ -74,26 +84,54 @@ export default function Room() {
       </div>
 
       <div className={classes.ra2}>
-        <Participant participant={localParticipant} />
+        {participants.length > 0 ? (
+          <Participant participant={participants[0]} />
+        ) : (
+          <EmptyParticipant />
+        )}
       </div>
       <div className={classes.ra3}>
-        <Participant participant={localParticipant} />
+        {participants.length > 1 ? (
+          <Participant participant={participants[1]} />
+        ) : (
+          <EmptyParticipant />
+        )}
       </div>
       <div className={classes.ra4}>
-        <Participant participant={localParticipant} />
+        {participants.length > 2 ? (
+          <Participant participant={participants[2]} />
+        ) : (
+          <EmptyParticipant />
+        )}
       </div>
 
       <div className={classes.rb1}>
-        <Participant participant={localParticipant} />
+        {participants.length > 3 ? (
+          <Participant participant={participants[3]} />
+        ) : (
+          <EmptyParticipant />
+        )}
       </div>
       <div className={classes.rb2}>
-        <Participant participant={localParticipant} />
+        {participants.length > 4 ? (
+          <Participant participant={participants[4]} />
+        ) : (
+          <EmptyParticipant />
+        )}
       </div>
       <div className={classes.rb3}>
-        <Participant participant={localParticipant} />
+        {participants.length > 5 ? (
+          <Participant participant={participants[5]} />
+        ) : (
+          <EmptyParticipant />
+        )}
       </div>
-      <div className={classes.rb4}>
-        <Participant participant={localParticipant} />
+      <div className={classes.rb3}>
+        {participants.length > 6 ? (
+          <Participant participant={participants[6]} />
+        ) : (
+          <EmptyParticipant />
+        )}
       </div>
       {/* <div className={classes.me}>
         <Participant participant={localParticipant} />
