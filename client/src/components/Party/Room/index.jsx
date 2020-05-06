@@ -1,12 +1,14 @@
 import React from 'react'
 // import ParticipantStrip from '../ParticipantStrip/ParticipantStrip'
 import { styled } from '@material-ui/core/styles'
-import ParticipantStrip from '../ParticipantStrip'
+// import ParticipantStrip from '../ParticipantStrip'
 // import MainParticipant from '../MainParticipant/MainParticipant'
 import { makeStyles } from '@material-ui/core'
 import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 import Participant from '../Participant'
 import useParticipants from '../../../hooks/useParticipants'
+import ReactPlayer from 'react-player'
+
 const useStyles = makeStyles((theme) => ({
   djScreen: {
     gridArea: 'dj',
@@ -77,7 +79,13 @@ export default function Room() {
   return (
     <Container>
       <div className={classes.djScreen}>
-        <h1>DJSCREEN</h1>
+        <ReactPlayer
+          url="https://www.youtube.com/watch?v=FgWhpLxpiSg"
+          width="100%"
+          height="100%"
+          controls={false}
+          playing
+        />
       </div>
       <div className={classes.me}>
         <Participant participant={localParticipant} />
@@ -129,6 +137,13 @@ export default function Room() {
       <div className={classes.rb3}>
         {participants.length > 6 ? (
           <Participant participant={participants[6]} />
+        ) : (
+          <EmptyParticipant />
+        )}
+      </div>
+      <div className={classes.rb4}>
+        {participants.length > 7 ? (
+          <Participant participant={participants[7]} />
         ) : (
           <EmptyParticipant />
         )}

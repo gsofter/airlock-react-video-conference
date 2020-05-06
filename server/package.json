@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": ""
+    "install": "",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +20,8 @@
     "sequelize": "^5.21.6",
     "sequelize-cli": "^5.5.1",
     "twilio": "^3.42.2"
+  },
+  "engines": {
+    "node": "12.x"
   }
 }
