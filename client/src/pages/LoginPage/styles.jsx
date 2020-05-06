@@ -5,6 +5,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -12,10 +13,21 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    textAlign: 'center',
+    // marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    // margin: theme.spacing(3, 0, 2),
+    padding: theme.spacing(1.5),
+  },
+  logoImg: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+    maxWidth: theme.spacing(10),
+    maxHeight: theme.spacing(10),
+  },
+  formTitle: {
+    fontWeight: '700',
   },
 }))
 

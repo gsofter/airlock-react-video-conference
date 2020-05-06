@@ -1,6 +1,13 @@
 const jwt = require("jsonwebtoken");
 const models = require("../models");
 const HttpStatus = require("http-status-codes");
+const AccessToken = require("twilio").jwt.AccessToken;
+const VideoGrant = AccessToken.VideoGrant;
+
+const MAX_ALLOWED_SESSION_DURATION = 14400;
+const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
+const twilioApiKeySID = process.env.TWILIO_API_KEY_SID;
+const twilioApiKeySecret = process.env.TWILIO_API_KEY_SECRET;
 
 /**
  *
@@ -28,14 +35,23 @@ const login = async (req, res, next) => {
       return;
     }
 
-    const userData = {
-      access_code: user.access_code,
-    };
+    // const userData = {
+    //   access_code: user.access_code,
+    // };
 
-    // generate token
-    const token = jwt.sign(userData, process.env.AUTH_TOKEN_SECRET, {
-      expiresIn: "24h",
-    });
+    // // generate token
+    // const token = jwt.sign(userData, process.env.AUTH_TOKEN_SECRET, {
+    //   expiresIn: "24h",
+    // });
+    const token = new AccessToken(
+      twilioAccountSid,
+      twilioApiKeySID,
+      twilioApiKeySecret,
+      {
+        ttl: MAX_ALLOWED_SESSION_DURATION,
+      }
+    );
+
     console.log(`TOKEN GENERATED => ${token} for ${user.name}`);
     res.send({ token });
   } catch (err) {

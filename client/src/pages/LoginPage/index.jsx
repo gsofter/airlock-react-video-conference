@@ -47,11 +47,13 @@ const LoginPage = () => {
         handleClose={() => setDialogShow(false)}
       />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
+        <img
+          src="/assets/Logo-thug.png"
+          alt="logo"
+          className={classes.logoImg}
+        />
+        <Typography component="h1" variant="h4" className={classes.formTitle}>
+          Access the party
         </Typography>
         <form className={classes.form} onSubmit={onSubmit}>
           <TextField
@@ -60,7 +62,7 @@ const LoginPage = () => {
             required
             fullWidth
             name="passcode"
-            label="passcode"
+            label="Enter your unique code"
             value={passcode}
             onChange={onChangePasscode}
             error={error}
@@ -70,12 +72,16 @@ const LoginPage = () => {
           <Button
             type="submit"
             fullWidth
+            margin="normal"
             variant="contained"
             color="primary"
             className={classes.submit}
           >
             Access
           </Button>
+          <Typography component="p" variant="p">
+            If you don't have an access code? <a href="#">Buy a ticket </a>
+          </Typography>
         </form>
       </div>
     </Container>

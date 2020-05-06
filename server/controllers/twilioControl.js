@@ -8,7 +8,7 @@ const MAX_ALLOWED_SESSION_DURATION = 14400;
 const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
 const twilioApiKeySID = process.env.TWILIO_API_KEY_SID;
 const twilioApiKeySecret = process.env.TWILIO_API_KEY_SECRET;
-
+const twilioRoomName = "XXXXX";
 /**
  * Return twilio token for current user
  * - if user doesn't have room_name return 400{ 'type': 'NOT_ACCEPTABLE' }
@@ -36,7 +36,7 @@ module.exports.getTwilioToken = async (req, res, next) => {
       });
       return;
     }
-    const videoGrant = new VideoGrant({ room: user.room_name });
+    const videoGrant = new VideoGrant({ room: twilioRoomName });
     token.identity = user.name;
     token.addGrant(videoGrant);
     res.send(token.toJwt());

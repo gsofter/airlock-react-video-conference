@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { getAccessToken } from './cookie'
-const endpoint = 'https://airlock-server-dev.herokuapp.com'
+const endpoint = 'http://localhost:5000'
 
 /**
  *
