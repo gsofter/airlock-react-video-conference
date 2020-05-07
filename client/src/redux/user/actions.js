@@ -18,9 +18,8 @@ export const createMyRoom = createAction(CREATE_MY_ROOM)
 export const checkAuth = () => async (dispatch, getState) => {
   try {
     const res = await api.checkAuth()
-    console.log(res.data.user)
-    dispatch(setUserData(res.data.user))
-    dispatch(setRoomData(res.data.room))
+    console.log(res.data)
+    dispatch(loginSuccess(res.data))
   } catch (e) {
     dispatch(loginFailed())
     throw e

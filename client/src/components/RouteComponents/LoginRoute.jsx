@@ -9,22 +9,13 @@ const LoginRoute = ({ children, ...rest }) => {
     <Route
       {...rest}
       render={({ location }) =>
-        userData.name ? (
-          userData.room_name ? (
-            <Redirect
-              to={{
-                pathname: '/dashboard',
-                state: { from: location },
-              }}
-            />
-          ) : (
-            <Redirect
-              to={{
-                pathname: '/select',
-                state: { from: location },
-              }}
-            />
-          )
+        userData.token ? (
+          <Redirect
+            to={{
+              pathname: '/',
+              state: { from: location },
+            }}
+          />
         ) : (
           children
         )

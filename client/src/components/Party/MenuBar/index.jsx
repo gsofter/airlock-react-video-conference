@@ -1,18 +1,13 @@
 import React from 'react'
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Container,
-  Button,
-} from '@material-ui/core'
+import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
 import useStyles from './styles'
 import useRoomState from '../../../hooks/useRoomState'
 const MenuBar = ({ roomTitle, onLeft, onJoinToParty }) => {
   const classes = useStyles()
   const roomState = useRoomState()
+  console.log('roomState', roomState)
   return (
     <AppBar position="relative">
       <Toolbar>

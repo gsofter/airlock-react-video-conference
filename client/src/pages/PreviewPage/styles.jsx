@@ -30,8 +30,10 @@ const useStyles = makeStyles((theme) => ({
   mainWrapper: {
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.primary.contrastText,
+    // height: 'calc(100vh - 89px)',
     height: '100%',
     position: 'relative',
+    // marginBottom: '0px',
   },
 
   footer: {

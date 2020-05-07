@@ -27,7 +27,8 @@ const LoginPage = () => {
       e.preventDefault()
       dispatch(userActions.loginRequest(passcode))
         .then(() => {
-          dispatch(userActions.checkAuth())
+          // dispatch(userActions.checkAuth())
+          console.log('LOGIN SUCCESS')
         })
         .catch((error) => {
           setError(true)
@@ -79,7 +80,7 @@ const LoginPage = () => {
           >
             Access
           </Button>
-          <Typography component="p" variant="p">
+          <Typography component="p" variant="body2">
             If you don't have an access code? <a href="#">Buy a ticket </a>
           </Typography>
         </form>

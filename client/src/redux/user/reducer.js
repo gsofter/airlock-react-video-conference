@@ -5,19 +5,18 @@ import { setAccessToken } from '../../lib/cookie'
 let initState = {
   access_code: '',
   name: '',
-  my_room_name: '',
+  token: '',
 }
 
 const userReducer = handleActions(
   {
     [actions.LOGIN_FAILED]: () => {
-      setAccessToken('')
+      // setAccessToken('')
       return initState
     },
+
     [actions.LOGIN_SUCCESS]: (state, action) => {
-      const token = action.payload.token
-      setAccessToken(token)
-      return state
+      return action.payload
     },
 
     [actions.SET_USER_DATA]: (state, action) => {

@@ -1,34 +1,17 @@
-import { useReducer } from 'react'
-import { useCookies } from 'react-cookie'
-
-const authReducer = (state, action) => {
-  switch (action.type) {
-    case 'SET_ACCESS_TOKEN':
-      action.setCookie('airlock_access_token', action.token)
-      return state
-    default:
-      return state
-  }
-}
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { checkAuth } from '../../redux/user/actions'
 
 const useAuth = () => {
-  const [cookies, setCookie] = useCookies([
-    'airlock_access_token',
-    'airlock_twilio_token',
-  ])
-  const [state, dispatch] = useReducer(authReducer, cookies)
-  const accessToken = state.airlock_access_token
-  const isAuthenticated = accessToken ? true : false
-
-  const setAccessToken = (token) => {
-    dispatch({
-      type: 'SET_ACCESS_TOKEN',
-      token: token,
-      setCookie: setCookie,
+  const dispatch = useDispatch()
+  useEffect(() => {
+    console.log('AUTH CHECKING')
+    dispatch(checkAuth()).then(() => {
+      console.log('AUTH SUCCESS')
     })
-  }
 
-  return { setAccessToken }
+    return () => {}
+  }, [dispatch])
 }
 
 export default useAuth

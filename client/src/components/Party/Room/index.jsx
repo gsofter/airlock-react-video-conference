@@ -49,8 +49,8 @@ const Container = styled('div')(({ theme }) => ({
   position: 'relative',
   height: '100%',
   display: 'grid',
-  gridTemplateColumns: `1fr 1fr 1fr 1fr`,
-  gridTemplateRows: `1fr 1fr 1fr 1fr`,
+  gridTemplateColumns: `1fr 1fr 1fr 1fr 1fr 1fr`,
+  gridTemplateRows: `1fr 1fr 1fr 1fr 1fr`,
   gridTemplateAreas: `"dj dj rb1 rb2"
                       "dj dj rb3 rb4"
                       "ra1 ra2 aa aa"
@@ -75,6 +75,7 @@ export default function Room() {
   const {
     room: { localParticipant },
   } = useVideoPartyContext()
+  console.log(localParticipant)
   const participants = useParticipants()
   return (
     <Container>

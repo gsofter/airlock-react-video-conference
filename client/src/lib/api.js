@@ -4,27 +4,23 @@ const endpoint = 'http://localhost:5000'
 
 /**
  *
- * Return logged user data with passcode
+ * Return identity and twilio_token for user corresponding to passcode
  *
  * @param passcode string
- * @return {* token: string } => token
+ * @return {* access_code: string, identity: string, token: string }
  */
 export const userLogin = async (passcode) =>
   axios.post(`${endpoint}/login`, { passcode })
 
 /**
  *
- * Return user data for token
+ * Return identity and twilio_token for user corresponding to passcode
  *
  * @param
- * @return {* user: {}, room: {}, }
+ * @return {* access_code: string, identity: string, token: string }
  */
 export const checkAuth = async () => {
-  const token = getAccessToken()
-  console.log('Token', token)
-  return axios.get(`${endpoint}/user/get_auth`, {
-    headers: { Authorization: `Bearer ${token}` },
-  })
+  return axios.get(`${endpoint}/user/check_auth`, { withCredentials: true })
 }
 
 /**
