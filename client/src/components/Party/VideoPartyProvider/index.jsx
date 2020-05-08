@@ -4,6 +4,7 @@ import useHandleTrackPublicationFailed from '../../../hooks/useHandleTrackPublic
 import useHandleOnDisconnect from '../../../hooks/useHandleOnDisconnect'
 import useRoom from '../../../hooks/useRoom'
 import useLocalTracks from '../../../hooks/useLocalTracks'
+import { SelectedParticipantProvider } from '../../../hooks/useSelectedParticipant'
 
 const connectionOptions = {
   bandwidthProfile: {
@@ -58,7 +59,9 @@ const VideoPartyProvider = ({ children }) => {
         onError: onTwilioErrorCallback,
       }}
     >
-      {children}
+      <SelectedParticipantProvider room={room}>
+        {children}
+      </SelectedParticipantProvider>
     </VideoPartyContext.Provider>
   )
 }

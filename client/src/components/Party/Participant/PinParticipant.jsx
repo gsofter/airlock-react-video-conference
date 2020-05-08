@@ -7,17 +7,20 @@ import LockIcon from '@material-ui/icons/Lock'
 import MicIcon from '@material-ui/icons/Mic'
 
 const useStyles = makeStyles((theme) => ({
-  mainWrapper: {
+  pinMainWrapper: {
     // width: '100%',
     height: '100%',
     border: '1px solid blue',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
+
   buttonGroup: {
     marginBottom: '0px',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    position: 'fixed',
     bottom: '0px',
   },
   emptyScene: {
@@ -26,6 +29,17 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     border: '1px solid brown',
     alignItems: 'center',
+  },
+  lockButton: {
+    borderRadius: '0px',
+    border: '1px solid grey',
+    backgroundColor: 'black',
+  },
+
+  micButton: {
+    borderRadius: '0px',
+    border: '1px solid grey',
+    backgroundColor: 'black',
   },
 }))
 const PinParticipant = ({ pinId }) => {
@@ -37,14 +51,14 @@ const PinParticipant = ({ pinId }) => {
     return <div className={classes.emptyScene}>Not Available</div>
   } else {
     return (
-      <div className={classes.mainWrapper}>
+      <div className={classes.pinMainWrapper}>
         <Participant participant={participants[pin.value]} />
         <div className={classes.buttonGroup}>
-          <Button variant="contained" color="secondary">
-            <LockIcon />
+          <Button variant="outline" className={classes.lockButton}>
+            <LockIcon color="white" />
           </Button>
-          <Button variant="contained" color="secondary">
-            <MicIcon />
+          <Button variant="outline" color={classes.micButton}>
+            <MicIcon color="white" />
           </Button>
         </div>
       </div>

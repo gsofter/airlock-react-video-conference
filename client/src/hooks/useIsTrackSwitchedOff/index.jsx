@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { LocalVideoTrack, RemoteVideoTrack } from 'twilio-video'
 
 // The 'switchedOff' event is emitted when there is not enough bandwidth to support
 // a track. See: https://www.twilio.com/docs/video/tutorials/using-bandwidth-profile-api#understanding-track-switch-offs

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Participant, Track } from 'twilio-video'
 import usePublications from '../../../hooks/usePublications'
 import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 import Publication from './Publication'
