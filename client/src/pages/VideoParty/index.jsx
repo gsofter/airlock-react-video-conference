@@ -8,9 +8,12 @@ import { styled } from '@material-ui/core/styles'
 import { makeStyles, Typography, Button } from '@material-ui/core'
 import PinParticipant from '../../components/Party/Participant/PinParticipant'
 import Participant from '../../components/Party/Participant'
+import ConfigureDialog from '../../components/Dialogs/ConfigureDialog'
 // import { LocalParticipant } from 'twilio-video'
 import LocalParticipant from '../../components/Party/Participant/LocalParticipant'
 import MainParticipant from '../../components/Party/Participant/MainParticipant'
+import ReactPlayer from 'react-player'
+import LiveStream from '../../components/Party/LiveStream'
 
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -103,6 +106,18 @@ const useStyles = makeStyles((theme) => ({
     // marginLeft: 'auto',
     float: 'right',
   },
+
+  configureButton: {
+    color: '#19ff03',
+    border: '2px solid #19ff03',
+  },
+  buttonGroup: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: '5px',
+    alignItems: 'flex-end',
+  },
 }))
 
 const PartyTabControl = ({ status, setTabStatus }) => {
@@ -121,13 +136,13 @@ const PartyTabControl = ({ status, setTabStatus }) => {
       </div>
       <div
         className={`${
-          status === 'dance'
+          status === 'fav'
             ? classes.tabControlItemActive
             : classes.tabControlItem
         }`}
-        onClick={() => setTabStatus('dance')}
+        onClick={() => setTabStatus('fav')}
       >
-        <img src="./assets/dance.png" alt="Dance" />
+        <img src="./assets/fav.png" alt="fav" />
       </div>
       <div
         className={`${
@@ -147,17 +162,86 @@ const VideoParty = () => {
   // const roomData = useSelector((state) => state.room)
   const roomState = useRoomState()
   const [tabStatus, setTabStatus] = useState('dj')
+  const userData = useSelector((state) => state.user)
+  const [showConfigDialog, setShowConfigDialog] = useState(false)
+  const onConfigureLiveStream = () => {
+    console.log('true')
+    setShowConfigDialog(true)
+  }
+  const setStreamUrl = (url) => {
+    console.log(url)
+  }
+
+  const onRandomButton = () => {
+    console.log('asdf')
+  }
+
   return (
     <>
+      {showConfigDialog ? (
+        <ConfigureDialog
+          showDialog={showConfigDialog}
+          closeDialog={() => setShowConfigDialog(false)}
+          setStreamUrl={setStreamUrl}
+        />
+      ) : null}
       <main className={classes.mainWrapper}>
         {roomState === 'connected' ? (
           <>
             <Container>
               <div className={classes.mainViewer}>
-                <MainParticipant />
-                <Button variant="outlined" className={classes.randomButton}>
-                  Random Rooms
-                </Button>
+                {tabStatus === 'dj' ? (
+                  // dj view mode
+                  <>
+                    <LiveStream />
+                    <div className={classes.buttonGroup}>
+                      <Button
+                        variant="outlined"
+                        className={classes.randomButton}
+                        onClick={onRandomButton}
+                      >
+                        Random Rooms
+                      </Button>
+                      {userData.role === 'dj' ? (
+                        <Button
+                          variant="outlined"
+                          className={`${classes.randomButton}  ${classes.configureButton}`}
+                          style={{ marginLeft: '5px' }}
+                          onClick={onConfigureLiveStream}
+                        >
+                          Configure Live Stream
+                        </Button>
+                      ) : null}
+                    </div>
+                  </>
+                ) : tabStatus === 'fav' ? (
+                  // fav view mode
+                  <>
+                    <MainParticipant />
+                    <div className={classes.buttonGroup}>
+                      <Button
+                        variant="outlined"
+                        className={classes.randomButton}
+                        onClick={onRandomButton}
+                      >
+                        Random Rooms
+                      </Button>
+                      {userData.role === 'dj' ? (
+                        <Button
+                          variant="outlined"
+                          className={`${classes.randomButton}  ${classes.configureButton}`}
+                          style={{ marginLeft: '5px' }}
+                          onClick={onConfigureLiveStream}
+                        >
+                          Configure Live Stream
+                        </Button>
+                      ) : null}
+                    </div>
+                  </>
+                ) : (
+                  // grid view mode
+                  <div> This is grid view screen </div>
+                )}
               </div>
               <div className={classes.logo}>
                 <img src="./assets/white-logo.png" />
@@ -188,23 +272,23 @@ const VideoParty = () => {
                 <PinParticipant pinId={2} />
               </div>
               <div className={classes.t4}>
-                <PinParticipant pinId={3} />{' '}
+                <PinParticipant pinId={3} />
               </div>
               <div className={classes.t5}>
-                {' '}
-                <PinParticipant pinId={4} />{' '}
+                <PinParticipant pinId={4} />
               </div>
               <div className={classes.t6}>
-                <PinParticipant pinId={5} />{' '}
+                <PinParticipant pinId={5} />
               </div>
               <div className={classes.t7}>
-                {' '}
-                <PinParticipant pinId={6} />{' '}
+                <PinParticipant pinId={6} />
               </div>
             </Container>
             <Controls />
           </>
-        ) : null}
+        ) : (
+          <div> Not Connected !</div>
+        )}
       </main>
     </>
   )

@@ -10,6 +10,7 @@ export const JOIN_ROOM_FAILED = 'JOIN_ROOM_FAILED'
 export const UPDATE_ROOM = 'UPDATE_ROOM'
 export const SET_ROOM_DATA = 'SET_ROOM_DATA' //
 export const SET_ROOM_MEMBERS = 'SET_ROOM_MEMBERS'
+export const SET_STREAM_URL = 'SET_STREAM_URL'
 export const createRoomSuccess = createAction(CREATE_ROOM_SUCCESS)
 export const createRoomFailed = createAction(CREATE_ROOM_FAILED)
 export const deleteRoomSuccess = createAction(DELETE_ROOM_SUCCESS)
@@ -19,6 +20,7 @@ export const joinRoomFailed = createAction(JOIN_ROOM_FAILED)
 export const updateRoom = createAction(UPDATE_ROOM)
 export const setRoomData = createAction(SET_ROOM_DATA) //
 export const setRoomMembers = createAction(SET_ROOM_MEMBERS)
+export const setStreamURL = createAction(SET_STREAM_URL)
 export const joinRoom = (room_name) => async (dispatch, getState) => {
   try {
     const user = getState().user
@@ -84,6 +86,14 @@ export const updateRoomMembers = () => async (dispatch, getState) => {
     dispatch(setRoomMembers(res.data))
   } catch (e) {
     console.log('ERROR : ', e.message)
+    throw e
+  }
+}
+
+export const setStreamUrl = (url) => async (dispatch, getState) => {
+  try {
+    await api.setStreamUrl(url)
+  } catch (e) {
     throw e
   }
 }

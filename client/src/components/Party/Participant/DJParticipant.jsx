@@ -46,7 +46,7 @@ const useStyles = makeStyles({
   },
 })
 
-export default function MainParticipantInfo({ participant, children }) {
+export default function DJParticipant({ participant, children }) {
   const classes = useStyles()
 
   const publications = usePublications(participant)

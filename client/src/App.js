@@ -28,6 +28,7 @@ function App() {
           <PublicRoute path="/party">
             <VideoParty />
           </PublicRoute>
+
           <Route path="*">
             <Redirect to="/preview" />
           </Route>

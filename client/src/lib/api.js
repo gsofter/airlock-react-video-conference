@@ -133,3 +133,14 @@ export const getTwilioToken = () => {
     headers: { Authorization: `Bearer ${token}` },
   })
 }
+
+/**
+ *
+ * Set Stream URL
+ *
+ * @param
+ * @return {* token:string }
+ */
+export const setStreamUrl = () => {
+  return axios.get(`${endpoint}/room/set_stream_url`)
+}

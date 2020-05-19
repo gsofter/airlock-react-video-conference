@@ -21,10 +21,10 @@ const TWILIO_ROOM_NAME = "squareparty";
 const login = async (req, res, next) => {
   try {
     const { passcode } = req.body;
-    const { User, Room } = models;
+    const { User, Config } = models;
     const user = await User.findOne({
       where: { access_code: passcode },
-      attributes: ["name", "access_code", "room_name"],
+      attributes: ["name", "access_code", "room_name", "role"],
     });
 
     if (!user) {
@@ -34,15 +34,6 @@ const login = async (req, res, next) => {
       });
       return;
     }
-
-    // const userData = {
-    //   access_code: user.access_code,
-    // };
-
-    // // generate token
-    // const token = jwt.sign(userData, process.env.AUTH_TOKEN_SECRET, {
-    //   expiresIn: "24h",
-    // });
     const token = new AccessToken(
       twilioAccountSid,
       twilioApiKeySID,
@@ -55,12 +46,17 @@ const login = async (req, res, next) => {
     token.identity = user.name;
     token.addGrant(videoGrant);
 
-    console.log(`TOKEN GENERATED => ${token} for ${user.name}`);
+    const config = await Config.findOne({
+      where: { key: "stream_url" },
+      attributes: ["key", "value"],
+    });
 
     const sendData = {
       access_code: user.access_code,
       identity: user.name,
+      role: user.role,
       token: token.toJwt(),
+      stream_url: config.value,
     };
 
     const jwtToken = jwt.sign(sendData, process.env.AUTH_TOKEN_SECRET, {
@@ -87,9 +83,7 @@ const login = async (req, res, next) => {
  *
  * @method GET
  * @param
- * @return {* user: {}, room: {} }
- * @description user => { access_code: string, name: string, my_room_name: string}
- * @description room => { name: string, owner_access_code: string, mode: string, members: string, isOwner: boolean}
+ * @return
  */
 const checkAuth = async (req, res, next) => {
   try {
@@ -108,11 +102,7 @@ const checkAuth = async (req, res, next) => {
 
     console.log(`TOKEN GENERATED => ${token} for ${user.name}`);
 
-    const sendData = {
-      access_code: user.access_code,
-      identity: user.name,
-      token: token.toJwt(),
-    };
+    const sendData = { ...user, token: token };
 
     const jwtToken = jwt.sign(sendData, process.env.AUTH_TOKEN_SECRET, {
       expiresIn: "24h",

@@ -5,6 +5,8 @@ import Participant from '.'
 import { Button, makeStyles } from '@material-ui/core'
 import LockIcon from '@material-ui/icons/Lock'
 import MicIcon from '@material-ui/icons/Mic'
+import LocalParticipant from './LocalParticipant'
+import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 
 const useStyles = makeStyles((theme) => ({
   pinMainWrapper: {
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
   buttonGroup: {
     marginBottom: '0px',
-    display: 'flex',
+    display: 'inline-block',
     flexDirection: 'row',
     justifyContent: 'space-between',
     bottom: '0px',
@@ -41,11 +43,44 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid grey',
     backgroundColor: 'black',
   },
+
+  button: {
+    width: '50%',
+    color: 'white',
+  },
 }))
+
+// const PinParticipant = ({ pinId }) => {
+//   const classes = useStyles()
+//   const participants = useParticipants()
+//   const roomData = useSelector((state) => state.room)
+//   const pin = roomData.pins[pinId]
+//   if (participants.length <= pin.value) {
+//     return <div className={classes.emptyScene}>Not Available</div>
+//   } else {
+//     return (
+//       <div className={classes.pinMainWrapper}>
+//         <Participant participant={participants[pin.value]} />
+//         <div className={classes.buttonGroup}>
+//           <Button variant="outline" className={classes.lockButton}>
+//             <LockIcon color="white" />
+//           </Button>
+//           <Button variant="outline" color={classes.micButton}>
+//             <MicIcon color="white" />
+//           </Button>
+//         </div>
+//       </div>
+//     )
+//   }
+// }
+
 const PinParticipant = ({ pinId }) => {
   const classes = useStyles()
   const participants = useParticipants()
   const roomData = useSelector((state) => state.room)
+  const {
+    room: { localParticipant },
+  } = useVideoPartyContext()
   const pin = roomData.pins[pinId]
   if (participants.length <= pin.value) {
     return <div className={classes.emptyScene}>Not Available</div>
@@ -54,10 +89,16 @@ const PinParticipant = ({ pinId }) => {
       <div className={classes.pinMainWrapper}>
         <Participant participant={participants[pin.value]} />
         <div className={classes.buttonGroup}>
-          <Button variant="outline" className={classes.lockButton}>
+          <Button
+            variant="outline"
+            className={`${classes.lockButton} ${classes.button}`}
+          >
             <LockIcon color="white" />
           </Button>
-          <Button variant="outline" color={classes.micButton}>
+          <Button
+            variant="outline"
+            className={`${classes.lockButton} ${classes.button}`}
+          >
             <MicIcon color="white" />
           </Button>
         </div>
@@ -65,5 +106,4 @@ const PinParticipant = ({ pinId }) => {
     )
   }
 }
-
 export default PinParticipant

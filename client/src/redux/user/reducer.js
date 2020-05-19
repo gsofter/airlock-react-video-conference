@@ -6,6 +6,7 @@ let initState = {
   access_code: '',
   name: '',
   token: '',
+  role: '',
 }
 
 const userReducer = handleActions(

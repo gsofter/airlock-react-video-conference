@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import useVideoPartyContext from '../useVideoPartyContext'
+import Participant from '../../components/Party/Participant'
 
 export default function useParticipants() {
   const { room } = useVideoPartyContext()
@@ -23,8 +24,10 @@ export default function useParticipants() {
   //   }, [dominantSpeaker])
 
   useEffect(() => {
-    const participantConnected = (participant) =>
+    const participantConnected = (participant) => {
       setParticipants((prevParticipants) => [...prevParticipants, participant])
+      console.log(participant)
+    }
     const participantDisconnected = (participant) =>
       setParticipants((prevParticipants) =>
         prevParticipants.filter((p) => p !== participant),
