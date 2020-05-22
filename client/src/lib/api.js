@@ -14,10 +14,9 @@ export const userLogin = async (passcode) =>
 
 /**
  *
- * Return identity and twilio_token for user corresponding to passcode
+ * Check auth with cookie
+ * if authorized, return user data, if not return null
  *
- * @param
- * @return {* access_code: string, identity: string, token: string }
  */
 export const checkAuth = async () => {
   return axios.get(`${endpoint}/user/check_auth`, { withCredentials: true })
@@ -141,6 +140,8 @@ export const getTwilioToken = () => {
  * @param
  * @return {* token:string }
  */
-export const setStreamUrl = () => {
-  return axios.get(`${endpoint}/room/set_stream_url`)
+export const setStreamUrl = (url) => {
+  return axios.post(`${endpoint}/room/set_stream_url`, {
+    url: url,
+  })
 }

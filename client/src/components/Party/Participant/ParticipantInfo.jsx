@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 import AudioLevelIndicator from './AudioLevelIndicator'
 import BandwidthWarning from './BandwidthWarning'
 import NetworkQualityLevel from './NetworkQualityLevel'

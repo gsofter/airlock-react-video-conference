@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { VideoPartyContext } from '../../components/Party/VideoPartyProvider'
 const useVideoPartyContext = () => {
   const context = useContext(VideoPartyContext)

@@ -14,5 +14,5 @@ roomRouter.get("/join", auth, roomControl.joinRoom);
 roomRouter.get("/join_random", auth, roomControl.joinRandomRoom);
 roomRouter.get("/members", auth, roomControl.getRoomMembers);
 
-roomRouter.get("/set_stream_url", roomControl.setStreamUrl);
+roomRouter.post("/set_stream_url", roomControl.setStreamUrl);
 module.exports = roomRouter;

@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-
-import Room from '../../components/Party/Room'
 import LocalVideoPreview from '../../components/Party/LocalVideoPreview'
 import useStyles from './styles'
 import useRoomState from '../../hooks/useRoomState'
@@ -13,7 +11,6 @@ import Controls from '../../components/Party/Controls'
 const PreviewPage = () => {
   let history = useHistory()
   const classes = useStyles()
-  // const roomData = useSelector((state) => state.room)
   const userData = useSelector((state) => state.user)
   const roomState = useRoomState()
   const { room, connect, localTracks } = useVideoPartyContext()

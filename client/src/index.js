@@ -9,8 +9,14 @@ import Reducer from './redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import AirlockTheme from './config/theme'
+import Pusher from 'pusher-js'
+import { setPusherClient } from 'react-pusher'
 const store = createStore(Reducer, composeWithDevTools(applyMiddleware(thunk)))
-
+// Puhser
+const pusherClient = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY, {
+  cluster: process.env.REACT_APP_PUSHER_APP_CLUSTER,
+})
+setPusherClient(pusherClient)
 ReactDOM.render(
   <Provider store={store}>
     <AirlockTheme>

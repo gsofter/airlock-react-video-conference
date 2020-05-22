@@ -437,8 +437,10 @@ const setStreamUrl = async (req, res, next) => {
     cluster: pusherAppCluster,
   });
 
-  pusher.trigger("airlock-channel", "set-stream-url-event", {
-    url: url,
+  console.log("URL => ", url);
+  pusher.trigger("airlock-channel", "stream-url-change", {
+    name: "stream-url",
+    message: url,
   });
 
   console.log("message sent");

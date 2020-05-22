@@ -1,20 +1,16 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import Room from '../../components/Party/Room'
 import useRoomState from '../../hooks/useRoomState'
-import useVideoPartyContext from '../../hooks/useVideoPartyContext'
 import Controls from '../../components/Party/Controls'
 import { styled } from '@material-ui/core/styles'
 import { makeStyles, Typography, Button } from '@material-ui/core'
 import PinParticipant from '../../components/Party/Participant/PinParticipant'
-import Participant from '../../components/Party/Participant'
 import ConfigureDialog from '../../components/Dialogs/ConfigureDialog'
-// import { LocalParticipant } from 'twilio-video'
 import LocalParticipant from '../../components/Party/Participant/LocalParticipant'
 import MainParticipant from '../../components/Party/Participant/MainParticipant'
-import ReactPlayer from 'react-player'
 import LiveStream from '../../components/Party/LiveStream'
-
+import { useDispatch } from 'react-redux'
+import * as roomActions from '../../redux/room/actions'
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',
   height: '100%',
@@ -164,12 +160,13 @@ const VideoParty = () => {
   const [tabStatus, setTabStatus] = useState('dj')
   const userData = useSelector((state) => state.user)
   const [showConfigDialog, setShowConfigDialog] = useState(false)
+  const dispatch = useDispatch()
   const onConfigureLiveStream = () => {
-    console.log('true')
     setShowConfigDialog(true)
   }
   const setStreamUrl = (url) => {
     console.log(url)
+    dispatch(roomActions.setStreamUrl(url))
   }
 
   const onRandomButton = () => {
@@ -244,7 +241,7 @@ const VideoParty = () => {
                 )}
               </div>
               <div className={classes.logo}>
-                <img src="./assets/white-logo.png" />
+                <img src="./assets/white-logo.png" alt="white-logo" />
                 <Typography variant="body2" color="white">
                   squareparty
                 </Typography>

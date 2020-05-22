@@ -12,7 +12,6 @@ export default function ConfigureDialog({
   closeDialog,
   setStreamUrl,
 }) {
-  const [open, setOpen] = React.useState(false)
   const [url, setUrl] = React.useState('')
 
   const onChangeUrl = (e) => {

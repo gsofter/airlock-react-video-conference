@@ -88,6 +88,7 @@ const login = async (req, res, next) => {
 const checkAuth = async (req, res, next) => {
   try {
     const user = req.auth_user;
+    // generate twilio token
     const token = new AccessToken(
       twilioAccountSid,
       twilioApiKeySID,
@@ -99,19 +100,21 @@ const checkAuth = async (req, res, next) => {
     const videoGrant = new VideoGrant({ room: TWILIO_ROOM_NAME });
     token.identity = user.name;
     token.addGrant(videoGrant);
-
-    console.log(`TOKEN GENERATED => ${token} for ${user.name}`);
-
-    const sendData = { ...user, token: token };
-
+    const sendData = {
+      access_code: user.access_code,
+      identity: user.identity,
+      role: user.role,
+      token: token.toJwt(),
+      stream_url: user.stream_url,
+    };
     const jwtToken = jwt.sign(sendData, process.env.AUTH_TOKEN_SECRET, {
       expiresIn: "24h",
     });
     res.cookie("airlock_token", jwtToken, {
       maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
+      domain: "",
     });
-    console.log("cookie created successfully");
     res.send(sendData);
   } catch (err) {
     console.log(err);

@@ -1,5 +1,5 @@
 import React from 'react'
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { createStyles, makeStyles } from '@material-ui/core/styles'
 
 import CallEnd from '@material-ui/icons/CallEnd'
 import Fab from '@material-ui/core/Fab'

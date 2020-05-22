@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import useVideoPartyContext from '../useVideoPartyContext'
-import Participant from '../../components/Party/Participant'
 
 export default function useParticipants() {
   const { room } = useVideoPartyContext()

@@ -1,7 +1,5 @@
 import React from 'react'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import purple from '@material-ui/core/colors/purple'
-import green from '@material-ui/core/colors/green'
 
 const theme = createMuiTheme({
   type: 'dark',
@@ -10,13 +8,6 @@ const theme = createMuiTheme({
       main: '#383E4A',
     },
   },
-  //   palette: {
-  //     primary: purple,
-  //     secondary: green,
-  //   },
-  //   status: {
-  //     danger: 'orange',
-  //   },
   sidebarWidth: 260,
   sidebarMobileHeight: 90,
 })

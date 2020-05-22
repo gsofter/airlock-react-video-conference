@@ -17,7 +17,7 @@ const MenuBar = ({ roomTitle, onLeft, onJoinToParty }) => {
           noWrap
           className={classes.roomTitle}
         >
-          <img src="./assets/brand-logo.png" />
+          <img src="./assets/brand-logo.png" alt="brand-logo" />
           {roomTitle}
         </Typography>
         {roomState === 'disconnected' ? (

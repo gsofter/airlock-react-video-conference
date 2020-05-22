@@ -3,8 +3,9 @@ const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res, next) => {
   try {
-    console.log(req.cookies);
     const token = req.cookies.airlock_token;
+    console.log("cookie token => ", token);
+
     const userData = jwt.verify(token, process.env.AUTH_TOKEN_SECRET);
     if (userData) {
       req.auth_user = userData;

@@ -3,7 +3,7 @@ import * as actions from './actions'
 
 let initState = {
   stream: {
-    url: 'https://youtube.com/',
+    url: '',
   },
   dj: '',
   pins: [
@@ -44,8 +44,24 @@ let initState = {
 
 const roomReducer = handleActions(
   {
-    [actions.SET_STREAM_URL]: (state, action) => {
-      return [...state, { stream: { url: action.payload } }]
+    // Set Stream URL
+    [actions.SET_STREAM_URL_SUCCESS]: (state, action) => {
+      return {
+        ...state,
+        stream: {
+          url: action.payload,
+        },
+      }
+    },
+
+    // Set Stream URL as null
+    [actions.SET_STREAM_URL_FAILED]: (state, action) => {
+      return {
+        ...state,
+        stream: {
+          url: '',
+        },
+      }
     },
   },
   initState,
