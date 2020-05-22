@@ -11,6 +11,7 @@ import MainParticipant from '../../components/Party/Participant/MainParticipant'
 import LiveStream from '../../components/Party/LiveStream'
 import { useDispatch } from 'react-redux'
 import * as roomActions from '../../redux/room/actions'
+import PartyTabControl from '../../components/Party/PartyTabControl'
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',
   height: '100%',
@@ -19,7 +20,7 @@ const Container = styled('div')(({ theme }) => ({
   gridTemplateRows: `1fr 1fr 1fr 1fr 1fr`,
   gap: '5px 5px',
   gridTemplateAreas: `"lg mp mp mp mp ct"
-                      "mg mp mp mp mp ct"
+                      "mg mp mp mp mp bt"
                       "mg mp mp mp mp bt"
                       "me mp mp mp mp t7"
                       "t1 t2 t3 t4 t5 t6"`,
@@ -78,20 +79,6 @@ const useStyles = makeStyles((theme) => ({
   t8: {
     gridArea: 't8',
   },
-  tabControlWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-  },
-  tabControlItem: {
-    padding: theme.spacing(1),
-    opacity: '0.3',
-  },
-  tabControlItemActive: {
-    padding: theme.spacing(1),
-    opacity: 1,
-  },
 
   randomButton: {
     marginBottom: theme.spacing(1),
@@ -99,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
     color: 'cyan',
     border: '2px solid cyan',
     borderRadius: '0px',
-    // marginLeft: 'auto',
     float: 'right',
   },
 
@@ -116,46 +102,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const PartyTabControl = ({ status, setTabStatus }) => {
-  const classes = useStyles()
-  return (
-    <div className={classes.tabControlWrapper}>
-      <div
-        className={`${
-          status === 'dj'
-            ? classes.tabControlItemActive
-            : classes.tabControlItem
-        }`}
-        onClick={() => setTabStatus('dj')}
-      >
-        <img src="./assets/live-dj-white.png" alt="DJ" />
-      </div>
-      <div
-        className={`${
-          status === 'fav'
-            ? classes.tabControlItemActive
-            : classes.tabControlItem
-        }`}
-        onClick={() => setTabStatus('fav')}
-      >
-        <img src="./assets/fav.png" alt="fav" />
-      </div>
-      <div
-        className={`${
-          status === 'grid'
-            ? classes.tabControlItemActive
-            : classes.tabControlItem
-        }`}
-        onClick={() => setTabStatus('grid')}
-      >
-        <img src="./assets/grid.png" alt="Grid" />
-      </div>
-    </div>
-  )
-}
 const VideoParty = () => {
   const classes = useStyles()
-  // const roomData = useSelector((state) => state.room)
   const roomState = useRoomState()
   const [tabStatus, setTabStatus] = useState('dj')
   const userData = useSelector((state) => state.user)
