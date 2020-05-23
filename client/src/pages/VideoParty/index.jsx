@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import useRoomState from '../../hooks/useRoomState'
 import Controls from '../../components/Party/Controls'
 import { styled } from '@material-ui/core/styles'
-import { makeStyles, Typography, Button } from '@material-ui/core'
+import { makeStyles, Typography } from '@material-ui/core'
 import PinParticipant from '../../components/Party/Participant/PinParticipant'
 import ConfigureDialog from '../../components/Dialogs/ConfigureDialog'
 import LocalParticipant from '../../components/Party/Participant/LocalParticipant'
@@ -12,6 +12,9 @@ import LiveStream from '../../components/Party/LiveStream'
 import { useDispatch } from 'react-redux'
 import * as roomActions from '../../redux/room/actions'
 import PartyTabControl from '../../components/Party/PartyTabControl'
+import DeviceControl from '../../components/Party/DeviceControl'
+// import clsx from 'clsx'
+import ButtonControl from '../../components/Party/ButtonControl'
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',
   height: '100%',
@@ -55,50 +58,40 @@ const useStyles = makeStyles((theme) => ({
   tabControl: {
     gridArea: 'ct',
   },
+  deviceContro: {
+    gridArea: 'bt',
+  },
   t1: {
     gridArea: 't1',
+    minWidth: '200px',
   },
   t2: {
     gridArea: 't2',
+    minWidth: '200px',
   },
   t3: {
     gridArea: 't3',
+    minWidth: '200px',
   },
   t4: {
     gridArea: 't4',
+    minWidth: '200px',
   },
   t5: {
     gridArea: 't5',
+    minWidth: '200px',
   },
   t6: {
     gridArea: 't6',
+    minWidth: '200px',
   },
   t7: {
     gridArea: 't7',
+    minWidth: '200px',
   },
   t8: {
     gridArea: 't8',
-  },
-
-  randomButton: {
-    marginBottom: theme.spacing(1),
-    marginTop: theme.spacing(2),
-    color: 'cyan',
-    border: '2px solid cyan',
-    borderRadius: '0px',
-    float: 'right',
-  },
-
-  configureButton: {
-    color: '#19ff03',
-    border: '2px solid #19ff03',
-  },
-  buttonGroup: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    padding: '5px',
-    alignItems: 'flex-end',
+    minWidth: '200px',
   },
 }))
 
@@ -139,49 +132,21 @@ const VideoParty = () => {
                   // dj view mode
                   <>
                     <LiveStream />
-                    <div className={classes.buttonGroup}>
-                      <Button
-                        variant="outlined"
-                        className={classes.randomButton}
-                        onClick={onRandomButton}
-                      >
-                        Random Rooms
-                      </Button>
-                      {userData.role === 'dj' ? (
-                        <Button
-                          variant="outlined"
-                          className={`${classes.randomButton}  ${classes.configureButton}`}
-                          style={{ marginLeft: '5px' }}
-                          onClick={onConfigureLiveStream}
-                        >
-                          Configure Live Stream
-                        </Button>
-                      ) : null}
-                    </div>
+                    <ButtonControl
+                      role={userData.role}
+                      onConfigureLiveStream={onConfigureLiveStream}
+                      onRandomButton={onRandomButton}
+                    />
                   </>
                 ) : tabStatus === 'fav' ? (
                   // fav view mode
                   <>
                     <MainParticipant />
-                    <div className={classes.buttonGroup}>
-                      <Button
-                        variant="outlined"
-                        className={classes.randomButton}
-                        onClick={onRandomButton}
-                      >
-                        Random Rooms
-                      </Button>
-                      {userData.role === 'dj' ? (
-                        <Button
-                          variant="outlined"
-                          className={`${classes.randomButton}  ${classes.configureButton}`}
-                          style={{ marginLeft: '5px' }}
-                          onClick={onConfigureLiveStream}
-                        >
-                          Configure Live Stream
-                        </Button>
-                      ) : null}
-                    </div>
+                    <ButtonControl
+                      role={userData.role}
+                      onConfigureLiveStream={onConfigureLiveStream}
+                      onRandomButton={onRandomButton}
+                    />
                   </>
                 ) : (
                   // grid view mode
@@ -190,9 +155,7 @@ const VideoParty = () => {
               </div>
               <div className={classes.logo}>
                 <img src="./assets/white-logo.png" alt="white-logo" />
-                <Typography variant="body2" color="white">
-                  squareparty
-                </Typography>
+                <Typography variant="body2">squareparty</Typography>
               </div>
               <div className={classes.chat}>
                 <p> Hello, how are you doing </p>
@@ -203,6 +166,9 @@ const VideoParty = () => {
                   status={tabStatus}
                   setTabStatus={setTabStatus}
                 />
+              </div>
+              <div className={classes.deviceControl}>
+                <DeviceControl tabStatus={tabStatus} />
               </div>
               <div className={classes.me}>
                 <LocalParticipant />

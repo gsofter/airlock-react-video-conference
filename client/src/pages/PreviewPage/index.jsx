@@ -34,9 +34,8 @@ const PreviewPage = () => {
             <LocalVideoPreview localTracks={localTracks} />
             <Controls />
           </>
-        ) : (
-          history.push('/party')
-        )}
+        ) : //history.push('/party')
+        null}
       </main>
     </>
   )
