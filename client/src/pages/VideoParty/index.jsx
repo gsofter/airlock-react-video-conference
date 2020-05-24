@@ -195,7 +195,6 @@ const VideoParty = () => {
                 <PinParticipant pinId={6} />
               </div>
             </Container>
-            <Controls />
           </>
         ) : (
           <div> Not Connected !</div>
