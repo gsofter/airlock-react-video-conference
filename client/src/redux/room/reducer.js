@@ -9,35 +9,35 @@ let initState = {
   pins: [
     {
       value: 0,
-      fixed: false,
+      locked: false,
     },
     {
       value: 1,
-      fixed: false,
+      locked: false,
     },
     {
       value: 2,
-      fixed: false,
+      locked: false,
     },
     {
       value: 3,
-      fixed: false,
+      locked: false,
     },
     {
       value: 4,
-      fixed: false,
+      locked: false,
     },
     {
       value: 5,
-      fixed: false,
+      locked: false,
     },
     {
       value: 6,
-      fixed: false,
+      locked: false,
     },
     {
       value: 7,
-      fixed: false,
+      locked: false,
     },
   ],
 }
