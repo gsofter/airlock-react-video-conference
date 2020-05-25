@@ -17,6 +17,13 @@ const pusherAppKey = process.env.PUSHER_APP_KEY;
 const pusherAppSecret = process.env.PUSHER_APP_SECRET;
 const pusherAppCluster = process.env.PUSHER_APP_Cluster;
 
+const pusher = new Pusher({
+  appId: pusherAppId,
+  key: pusherAppKey,
+  secret: pusherAppSecret,
+  cluster: pusherAppCluster,
+});
+
 /**
  *
  * Set Stream URL and broadcast
@@ -25,40 +32,81 @@ const pusherAppCluster = process.env.PUSHER_APP_Cluster;
  * @return { type: 'SUCCESS' }
  */
 const setStreamUrl = async (req, res, next) => {
-  const { Config } = models;
-  const url = req.body.url;
-  await Config.update(
-    {
-      value: url,
-    },
-    {
-      where: { key: "stream_url" },
-    }
-  );
+  try {
+    const { Config } = models;
+    const url = req.body.url;
+    await Config.update(
+      {
+        value: url,
+      },
+      {
+        where: { key: "stream_url" },
+      }
+    );
 
-  const pusher = new Pusher({
-    appId: pusherAppId,
-    key: pusherAppKey,
-    secret: pusherAppSecret,
-    cluster: pusherAppCluster,
-  });
+    console.log("URL => ", url);
+    pusher.trigger("airlock-channel", "stream-url-change", {
+      name: "stream-url",
+      message: url,
+    });
 
-  console.log("URL => ", url);
-  pusher.trigger("airlock-channel", "stream-url-change", {
-    name: "stream-url",
-    message: url,
-  });
+    console.log("message sent");
+    res.send("success");
+  } catch (err) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+    });
+  }
+};
 
-  console.log("message sent");
-  res.send("success");
+/**
+ *
+ * Send Lock Request
+ *
+ */
+const lockRequest = async (req, res, next) => {
+  try {
+    pusher.trigger("airlock-channel", "lock-request", {
+      name: "lock-request",
+      message: {
+        sender: "sender",
+        receiver: "receiver",
+      },
+    });
+    console.log("message sent");
+    res.send("message-sent");
+  } catch (err) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+    });
+  }
+};
+
+/**
+ *
+ * Accept Lock Request
+ *
+ */
+const lockAccept = async (req, res, next) => {
+  try {
+    pusher.trigger("airlock-channel", "lock-accept", {
+      name: "lock-accept",
+      message: {
+        sender: "sender",
+        receiver: "receiver",
+      },
+    });
+    console.log("lockAccept success");
+    res.send("lockAccept success");
+  } catch (err) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+    });
+  }
 };
 
 module.exports = {
-  createRoom,
-  deleteRoom,
-  joinRoom,
-  joinRandomRoom,
-  leaveRoom,
-  getRoomMembers,
   setStreamUrl,
+  lockRequest,
+  lockAccept,
 };

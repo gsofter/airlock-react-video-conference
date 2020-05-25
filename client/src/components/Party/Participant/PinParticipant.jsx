@@ -7,6 +7,8 @@ import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 import LocalVideoPreview from '../LocalVideoPreview'
 import VideoTrack from '../tracks/VideoTrack'
 import { UnlockIcon, ChatIcon, LockIcon, MicOnIcon } from '../../Icons'
+import PusherProvider from '../../PusherProvider'
+import * as api from '../../../lib/api'
 const useStyles = makeStyles((theme) => ({
   pinMainWrapper: {
     height: '100%',
@@ -88,8 +90,14 @@ const PinParticipant = ({ pinId }) => {
   // if (participants.length <= pin.value) {
   //   return <div className={classes.emptyScene}>Not Available</div>
   // } else {
+  // participant = participants[pin.value]
   const { localTracks } = useVideoPartyContext()
   const videoTrack = localTracks.find((track) => track.name === 'camera')
+
+  const onUnlock = async () => {
+    await api.unlockRequest('sender', 'receiver')
+  }
+
   return (
     <div className={classes.pinMainWrapper}>
       <div className={classes.videoWrapper}>
@@ -109,7 +117,7 @@ const PinParticipant = ({ pinId }) => {
         </div>
       ) : (
         <div className={classes.buttonGroup}>
-          <UnlockButton variant="outline">
+          <UnlockButton variant="outline" onClick={onUnlock}>
             <UnlockIcon />
           </UnlockButton>
         </div>
