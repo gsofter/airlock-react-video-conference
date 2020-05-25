@@ -24,16 +24,12 @@ function App() {
           <LoginRoute path="/login">
             <LoginPage />
           </LoginRoute>
-
-          <PublicRoute path="/preview">
-            <PreviewPage />
-          </PublicRoute>
           <PublicRoute path="/party">
             <VideoParty />
           </PublicRoute>
 
           <Route path="*">
-            <Redirect to="/preview" />
+            <Redirect to="/party" />
           </Route>
         </Switch>
       </Router>

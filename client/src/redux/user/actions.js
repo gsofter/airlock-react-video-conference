@@ -5,9 +5,6 @@ import { setStreamUrlSuccess, setStreamUrlFailed } from '../room/actions'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILED = 'LOGIN_FAILED'
 export const CHECK_AUTH = 'CHECK_AUTH'
-export const SET_USER_DATA = 'SET_USER_DATA'
-export const DELETE_MY_ROOM = 'DELETE_MY_ROOM'
-export const CREATE_MY_ROOM = 'CREATE_MY_ROOM'
 
 export const loginFailed = createAction(LOGIN_FAILED)
 export const loginSuccess = createAction(LOGIN_SUCCESS)
@@ -37,4 +34,8 @@ export const loginRequest = (passcode) => async (dispatch) => {
     dispatch(setStreamUrlFailed())
     throw e
   }
+}
+
+export const logout = () => (dispatch) => {
+  dispatch(loginFailed())
 }

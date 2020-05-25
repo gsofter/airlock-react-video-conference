@@ -91,8 +91,20 @@ const login = async (req, res, next) => {
  */
 const checkAuth = async (req, res, next) => {
   try {
-    const user = req.auth_user;
-    // generate twilio token
+    const access_code = req.auth_user.access_code;
+    const { User, Config } = models;
+    const user = await User.findOne({
+      where: { access_code: access_code },
+      attributes: ["name", "access_code", "room_name", "role"],
+    });
+
+    if (!user) {
+      // user not exist => 404 {type: 'USER_NOT_FOUND'}
+      res.status(HttpStatus.NOT_FOUND).json({
+        type: "USER_NOT_FOUND",
+      });
+      return;
+    }
     const token = new AccessToken(
       twilioAccountSid,
       twilioApiKeySID,
@@ -104,21 +116,28 @@ const checkAuth = async (req, res, next) => {
     const videoGrant = new VideoGrant({ room: TWILIO_ROOM_NAME });
     token.identity = user.name;
     token.addGrant(videoGrant);
+
+    const config = await Config.findOne({
+      where: { key: "stream_url" },
+      attributes: ["key", "value"],
+    });
+    // generate twilio token
     const userData = {
       access_code: user.access_code,
-      identity: user.identity,
+      identity: user.name,
       role: user.role,
       token: token.toJwt(),
-      stream_url: user.stream_url,
+      stream_url: config.value,
     };
+
     const jwtToken = jwt.sign(userData, process.env.AUTH_TOKEN_SECRET, {
       expiresIn: "24h",
     });
-
     res.cookie("airlock_token", jwtToken, {
       maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
+
     const sendData = {
       ...userData,
       access_token: jwtToken,

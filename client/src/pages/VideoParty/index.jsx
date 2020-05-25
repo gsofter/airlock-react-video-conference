@@ -15,6 +15,7 @@ import PartyTabControl from '../../components/Party/PartyTabControl'
 import DeviceControl from '../../components/Party/DeviceControl'
 // import clsx from 'clsx'
 import ButtonControl from '../../components/Party/ButtonControl'
+import useConnect from '../../hooks/useConnect/useConnect'
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',
   height: '100%',
@@ -97,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
 
 const VideoParty = () => {
   const classes = useStyles()
+  useConnect() //connect hook
   const roomState = useRoomState()
   const [tabStatus, setTabStatus] = useState('dj')
   const userData = useSelector((state) => state.user)

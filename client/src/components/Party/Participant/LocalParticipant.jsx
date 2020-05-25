@@ -4,7 +4,8 @@ import Participant from '.'
 import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { makeStyles, Button, withStyles } from '@material-ui/core'
-
+import { logout } from '../../../redux/user/actions'
+import { useDispatch } from 'react-redux'
 const useStyles = makeStyles((theme) => ({
   mainWrapper: {
     height: '100%',
@@ -35,6 +36,7 @@ const ExitButton = withStyles({
 const LocalParticipant = () => {
   const classes = useStyles()
   const history = useHistory()
+  const dispatch = useDispatch()
   const { room } = useVideoPartyContext()
   const {
     room: { localParticipant },
@@ -42,7 +44,8 @@ const LocalParticipant = () => {
 
   const onClickExit = (e) => {
     room.disconnect()
-    history.push('/preview')
+    dispatch(logout())
+    history.push('/login')
   }
 
   return (
