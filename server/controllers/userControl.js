@@ -51,7 +51,7 @@ const login = async (req, res, next) => {
       attributes: ["key", "value"],
     });
 
-    const sendData = {
+    const userData = {
       access_code: user.access_code,
       identity: user.name,
       role: user.role,
@@ -59,14 +59,18 @@ const login = async (req, res, next) => {
       stream_url: config.value,
     };
 
-    const jwtToken = jwt.sign(sendData, process.env.AUTH_TOKEN_SECRET, {
+    const jwtToken = jwt.sign(userData, process.env.AUTH_TOKEN_SECRET, {
       expiresIn: "24h",
     });
     res.cookie("airlock_token", jwtToken, {
       maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
-    console.log("cookie created successfully");
+
+    const sendData = {
+      ...userData,
+      access_token: jwtToken,
+    };
     res.send(sendData);
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
@@ -100,21 +104,25 @@ const checkAuth = async (req, res, next) => {
     const videoGrant = new VideoGrant({ room: TWILIO_ROOM_NAME });
     token.identity = user.name;
     token.addGrant(videoGrant);
-    const sendData = {
+    const userData = {
       access_code: user.access_code,
       identity: user.identity,
       role: user.role,
       token: token.toJwt(),
       stream_url: user.stream_url,
     };
-    const jwtToken = jwt.sign(sendData, process.env.AUTH_TOKEN_SECRET, {
+    const jwtToken = jwt.sign(userData, process.env.AUTH_TOKEN_SECRET, {
       expiresIn: "24h",
     });
+
     res.cookie("airlock_token", jwtToken, {
       maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
-      domain: "",
     });
+    const sendData = {
+      ...userData,
+      access_token: jwtToken,
+    };
     res.send(sendData);
   } catch (err) {
     console.log(err);

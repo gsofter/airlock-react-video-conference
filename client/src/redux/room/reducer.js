@@ -10,34 +10,42 @@ let initState = {
     {
       value: 0,
       locked: false,
+      onMic: false,
     },
     {
       value: 1,
       locked: true,
+      onMic: false,
     },
     {
       value: 2,
       locked: false,
+      onMic: false,
     },
     {
       value: 3,
       locked: false,
+      onMic: false,
     },
     {
       value: 4,
       locked: false,
+      onMic: false,
     },
     {
       value: 5,
       locked: false,
+      onMic: false,
     },
     {
       value: 6,
       locked: false,
+      onMic: false,
     },
     {
       value: 7,
       locked: false,
+      onMic: false,
     },
   ],
 }

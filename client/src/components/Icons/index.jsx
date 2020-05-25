@@ -11,6 +11,7 @@ import {
   faLock,
   faMicrophoneAlt,
   faMicrophoneAltSlash,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
 
