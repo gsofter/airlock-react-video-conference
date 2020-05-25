@@ -6,12 +6,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    width: '200px',
   },
   tabControlItem: {
     padding: theme.spacing(1),
     opacity: '0.3',
-    width: '30%',
   },
   tabControlItemActive: {
     padding: theme.spacing(1),

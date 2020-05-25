@@ -13,7 +13,7 @@ let initState = {
     },
     {
       value: 1,
-      locked: false,
+      locked: true,
     },
     {
       value: 2,
