@@ -99,7 +99,6 @@ const useStyles = makeStyles((theme) => ({
 
 const VideoParty = () => {
   const classes = useStyles()
-  useConnect() //connect hook
   const roomState = useRoomState()
   const [tabStatus, setTabStatus] = useState('dj')
   const userData = useSelector((state) => state.user)

@@ -2,7 +2,7 @@ import React, { createContext, useState, Children } from 'react'
 import useHandleRoomDisconnectionErrors from '../../../hooks/useHandleRoomDisconnectionErrors'
 import useHandleTrackPublicationFailed from '../../../hooks/useHandleTrackPublicationFailed'
 import useHandleOnDisconnect from '../../../hooks/useHandleOnDisconnect'
-import useRoom from '../../../hooks/useRoom'
+import useRoom from '../../../hooks/useRoom/useRoom'
 import useLocalTracks from '../../../hooks/useLocalTracks'
 import { SelectedParticipantProvider } from '../../../hooks/useSelectedParticipant'
 

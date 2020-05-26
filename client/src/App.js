@@ -11,6 +11,7 @@ import PublicRoute from './components/RouteComponents/PublicRoute.jsx'
 import VideoParty from './pages/VideoParty'
 import VideoPartyProvider from './components/Party/VideoPartyProvider'
 import useAuth from './hooks/useAuth'
+import VideoPartyHelper from './components/Party/VideoPartyHelper/VideoPartyHelper'
 
 function App() {
   useAuth()
@@ -22,7 +23,7 @@ function App() {
             <LoginPage />
           </LoginRoute>
           <PublicRoute path="/party">
-            <VideoParty />
+            <VideoPartyHelper />
           </PublicRoute>
 
           <Route path="*">
