@@ -17,7 +17,6 @@ import ButtonControl from '../../components/Party/ButtonControl'
 import useConnect from '../../hooks/useConnect/useConnect'
 import PusherProvider from '../../components/PusherProvider'
 import { useEffect } from 'react'
-import useParticipantsEvents from '../../hooks/useParticipantsEvents/useParticipantsEvents'
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',
   height: '100%',
@@ -101,7 +100,6 @@ const useStyles = makeStyles((theme) => ({
 const VideoParty = () => {
   const classes = useStyles()
   useConnect() //connect hook
-  useParticipantsEvents() // init participants events
   const roomState = useRoomState()
   const [tabStatus, setTabStatus] = useState('dj')
   const userData = useSelector((state) => state.user)
