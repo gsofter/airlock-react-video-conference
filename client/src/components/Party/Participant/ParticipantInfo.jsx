@@ -9,7 +9,7 @@ import PinIcon from './PinIcon'
 import ScreenShare from '@material-ui/icons/ScreenShare'
 import VideocamOff from '@material-ui/icons/VideocamOff'
 
-import usePublications from '../../../hooks/useParticipants'
+import usePublications from '../../../hooks/useParticipants/useParticipants'
 import useParticipantNetworkQualityLevel from '../../../hooks/useParticipantNetworkQualityLevel'
 import useIsTrackSwitchedOff from '../../../hooks/useIsTrackSwitchedOff'
 import useTrack from '../../../hooks/useTrack'

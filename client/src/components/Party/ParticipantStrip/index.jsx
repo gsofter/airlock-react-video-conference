@@ -4,7 +4,7 @@ import { styled } from '@material-ui/core/styles'
 import { useLocalVideoTrack } from '../../../hooks/useLocalTracks'
 import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 import Participant from '../Participant'
-import useParticipants from '../../../hooks/useParticipants'
+import useParticipants from '../../../hooks/useParticipants/useParticipants'
 import { makeStyles } from '@material-ui/core'
 // import useSelectedParticipant from '../VideoProvider/useSelectedParticipant/useSelectedParticipant'
 

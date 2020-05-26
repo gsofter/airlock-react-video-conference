@@ -1,5 +1,5 @@
 import React from 'react'
-import useParticipants from '../../../hooks/useParticipants'
+import useParticipants from '../../../hooks/useParticipants/useParticipants'
 import { useSelector } from 'react-redux'
 import Participant from '.'
 import { Button, makeStyles, withStyles } from '@material-ui/core'
@@ -7,8 +7,9 @@ import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 import LocalVideoPreview from '../LocalVideoPreview'
 import VideoTrack from '../tracks/VideoTrack'
 import { UnlockIcon, ChatIcon, LockIcon, MicOnIcon } from '../../Icons'
-import PusherProvider from '../../PusherProvider'
 import * as api from '../../../lib/api'
+import usePinParticipant from '../../../hooks/usePinParticipant/usePinParticipant'
+import usePin from '../../../hooks/usePin/usePin'
 const useStyles = makeStyles((theme) => ({
   pinMainWrapper: {
     height: '100%',
@@ -84,24 +85,29 @@ const ChatButton = withStyles({
 
 const PinParticipant = ({ pinId }) => {
   const classes = useStyles()
-  // const participants = useParticipants()
+  const participants = useParticipants()
+  const userData = useSelector((state) => state.user)
   const roomData = useSelector((state) => state.room)
-  const pin = roomData.pins[pinId]
-  // if (participants.length <= pin.value) {
-  //   return <div className={classes.emptyScene}>Not Available</div>
-  // } else {
-  // participant = participants[pin.value]
-  const { localTracks } = useVideoPartyContext()
-  const videoTrack = localTracks.find((track) => track.name === 'camera')
+  const pinParticipant = usePinParticipant(pinId)
+  const pin = usePin(pinId)
+  if (!pinParticipant)
+    return <div className={classes.emptyScene}>Not Available</div>
 
-  const onUnlock = async () => {
-    await api.unlockRequest('sender', 'receiver')
+  // const { localTracks } = useVideoPartyContext()
+  // const videoTrack = localTracks.find((track) => track.name === 'camera')
+
+  const onLockRequest = async () => {
+    const from = userData.identity
+    const to = pin.identity
+    await api.lockRequest(from, to)
   }
 
+  // when id overflow the length of pins
   return (
     <div className={classes.pinMainWrapper}>
       <div className={classes.videoWrapper}>
-        <VideoTrack track={videoTrack} isLocal></VideoTrack>
+        {/* <VideoTrack track={videoTrack} isLocal></VideoTrack> */}
+        <Participant participant={pinParticipant} />
       </div>
       {pin.locked === true ? (
         <div className={classes.buttonGroup}>
@@ -117,13 +123,12 @@ const PinParticipant = ({ pinId }) => {
         </div>
       ) : (
         <div className={classes.buttonGroup}>
-          <UnlockButton variant="outline" onClick={onUnlock}>
+          <UnlockButton variant="outline" onClick={onLockRequest}>
             <UnlockIcon />
           </UnlockButton>
         </div>
       )}
     </div>
   )
-  // }
 }
 export default PinParticipant

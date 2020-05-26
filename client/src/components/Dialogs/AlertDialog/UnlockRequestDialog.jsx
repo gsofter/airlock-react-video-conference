@@ -5,13 +5,16 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import useParticipantWithId from '../../../hooks/useParticipantWithId'
+import Participant from '../../Party/Participant'
 
 const UnlockRequestDialog = ({
   isOpen,
-  sender,
+  senderName,
   handleAgree,
   handleDecline,
 }) => {
+  const senderParticipant = useParticipantWithId(senderName)
   return (
     <Dialog
       open={isOpen}
@@ -21,15 +24,17 @@ const UnlockRequestDialog = ({
     >
       <DialogContent>
         {/* <DialogContentText id="alert-dialog-description"> */}
-        <div> </div>
-        <div>{sender} wants to lock his room with you.</div>
+        <div>
+          <Participant participant={senderParticipant} />
+        </div>
+        <div>{senderName} wants to lock his room with you.</div>
         {/* </DialogContentText> */}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleAgree} color="success" variant="contained">
+        <Button onClick={handleAgree} color="secondary" variant="contained">
           Agree
         </Button>
-        <Button onClick={handleDecline} color="warning" variant="contained">
+        <Button onClick={handleDecline} color="default" variant="contained">
           Decline
         </Button>
       </DialogActions>

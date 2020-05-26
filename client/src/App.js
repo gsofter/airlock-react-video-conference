@@ -11,14 +11,11 @@ import PublicRoute from './components/RouteComponents/PublicRoute.jsx'
 import VideoParty from './pages/VideoParty'
 import VideoPartyProvider from './components/Party/VideoPartyProvider'
 import useAuth from './hooks/useAuth'
-import PreviewPage from './pages/PreviewPage'
-import PusherProvider from './components/PusherProvider'
 
 function App() {
   useAuth()
   return (
     <VideoPartyProvider>
-      <PusherProvider />
       <Router>
         <Switch>
           <LoginRoute path="/login">

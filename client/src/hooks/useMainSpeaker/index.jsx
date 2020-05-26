@@ -1,6 +1,6 @@
 import useSelectedParticipant from '../useSelectedParticipant'
 import useDominantSpeaker from '../useDominantSpeaker'
-import useParticipants from '../useParticipants'
+import useParticipants from '../useParticipants/useParticipants'
 import useVideoPartyContext from '../useVideoPartyContext'
 
 export default function useMainSpeaker() {

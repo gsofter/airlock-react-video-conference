@@ -66,12 +66,11 @@ const setStreamUrl = async (req, res, next) => {
  */
 const lockRequest = async (req, res, next) => {
   try {
-    pusher.trigger("airlock-channel", "lock-request", {
-      name: "lock-request",
-      message: {
-        sender: "sender",
-        receiver: "receiver",
-      },
+    const from = req.body.from;
+    const to = req.body.to;
+    console.log(req.body);
+    pusher.trigger(`${to}-channel`, "lock-request", {
+      name: from,
     });
     console.log("message sent");
     res.send("message-sent");

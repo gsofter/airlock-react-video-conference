@@ -49,14 +49,14 @@ export const setStreamUrl = (url) => {
 
 /**
  *
- * Unlock person
+ * Lock Request
  *
- * @param string sender
- * @param string receiver
+ * @param string from
+ * @param string to
  */
-export const unlockRequest = (sender, receiver) => {
-  return axios.post(`${endpoint}/room/unlock`, {
-    sender: sender,
-    receiver: receiver,
+export const lockRequest = (from, to) => {
+  return axios.post(`${endpoint}/room/lock_request`, {
+    from,
+    to,
   })
 }

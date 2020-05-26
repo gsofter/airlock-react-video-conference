@@ -2,7 +2,7 @@ import React from 'react'
 import VolumeControl from './VolumeControl'
 import DeviceSwitchControl from './DeviceSwitchControl'
 import { Grid, Typography, makeStyles } from '@material-ui/core'
-import useParticipants from '../../../hooks/useParticipants'
+import useParticipants from '../../../hooks/useParticipants/useParticipants'
 const useStyles = makeStyles((theme) => ({
   participantInfo: {
     color: 'cyan',

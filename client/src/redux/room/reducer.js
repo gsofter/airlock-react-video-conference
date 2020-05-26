@@ -6,48 +6,8 @@ let initState = {
     url: '',
   },
   dj: '',
-  pins: [
-    {
-      value: 0,
-      locked: false,
-      onMic: false,
-    },
-    {
-      value: 1,
-      locked: true,
-      onMic: false,
-    },
-    {
-      value: 2,
-      locked: false,
-      onMic: false,
-    },
-    {
-      value: 3,
-      locked: false,
-      onMic: false,
-    },
-    {
-      value: 4,
-      locked: false,
-      onMic: false,
-    },
-    {
-      value: 5,
-      locked: false,
-      onMic: false,
-    },
-    {
-      value: 6,
-      locked: false,
-      onMic: false,
-    },
-    {
-      value: 7,
-      locked: false,
-      onMic: false,
-    },
-  ],
+  pins: [],
+  participants: [],
 }
 
 const roomReducer = handleActions(
@@ -69,6 +29,54 @@ const roomReducer = handleActions(
         stream: {
           url: '',
         },
+      }
+    },
+
+    // Set Participants Joined
+    [actions.PARTICIPANT_JOINED]: (state, action) => {
+      console.log('ParticipantJoined Param =>', action.payload.participants)
+      const newParticipant = action.payload.new
+      const pins = [...state.pins]
+      const exist = pins.find((pin) => pin.identity === newParticipant.identity)
+      if (exist && pins.length < 7) {
+        return {
+          ...state,
+          participants: [...action.payload.participants],
+        }
+      } else {
+        pins.push({
+          identity: newParticipant.identity,
+          locked: false,
+        })
+        return {
+          ...state,
+          participants: [...action.payload.participants],
+          pins: pins,
+        }
+      }
+    },
+
+    // Remove Participants Exit
+    [actions.PARTICIPANT_EXIT]: (state, action) => {
+      console.log('ParticipantExit Param =>', action.payload.participants)
+      const oldParticipant = action.payload.old
+      const pins = [...state.pins]
+      const filteredPins = pins.find(
+        (pin) => pin.identity !== oldParticipant.identity,
+      )
+
+      return {
+        ...state,
+        participants: [...action.payload.participants],
+        pins: filteredPins,
+      }
+    },
+
+    [actions.INIT_PARTICIPANTS]: (state, action) => {
+      console.log('InitParticipants Param => ', action.payload)
+      return {
+        ...state,
+        participants: [...action.payload.participants],
       }
     },
   },

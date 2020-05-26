@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import useRoomState from '../../hooks/useRoomState'
-import Controls from '../../components/Party/Controls'
 import { styled } from '@material-ui/core/styles'
 import { makeStyles, Typography } from '@material-ui/core'
 import PinParticipant from '../../components/Party/Participant/PinParticipant'
@@ -16,6 +15,9 @@ import DeviceControl from '../../components/Party/DeviceControl'
 // import clsx from 'clsx'
 import ButtonControl from '../../components/Party/ButtonControl'
 import useConnect from '../../hooks/useConnect/useConnect'
+import PusherProvider from '../../components/PusherProvider'
+import { useEffect } from 'react'
+import useParticipantsEvents from '../../hooks/useParticipantsEvents/useParticipantsEvents'
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',
   height: '100%',
@@ -99,14 +101,17 @@ const useStyles = makeStyles((theme) => ({
 const VideoParty = () => {
   const classes = useStyles()
   useConnect() //connect hook
+  useParticipantsEvents() // init participants events
   const roomState = useRoomState()
   const [tabStatus, setTabStatus] = useState('dj')
   const userData = useSelector((state) => state.user)
   const [showConfigDialog, setShowConfigDialog] = useState(false)
   const dispatch = useDispatch()
+
   const onConfigureLiveStream = () => {
     setShowConfigDialog(true)
   }
+
   const setStreamUrl = (url) => {
     console.log(url)
     dispatch(roomActions.setStreamUrl(url))
@@ -128,6 +133,7 @@ const VideoParty = () => {
       <main className={classes.mainWrapper}>
         {roomState === 'connected' ? (
           <>
+            <PusherProvider />
             <Container>
               <div className={classes.mainViewer}>
                 {tabStatus === 'dj' ? (
