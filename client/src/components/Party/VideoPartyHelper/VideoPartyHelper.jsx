@@ -1,7 +1,7 @@
 import React from 'react'
 import useConnect from '../../../hooks/useConnect/useConnect'
 import useRoomState from '../../../hooks/useRoomState'
-import VideoParty from '../../../pages/VideoParty'
+import VideoParty from '../../../pages/VideoParty/VideoParty'
 
 const VideoPartyHelper = () => {
   useConnect()

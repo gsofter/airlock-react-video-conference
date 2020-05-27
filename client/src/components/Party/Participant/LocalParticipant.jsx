@@ -1,11 +1,11 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import Participant from '.'
+import Participant from './Participant'
 import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { makeStyles, Button, withStyles } from '@material-ui/core'
 import { logout } from '../../../redux/user/actions'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 const useStyles = makeStyles((theme) => ({
   mainWrapper: {
     height: '100%',
@@ -37,10 +37,8 @@ const LocalParticipant = () => {
   const classes = useStyles()
   const history = useHistory()
   const dispatch = useDispatch()
-  const { room } = useVideoPartyContext()
-  const {
-    room: { localParticipant },
-  } = useVideoPartyContext()
+  const room = useSelector((state) => state.room.room)
+  const localParticipant = room.localParticipant
 
   const onClickExit = (e) => {
     room.disconnect()

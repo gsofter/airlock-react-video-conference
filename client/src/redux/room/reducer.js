@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions'
 import * as actions from './actions'
 
 let initState = {
+  room: null,
   stream: {
     url: '',
   },
@@ -34,41 +35,37 @@ const roomReducer = handleActions(
 
     // Set Participants Joined
     [actions.PARTICIPANT_JOINED]: (state, action) => {
-      console.log('ParticipantJoined Param =>', action.payload.participants)
-      const newParticipant = action.payload.new
-      const pins = [...state.pins]
-      const exist = pins.find((pin) => pin.identity === newParticipant.identity)
-      if (exist && pins.length < 7) {
+      console.log('ParticipantJoined Param =>', action.payload)
+      const participants = [...state.participants, action.payload]
+      const newP = action.payload
+      const pin = state.pins.find((pin) => pin.identity === newP.identity)
+      if (!pin && state.pins.length < 7) {
         return {
           ...state,
-          participants: [...action.payload.participants],
+          participants: participants,
+          pins: [...state.pins, { identity: newP.identity, locked: false }],
         }
-      } else {
-        pins.push({
-          identity: newParticipant.identity,
-          locked: false,
-        })
-        return {
-          ...state,
-          participants: [...action.payload.participants],
-          pins: pins,
-        }
+      }
+      return {
+        ...state,
+        participants: participants,
+        // pins: [...state.pins, { identity: newP.identity, locked: false }],
       }
     },
 
     // Remove Participants Exit
     [actions.PARTICIPANT_EXIT]: (state, action) => {
-      console.log('ParticipantExit Param =>', action.payload.participants)
-      const oldParticipant = action.payload.old
-      const pins = [...state.pins]
-      const filteredPins = pins.find(
-        (pin) => pin.identity !== oldParticipant.identity,
+      console.log('ParticipantExit Param =>', action.payload)
+      const ext = action.payload
+      const participants = [...state.participants]
+      const filteredParticipants = participants.filter(
+        (p) => p.identity !== ext.identity,
       )
-
+      const filteredPins = state.pins.filter((p) => p.identity !== ext.identity)
       return {
         ...state,
-        participants: [...action.payload.participants],
-        pins: filteredPins,
+        participants: filteredParticipants ? filteredParticipants : [],
+        pins: filteredPins ? filteredPins : [],
       }
     },
 
@@ -77,6 +74,15 @@ const roomReducer = handleActions(
       return {
         ...state,
         participants: [...action.payload.participants],
+      }
+    },
+
+    // Set Room Data
+    [actions.SET_TWILIO_ROOM]: (state, action) => {
+      console.log('SET TWILIO ROOM => ', action.payload)
+      return {
+        ...state,
+        room: action.payload,
       }
     },
   },

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import useVideoPartyContext from '../useVideoPartyContext'
+import { useSelector } from 'react-redux'
 
 export default function useRoomState() {
-  const { room } = useVideoPartyContext()
+  const room = useSelector((state) => state.room.room)
   const [state, setState] = useState('disconnected')
 
   useEffect(() => {

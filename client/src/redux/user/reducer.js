@@ -18,7 +18,6 @@ const userReducer = handleActions(
 
     [actions.LOGIN_SUCCESS]: (state, action) => {
       if (action.payload === null) return initState
-      console.log('access_token', action.payload.access_token)
       setAccessToken(action.payload.access_token)
       return {
         ...action.payload,

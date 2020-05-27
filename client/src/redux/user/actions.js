@@ -12,7 +12,6 @@ export const loginSuccess = createAction(LOGIN_SUCCESS)
 export const checkAuth = () => async (dispatch, getState) => {
   try {
     const res = await api.checkAuth()
-    console.log(res.data)
     dispatch(loginSuccess(res.data))
     dispatch(setStreamUrlSuccess(res.data.stream_url))
   } catch (e) {
@@ -25,11 +24,9 @@ export const checkAuth = () => async (dispatch, getState) => {
 export const loginRequest = (passcode) => async (dispatch) => {
   try {
     const res = await api.userLogin(passcode)
-    console.log(res.data)
     dispatch(loginSuccess(res.data))
     dispatch(setStreamUrlSuccess(res.data.stream_url))
   } catch (e) {
-    console.log('ACTION - LOGIN FAILED')
     dispatch(loginFailed())
     dispatch(setStreamUrlFailed())
     throw e

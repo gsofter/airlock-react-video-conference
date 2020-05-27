@@ -1,7 +1,7 @@
 import React from 'react'
 import useParticipants from '../../../hooks/useParticipants/useParticipants'
 import { useSelector } from 'react-redux'
-import Participant from '.'
+import Participant from './Participant'
 import { Button, makeStyles, withStyles } from '@material-ui/core'
 import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 import LocalVideoPreview from '../LocalVideoPreview'
@@ -85,50 +85,52 @@ const ChatButton = withStyles({
 
 const PinParticipant = ({ pinId }) => {
   const classes = useStyles()
-  const participants = useParticipants()
+  // const participants = useParticipants()
   const userData = useSelector((state) => state.user)
   const roomData = useSelector((state) => state.room)
-  const pinParticipant = usePinParticipant(pinId)
-  const pin = usePin(pinId)
-  if (!pinParticipant)
-    return <div className={classes.emptyScene}>Not Available</div>
-
-  // const { localTracks } = useVideoPartyContext()
-  // const videoTrack = localTracks.find((track) => track.name === 'camera')
+  const participants = roomData.participants
+  const pins = roomData.pins
+  const pin = pins[pinId]
+  if (!pin) return <div className={classes.emptyScene}> not Available</div>
+  console.log('PIN', pin)
+  const pinParticipant = participants.find((p) => p.identity === pin.identity)
 
   const onLockRequest = async () => {
-    const from = userData.identity
-    const to = pin.identity
-    await api.lockRequest(from, to)
+    // const from = userData.identity
+    // const to = pin.identity
+    // await api.lockRequest(from, to)
   }
 
   // when id overflow the length of pins
-  return (
-    <div className={classes.pinMainWrapper}>
-      <div className={classes.videoWrapper}>
-        {/* <VideoTrack track={videoTrack} isLocal></VideoTrack> */}
-        <Participant participant={pinParticipant} />
+  if (!!pinParticipant) {
+    return (
+      <div className={classes.pinMainWrapper}>
+        <div className={classes.videoWrapper}>
+          <Participant participant={pinParticipant} />
+        </div>
+        {pin.locked === true ? (
+          <div className={classes.buttonGroup}>
+            <MicButton variant="outline">
+              <MicOnIcon color="white" />
+            </MicButton>
+            <ChatButton variant="outline">
+              <ChatIcon />
+            </ChatButton>
+            <LockButton variant="outline">
+              <LockIcon />
+            </LockButton>
+          </div>
+        ) : (
+          <div className={classes.buttonGroup}>
+            <UnlockButton variant="outline" onClick={onLockRequest}>
+              <UnlockIcon />
+            </UnlockButton>
+          </div>
+        )}
       </div>
-      {pin.locked === true ? (
-        <div className={classes.buttonGroup}>
-          <MicButton variant="outline">
-            <MicOnIcon color="white" />
-          </MicButton>
-          <ChatButton variant="outline">
-            <ChatIcon />
-          </ChatButton>
-          <LockButton variant="outline">
-            <LockIcon />
-          </LockButton>
-        </div>
-      ) : (
-        <div className={classes.buttonGroup}>
-          <UnlockButton variant="outline" onClick={onLockRequest}>
-            <UnlockIcon />
-          </UnlockButton>
-        </div>
-      )}
-    </div>
-  )
+    )
+  } else {
+    return <div className={classes.emptyScene}>Not Available</div>
+  }
 }
 export default PinParticipant
