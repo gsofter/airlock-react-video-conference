@@ -16,26 +16,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 export default function Participant({ participant, disableAudio }) {
-  // <ParticipantInfo participant={participant}>
   const room = useSelector((state) => state.room.room)
   const publications = usePublications(participant)
   const isLocal = participant === room.localParticipant
   const classes = useStyles()
-  let filteredPublications
-
-  filteredPublications = publications.filter((p) => p.trackName !== 'screen')
   return (
-    <div>
-      <h4 className={classes.identity}> {participant.identity} </h4>
-      {filteredPublications.map((publication) => (
-        <Publication
-          key={publication.kind}
-          publication={publication}
-          participant={participant}
-          isLocal={isLocal}
-          disableAudio={disableAudio}
-        />
-      ))}
-    </div>
+    <ParticipantInfo participant={participant} disableAudio={disableAudio}>
+      <ParticipantTracks
+        participant={participant}
+        disableAudio={disableAudio}
+      />
+    </ParticipantInfo>
   )
 }

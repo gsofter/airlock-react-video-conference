@@ -108,6 +108,7 @@ const PinParticipant = ({ pinId }) => {
     dispatch(setPinSent({ identity: to }))
   }
 
+  const onMicButton = () => {}
   // when id overflow the length of pins
   if (!!pinParticipant) {
     return (
@@ -117,7 +118,7 @@ const PinParticipant = ({ pinId }) => {
         </div>
         {pin.locked === true ? (
           <div className={classes.buttonGroup}>
-            <MicButton variant="outline">
+            <MicButton variant="outline" onClick={onMicButton}>
               <MicOnIcon color="white" />
             </MicButton>
             <ChatButton variant="outline">

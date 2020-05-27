@@ -1,8 +1,7 @@
 import React from 'react'
 import usePublications from '../../../hooks/usePublications'
-import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 import Publication from './Publication'
-
+import { useSelector } from 'react-redux'
 /*
  *  The object model for the Room object (found here: https://www.twilio.com/docs/video/migrating-1x-2x#object-model) shows
  *  that Participant objects have TrackPublications, and TrackPublication objects have Tracks.
@@ -12,12 +11,10 @@ import Publication from './Publication'
  */
 
 export default function ParticipantTracks({ participant, disableAudio }) {
-  const { room } = useVideoPartyContext()
+  const room = useSelector((state) => state.room.room)
   const publications = usePublications(participant)
   const isLocal = participant === room.localParticipant
-
   let filteredPublications
-
   filteredPublications = publications.filter((p) => p.trackName !== 'screen')
   return (
     <>
