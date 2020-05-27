@@ -15,7 +15,7 @@ import DeviceControl from '../../components/Party/DeviceControl'
 // import clsx from 'clsx'
 import ButtonControl from '../../components/Party/ButtonControl'
 import useConnect from '../../hooks/useConnect/useConnect'
-import PusherProvider from '../../components/PusherProvider'
+import PusherProvider from '../../components/PusherProvider/PusherProvider'
 import { useEffect } from 'react'
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',

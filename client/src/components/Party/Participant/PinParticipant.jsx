@@ -96,9 +96,9 @@ const PinParticipant = ({ pinId }) => {
   const pinParticipant = participants.find((p) => p.identity === pin.identity)
 
   const onLockRequest = async () => {
-    // const from = userData.identity
-    // const to = pin.identity
-    // await api.lockRequest(from, to)
+    const from = userData.identity
+    const to = pinParticipant.identity
+    await api.lockRequest(from, to)
   }
 
   // when id overflow the length of pins

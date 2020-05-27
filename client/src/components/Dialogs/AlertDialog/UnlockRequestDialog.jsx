@@ -7,6 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 // import useParticipantWithId from '../../../hooks/useParticipantWithId'
 import Participant from '../../Party/Participant/Participant'
+import { useSelector } from 'react-redux'
 
 const UnlockRequestDialog = ({
   isOpen,
@@ -14,17 +15,21 @@ const UnlockRequestDialog = ({
   handleAgree,
   handleDecline,
 }) => {
-  // const senderParticipant = useParticipantWithId(senderName)
+  const roomData = useSelector((state) => state.room)
+  const participants = roomData.participants
+  const senderP = participants.find((p) => p.identity === senderName)
   return (
     <Dialog
       open={isOpen}
-      onClose={handleDecline}
+      // onClose={handleDecline}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
       <DialogContent>
         {/* <DialogContentText id="alert-dialog-description"> */}
-        <div>{/* <Participant participant={senderParticipant} /> */}</div>
+        <div>
+          <Participant participant={senderP} />
+        </div>
         <div>{senderName} wants to lock his room with you.</div>
         {/* </DialogContentText> */}
       </DialogContent>
