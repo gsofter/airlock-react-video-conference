@@ -2,19 +2,26 @@ import React, { useState } from 'react'
 import Pusher from 'react-pusher'
 import UnlockRequestDialog from '../Dialogs/AlertDialog/UnlockRequestDialog'
 import usePrivateChannel from '../../hooks/usePrivateChannel/usePrivateChannel'
-
+import { useSelector } from 'react-redux'
+import * as api from '../../lib/api'
 const PusherLockRequest = () => {
   const [unlock, setUnlock] = useState(false)
   const privateChannel = usePrivateChannel()
   const [senderName, setSenderName] = useState('')
+  const userData = useSelector((state) => state.user)
+  const myIdentity = userData.identity
   const onLockRequest = (data) => {
-    console.log(data.name)
     setSenderName(data.name)
     setUnlock(true)
   }
 
-  const handleAgreeUnlockRequest = () => {
-    console.log('handleAgreeUnlockRequest')
+  const handleAgreeUnlockRequest = async () => {
+    try {
+      await api.lockAccept(myIdentity, senderName)
+      setUnlock(false)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const handleDeclineUnlockRequest = () => {

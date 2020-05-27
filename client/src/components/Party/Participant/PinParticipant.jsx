@@ -1,15 +1,22 @@
 import React from 'react'
 import useParticipants from '../../../hooks/useParticipants/useParticipants'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Participant from './Participant'
 import { Button, makeStyles, withStyles } from '@material-ui/core'
 import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 import LocalVideoPreview from '../LocalVideoPreview'
 import VideoTrack from '../tracks/VideoTrack'
-import { UnlockIcon, ChatIcon, LockIcon, MicOnIcon } from '../../Icons'
+import {
+  UnlockIcon,
+  ChatIcon,
+  LockIcon,
+  MicOnIcon,
+  CheckIcon,
+} from '../../Icons'
 import * as api from '../../../lib/api'
 import usePinParticipant from '../../../hooks/usePinParticipant/usePinParticipant'
 import usePin from '../../../hooks/usePin/usePin'
+import { setPinSent } from '../../../redux/room/actions'
 const useStyles = makeStyles((theme) => ({
   pinMainWrapper: {
     height: '100%',
@@ -85,20 +92,20 @@ const ChatButton = withStyles({
 
 const PinParticipant = ({ pinId }) => {
   const classes = useStyles()
-  // const participants = useParticipants()
+  const dispatch = useDispatch()
   const userData = useSelector((state) => state.user)
   const roomData = useSelector((state) => state.room)
   const participants = roomData.participants
   const pins = roomData.pins
   const pin = pins[pinId]
   if (!pin) return <div className={classes.emptyScene}> not Available</div>
-  console.log('PIN', pin)
   const pinParticipant = participants.find((p) => p.identity === pin.identity)
 
   const onLockRequest = async () => {
     const from = userData.identity
     const to = pinParticipant.identity
     await api.lockRequest(from, to)
+    dispatch(setPinSent({ identity: to }))
   }
 
   // when id overflow the length of pins
@@ -120,10 +127,16 @@ const PinParticipant = ({ pinId }) => {
               <LockIcon />
             </LockButton>
           </div>
-        ) : (
+        ) : pin.sent === false ? (
           <div className={classes.buttonGroup}>
             <UnlockButton variant="outline" onClick={onLockRequest}>
               <UnlockIcon />
+            </UnlockButton>
+          </div>
+        ) : (
+          <div className={classes.buttonGroup}>
+            <UnlockButton variant="outline">
+              <CheckIcon />
             </UnlockButton>
           </div>
         )}

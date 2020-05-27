@@ -60,3 +60,17 @@ export const lockRequest = (from, to) => {
     to,
   })
 }
+
+/**
+ *
+ * Lock Accept
+ *
+ * @param string from
+ * @param string to
+ */
+export const lockAccept = (from, to) => {
+  return axios.post(`${endpoint}/room/lock_accept`, {
+    from,
+    to,
+  })
+}

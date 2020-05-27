@@ -30,3 +30,6 @@ export const MicOnIcon = () => {
 export const MicOffIcon = () => {
   return <FontAwesomeIcon icon={faMicrophoneAltSlash} />
 }
+export const CheckIcon = () => {
+  return <FontAwesomeIcon icon={faCheck} />
+}

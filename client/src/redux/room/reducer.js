@@ -43,7 +43,10 @@ const roomReducer = handleActions(
         return {
           ...state,
           participants: participants,
-          pins: [...state.pins, { identity: newP.identity, locked: false }],
+          pins: [
+            ...state.pins,
+            { identity: newP.identity, locked: false, sent: false },
+          ],
         }
       }
       return {
@@ -79,10 +82,45 @@ const roomReducer = handleActions(
 
     // Set Room Data
     [actions.SET_TWILIO_ROOM]: (state, action) => {
-      console.log('SET TWILIO ROOM => ', action.payload)
       return {
         ...state,
         room: action.payload,
+      }
+    },
+
+    // Set Pin Sent
+    [actions.SET_PIN_SENT]: (state, action) => {
+      console.log('SET_PIN_SENT', action.payload)
+      const pId = action.payload.identity
+      const pins = [...state.pins]
+      const foundIndex = pins.findIndex((pin) => pin.identity === pId)
+      const originPin = pins[foundIndex]
+      pins[foundIndex] = {
+        ...originPin,
+        sent: true,
+      }
+
+      return {
+        ...state,
+        pins,
+      }
+    },
+
+    // Set Pin Lock
+    [actions.SET_PIN_LOCK]: (state, action) => {
+      console.log('SET_PIN_LOCK', action.payload)
+      const pId = action.payload.identity
+      const pins = [...state.pins]
+      const foundIndex = pins.findIndex((pin) => pin.identity === pId)
+      const originPin = pins[foundIndex]
+      pins[foundIndex] = {
+        ...originPin,
+        locked: true,
+      }
+
+      return {
+        ...state,
+        pins,
       }
     },
   },

@@ -68,7 +68,7 @@ const lockRequest = async (req, res, next) => {
   try {
     const from = req.body.from;
     const to = req.body.to;
-    console.log(req.body);
+    console.log("LOCK-REQUEST", req.body);
     pusher.trigger(`${to}-channel`, "lock-request", {
       name: from,
     });
@@ -88,15 +88,17 @@ const lockRequest = async (req, res, next) => {
  */
 const lockAccept = async (req, res, next) => {
   try {
-    pusher.trigger("airlock-channel", "lock-accept", {
-      name: "lock-accept",
-      message: {
-        sender: "sender",
-        receiver: "receiver",
-      },
+    const from = req.body.from;
+    const to = req.body.to;
+    console.log("LOCK-ACEEPT", req.body);
+    pusher.trigger(`${to}-lock-accept`, "lock-accept", {
+      name: from,
     });
-    console.log("lockAccept success");
-    res.send("lockAccept success");
+
+    pusher.trigger(`${from}-lock-accept`, "lock-accept", {
+      name: to,
+    });
+    res.send("message-sent");
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       error: err.message,
