@@ -6,7 +6,7 @@ const models = require("../models");
 const roomRouter = require("./roomRouter");
 const userRouter = require("./userRouter");
 const twilioRouter = require("./twilioRouter");
-
+const jwtParser = require("../middleware/jwtParser");
 //testing route
 router.get("/test", function (req, res, next) {
   res.json({ message: "WELCOME to /test route" });

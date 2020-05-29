@@ -106,8 +106,34 @@ const lockAccept = async (req, res, next) => {
   }
 };
 
+/**
+ *
+ * Mic control
+ *
+ */
+const mic = async (req, res, next) => {
+  try {
+    const to = req.query.to;
+    const micOn = req.query.mic_on;
+    const userId = req.auth_user.identity;
+
+    console.log("MIC QUERY", req.query);
+    pusher.trigger(`${to}-mic`, "mic-on", {
+      name: userId,
+      message: micOn === "true" ? "on" : "off",
+    });
+
+    res.send("message-sent");
+  } catch (err) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+    });
+  }
+};
+
 module.exports = {
   setStreamUrl,
   lockRequest,
   lockAccept,
+  mic,
 };

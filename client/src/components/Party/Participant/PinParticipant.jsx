@@ -1,22 +1,17 @@
 import React from 'react'
-import useParticipants from '../../../hooks/useParticipants/useParticipants'
 import { useSelector, useDispatch } from 'react-redux'
 import Participant from './Participant'
 import { Button, makeStyles, withStyles } from '@material-ui/core'
-import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
-import LocalVideoPreview from '../LocalVideoPreview'
-import VideoTrack from '../tracks/VideoTrack'
 import {
   UnlockIcon,
   ChatIcon,
   LockIcon,
   MicOnIcon,
   CheckIcon,
+  MicOffIcon,
 } from '../../Icons'
 import * as api from '../../../lib/api'
-import usePinParticipant from '../../../hooks/usePinParticipant/usePinParticipant'
-import usePin from '../../../hooks/usePin/usePin'
-import { setPinSent } from '../../../redux/room/actions'
+import { setPinSent, switchMic } from '../../../redux/room/actions'
 const useStyles = makeStyles((theme) => ({
   pinMainWrapper: {
     height: '100%',
@@ -80,6 +75,16 @@ const MicButton = withStyles({
   },
 })(Button)
 
+const UnMicButton = withStyles({
+  root: {
+    color: 'white',
+    border: '1px solid grey',
+    borderRadius: '0px',
+    backgroundColor: 'black',
+    flex: 1,
+  },
+})(Button)
+
 const ChatButton = withStyles({
   root: {
     color: 'white',
@@ -108,19 +113,53 @@ const PinParticipant = ({ pinId }) => {
     dispatch(setPinSent({ identity: to }))
   }
 
-  const onMicButton = () => {}
+  const onMicTurnOn = () => {
+    dispatch(switchMic({ identity: pinParticipant.identity, isOn: true }))
+      .then(() => {
+        console.log('SET_MIC_ON SUCCESS')
+      })
+      .catch((err) => {
+        console.log(err.message)
+      })
+  }
+
+  const onMicTurnOff = () => {
+    dispatch(switchMic({ identity: pinParticipant.identity, isOn: false }))
+      .then(() => {
+        console.log('SET_MIC_OFF SUCCESS')
+      })
+      .catch((err) => {
+        console.log(err.message)
+      })
+  }
+
   // when id overflow the length of pins
   if (!!pinParticipant) {
     return (
       <div className={classes.pinMainWrapper}>
         <div className={classes.videoWrapper}>
-          <Participant participant={pinParticipant} />
+          <Participant participant={pinParticipant} disableAudio={pin.mic} />
         </div>
         {pin.locked === true ? (
           <div className={classes.buttonGroup}>
-            <MicButton variant="outline" onClick={onMicButton}>
-              <MicOnIcon color="white" />
-            </MicButton>
+            {pin.mic ? (
+              <MicButton
+                variant="outline"
+                style={{ root: { color: 'green' } }}
+                onClick={onMicTurnOff}
+              >
+                <MicOnIcon />
+              </MicButton>
+            ) : (
+              <UnMicButton
+                variant="outline"
+                style={{ root: { color: 'green' } }}
+                onClick={onMicTurnOn}
+              >
+                <MicOffIcon />
+              </UnMicButton>
+            )}
+
             <ChatButton variant="outline">
               <ChatIcon />
             </ChatButton>

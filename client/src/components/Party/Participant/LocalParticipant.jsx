@@ -1,7 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import Participant from './Participant'
-import useVideoPartyContext from '../../../hooks/useVideoPartyContext'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { makeStyles, Button, withStyles } from '@material-ui/core'
 import { logout } from '../../../redux/user/actions'

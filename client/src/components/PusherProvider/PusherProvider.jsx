@@ -4,6 +4,7 @@ import UnlockRequestDialog from '../Dialogs/AlertDialog/UnlockRequestDialog'
 import usePrivateChannel from '../../hooks/usePrivateChannel/usePrivateChannel'
 import PusherLockRequest from './PusherLockRequest'
 import PusherLockAccept from './PusherLockAccept'
+import MicPusher from './MicPusher'
 
 const PusherProvider = () => {
   const privateChannel = usePrivateChannel()
@@ -21,6 +22,7 @@ const PusherProvider = () => {
 
       <PusherLockRequest />
       <PusherLockAccept />
+      <MicPusher />
     </>
   )
 }

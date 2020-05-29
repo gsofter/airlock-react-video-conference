@@ -45,7 +45,7 @@ const roomReducer = handleActions(
           participants: participants,
           pins: [
             ...state.pins,
-            { identity: newP.identity, locked: false, sent: false },
+            { identity: newP.identity, locked: false, sent: false, mic: false },
           ],
         }
       }
@@ -118,6 +118,22 @@ const roomReducer = handleActions(
         locked: true,
       }
 
+      return {
+        ...state,
+        pins,
+      }
+    },
+
+    // Set Pin Mic On
+    [actions.SET_PIN_MIC]: (state, action) => {
+      const pId = action.payload.identity
+      const pins = [...state.pins]
+      const foundIndex = pins.findIndex((pin) => pin.identity === pId)
+      const originPin = pins[foundIndex]
+      pins[foundIndex] = {
+        ...originPin,
+        mic: action.payload.isOn,
+      }
       return {
         ...state,
         pins,

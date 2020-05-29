@@ -42,9 +42,13 @@ export const getTwilioToken = () => {
  *
  */
 export const setStreamUrl = (url) => {
-  return axios.post(`${endpoint}/room/set_stream_url`, {
-    url: url,
-  })
+  return axios.post(
+    `${endpoint}/room/set_stream_url`,
+    {
+      url: url,
+    },
+    { withCredentials: true },
+  )
 }
 
 /**
@@ -55,10 +59,14 @@ export const setStreamUrl = (url) => {
  * @param string to
  */
 export const lockRequest = (from, to) => {
-  return axios.post(`${endpoint}/room/lock_request`, {
-    from,
-    to,
-  })
+  return axios.post(
+    `${endpoint}/room/lock_request`,
+    {
+      from,
+      to,
+    },
+    { withCredentials: true },
+  )
 }
 
 /**
@@ -69,8 +77,29 @@ export const lockRequest = (from, to) => {
  * @param string to
  */
 export const lockAccept = (from, to) => {
-  return axios.post(`${endpoint}/room/lock_accept`, {
-    from,
-    to,
+  return axios.post(
+    `${endpoint}/room/lock_accept`,
+    {
+      from,
+      to,
+    },
+    { withCredentials: true },
+  )
+}
+
+/**
+ *
+ * Set Mic On
+ *
+ * @param string to
+ * @param boolean micOn
+ */
+export const switchMic = (to, micOn) => {
+  return axios.get(`${endpoint}/room/mic`, {
+    params: {
+      to,
+      mic_on: micOn,
+    },
+    withCredentials: true,
   })
 }
