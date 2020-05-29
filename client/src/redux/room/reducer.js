@@ -45,7 +45,13 @@ const roomReducer = handleActions(
           participants: participants,
           pins: [
             ...state.pins,
-            { identity: newP.identity, locked: false, sent: false, mic: false },
+            {
+              identity: newP.identity,
+              locked: false,
+              sent: false,
+              mic: false,
+              chat: false,
+            },
           ],
         }
       }

@@ -37,3 +37,5 @@ export const switchMic = ({ identity, isOn }) => async (dispatch, getState) => {
     throw e
   }
 }
+
+// export const openChatBox = ({identity}) = as

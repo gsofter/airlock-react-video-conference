@@ -17,6 +17,7 @@ import ButtonControl from '../../components/Party/ButtonControl'
 import useConnect from '../../hooks/useConnect/useConnect'
 import PusherProvider from '../../components/PusherProvider/PusherProvider'
 import { useEffect } from 'react'
+import Chat from '../../components/Chat/Chat'
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',
   height: '100%',
@@ -163,8 +164,7 @@ const VideoParty = () => {
                 <Typography variant="body2">squareparty</Typography>
               </div>
               <div className={classes.chat}>
-                <p> Hello, how are you doing </p>
-                <p> I am good </p>
+                <Chat />
               </div>
               <div className={classes.tabControl}>
                 <PartyTabControl

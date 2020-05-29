@@ -12,6 +12,7 @@ import {
   faMicrophoneAlt,
   faMicrophoneAltSlash,
   faCheck,
+  faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
 
@@ -32,4 +33,8 @@ export const MicOffIcon = () => {
 }
 export const CheckIcon = () => {
   return <FontAwesomeIcon icon={faCheck} />
+}
+
+export const PaperPlanIcon = () => {
+  return <FontAwesomeIcon icon={faPaperPlane} />
 }

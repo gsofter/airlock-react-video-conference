@@ -9,7 +9,7 @@ import {
   MicOnIcon,
   CheckIcon,
   MicOffIcon,
-} from '../../Icons'
+} from '../../Icons/Icons'
 import * as api from '../../../lib/api'
 import { setPinSent, switchMic } from '../../../redux/room/actions'
 const useStyles = makeStyles((theme) => ({
@@ -133,6 +133,7 @@ const PinParticipant = ({ pinId }) => {
       })
   }
 
+  const onChat = () => {}
   // when id overflow the length of pins
   if (!!pinParticipant) {
     return (
@@ -160,7 +161,7 @@ const PinParticipant = ({ pinId }) => {
               </UnMicButton>
             )}
 
-            <ChatButton variant="outline">
+            <ChatButton variant="outline" onClick={onChat}>
               <ChatIcon />
             </ChatButton>
             <LockButton variant="outline">

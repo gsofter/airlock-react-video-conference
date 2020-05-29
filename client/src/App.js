@@ -8,10 +8,7 @@ import {
 import LoginPage from './pages/LoginPage'
 import LoginRoute from './components/RouteComponents/LoginRoute'
 import PublicRoute from './components/RouteComponents/PublicRoute.jsx'
-import VideoParty from './pages/VideoParty/VideoParty'
-import VideoPartyProvider from './components/Party/VideoPartyProvider'
 import useAuth from './hooks/useAuth'
-import VideoPartyHelper from './components/Party/VideoPartyHelper/VideoPartyHelper'
 import RoomContainer from './components/RoomContainer/RoomContainer'
 
 function App() {
