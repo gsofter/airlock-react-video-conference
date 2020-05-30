@@ -9,6 +9,8 @@ let initState = {
   dj: '',
   pins: [],
   participants: [],
+  chatOpen: false,
+  chatMember: '',
 }
 
 const roomReducer = handleActions(
