@@ -1,20 +1,43 @@
 import React from 'react'
 
 import './Input.css'
+import { PaperPlanIcon } from '../../Icons/Icons'
 
-const Input = ({ sendMessage, setMessage, message }) => (
-  <form>
-    <input
-      type="text"
-      placeholder="Type a message..."
-      value={message}
-      onChange={({ target: { value } }) => setMessage(value)}
-      onKeyPress={(event) =>
-        event.key === 'Enter' ? sendMessage(event) : null
-      }
-    />
-    <button onClick={sendMessage}> Send </button>
-  </form>
-)
+import { makeStyles } from '@material-ui/core'
+const useStyles = makeStyles((theme) => ({
+  sendButton: {
+    backgroundColor: 'blue',
+    marginRight: '10px',
+    marginTop: '2px',
+    float: 'right',
+    textDecoration: 'none',
+    background: '#2979FF',
+    padding: '10px',
+    border: 'none',
+    color: '#fff !important',
 
+    '&:focus': {
+      outline: 'none',
+    },
+  },
+}))
+const Input = ({ sendMessage, setMessage, message }) => {
+  const classes = useStyles()
+  return (
+    <form>
+      <input
+        type="text"
+        placeholder="Type a message..."
+        value={message}
+        onChange={({ target: { value } }) => setMessage(value)}
+        onKeyPress={(event) =>
+          event.key === 'Enter' ? sendMessage(event) : null
+        }
+      />
+      <button onClick={sendMessage} className={classes.sendButton}>
+        Send <PaperPlanIcon />
+      </button>
+    </form>
+  )
+}
 export default Input
