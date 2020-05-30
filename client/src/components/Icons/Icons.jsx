@@ -13,6 +13,7 @@ import {
   faMicrophoneAltSlash,
   faCheck,
   faPaperPlane,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
 
@@ -37,4 +38,8 @@ export const CheckIcon = () => {
 
 export const PaperPlanIcon = () => {
   return <FontAwesomeIcon icon={faPaperPlane} />
+}
+
+export const CloseIcon = () => {
+  return <FontAwesomeIcon icon={faTimes} />
 }
