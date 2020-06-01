@@ -6,6 +6,7 @@ import { useState } from 'react'
 import Input from './Input/Input'
 import Messages from './Messages/Messages'
 import './Chat.css'
+import { useSelector } from 'react-redux'
 const useStyles = makeStyles((theme) => ({
   chatContainer: {
     display: 'flex',

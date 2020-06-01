@@ -11,7 +11,7 @@ import {
   MicOffIcon,
 } from '../../Icons/Icons'
 import * as api from '../../../lib/api'
-import { setPinSent, switchMic } from '../../../redux/room/actions'
+import { setPinSent, switchMic, openChat } from '../../../redux/room/actions'
 const useStyles = makeStyles((theme) => ({
   pinMainWrapper: {
     height: '100%',
@@ -133,7 +133,9 @@ const PinParticipant = ({ pinId }) => {
       })
   }
 
-  const onChat = () => {}
+  const onChat = () => {
+    dispatch(openChat({ identity: pinParticipant.identity }))
+  }
   // when id overflow the length of pins
   if (!!pinParticipant) {
     return (

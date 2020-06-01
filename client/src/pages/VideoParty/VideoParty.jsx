@@ -12,11 +12,8 @@ import { useDispatch } from 'react-redux'
 import * as roomActions from '../../redux/room/actions'
 import PartyTabControl from '../../components/Party/PartyTabControl'
 import DeviceControl from '../../components/Party/DeviceControl'
-// import clsx from 'clsx'
 import ButtonControl from '../../components/Party/ButtonControl'
-import useConnect from '../../hooks/useConnect/useConnect'
 import PusherProvider from '../../components/PusherProvider/PusherProvider'
-import { useEffect } from 'react'
 import Chat from '../../components/Chat/Chat'
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -51,9 +48,6 @@ const useStyles = makeStyles((theme) => ({
   },
   chat: {
     gridArea: 'mg',
-    backgroundColor: 'white',
-    border: '1px solid red',
-    color: 'black',
   },
   me: {
     gridArea: 'me',

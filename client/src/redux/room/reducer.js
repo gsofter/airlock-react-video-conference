@@ -147,6 +147,24 @@ const roomReducer = handleActions(
         pins,
       }
     },
+
+    [actions.OPEN_CHAT]: (state, action) => {
+      console.log('OPEN_CHAT => ', action.payload)
+      return {
+        ...state,
+        chatOpen: true,
+        chatMember: action.payload.identity,
+      }
+    },
+
+    [actions.CLOSE_CHAT]: (state, action) => {
+      console.log('CLOSE_CHAT => ', action.payload)
+      return {
+        ...state,
+        chatOpen: false,
+        chatMember: '',
+      }
+    },
   },
   initState,
 )

@@ -1,7 +1,8 @@
 import React from 'react'
 import { CloseIcon } from '../../Icons/Icons'
-import { makeStyles } from '@material-ui/core'
-
+import { makeStyles, Button } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import { closeChat } from '../../../redux/room/actions'
 const useStyles = makeStyles((theme) => ({
   infoBar: {
     background: '#2979ff',
@@ -32,12 +33,17 @@ const useStyles = makeStyles((theme) => ({
 
 const InfoBar = () => {
   const classes = useStyles()
-
+  const dispatch = useDispatch()
+  const onClose = () => {
+    dispatch(closeChat())
+  }
   return (
     <div className={classes.infoBar}>
       <div className={classes.leftInnerContainer}>Adrian Hajdin</div>
       <div className={classes.rightInnerContainer}>
-        <CloseIcon />
+        <Button onClick={onClose}>
+          <CloseIcon />
+        </Button>
       </div>
     </div>
   )
