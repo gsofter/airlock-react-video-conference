@@ -1,6 +1,5 @@
 import React from 'react'
-import { makeStyles, TextField, Button } from '@material-ui/core'
-import { PaperPlanIcon } from '../Icons/Icons'
+import { makeStyles } from '@material-ui/core'
 import InfoBar from './InfoBar/InfoBar'
 import { useState } from 'react'
 import Input from './Input/Input'
@@ -21,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Chat = () => {
   const roomData = useSelector((state) => state.room)
+  const meIdentity = useSelector((state) => state.user.identity)
   const classes = useStyles()
   const messages = ['hi, I am nikita', 'how are you doing?']
   const [message, setMessage] = useState('')

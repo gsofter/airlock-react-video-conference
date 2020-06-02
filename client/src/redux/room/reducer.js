@@ -53,6 +53,7 @@ const roomReducer = handleActions(
               sent: false,
               mic: false,
               chat: false,
+              chats: [],
             },
           ],
         }
