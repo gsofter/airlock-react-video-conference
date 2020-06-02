@@ -5,7 +5,9 @@ import { useState } from 'react'
 import Input from './Input/Input'
 import Messages from './Messages/Messages'
 import './Chat.css'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { sendMessage } from '../../redux/room/actions'
+
 const useStyles = makeStyles((theme) => ({
   chatContainer: {
     display: 'flex',
@@ -22,10 +24,14 @@ const Chat = () => {
   const roomData = useSelector((state) => state.room)
   const meIdentity = useSelector((state) => state.user.identity)
   const classes = useStyles()
-  const messages = ['hi, I am nikita', 'how are you doing?']
+  const messages = roomData.pins.find((p) => p.identity === roomData.chatMember)
+    .chats
   const [message, setMessage] = useState('')
-  const sendMessage = (e) => {
+  const dispatch = useDispatch()
+  const handleSendMessage = (e) => {
+    console.log(e)
     e.preventDefault()
+    dispatch(sendMessage({ identity: roomData.chatMember, message: message }))
     // console.log()
   }
 
@@ -34,11 +40,11 @@ const Chat = () => {
       {roomData.chatOpen ? (
         <div className={classes.chatContainer}>
           <InfoBar room="Andrew" />
-          <Messages messages={messages} name={'1111'} />
+          <Messages messages={messages} name={roomData.chatMember} />
           <Input
             message={message}
             setMessage={setMessage}
-            sendMessage={sendMessage}
+            sendMessage={handleSendMessage}
           />
         </div>
       ) : null}

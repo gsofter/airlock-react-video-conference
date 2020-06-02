@@ -2,10 +2,14 @@ import React from 'react'
 
 import './Message.css'
 
-const Message = ({ message: { text, user } }) => {
+const Message = ({ message }) => {
   return (
     <div className="messageBoxOne">
-      <p className="messageTextOne">{text}</p>
+      {message.sent ? (
+        <p className="messageTextOne">{message.text}</p>
+      ) : (
+        <p className="messageTextTwo">{message.text}</p>
+      )}
     </div>
   )
 }

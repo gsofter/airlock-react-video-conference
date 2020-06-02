@@ -5,6 +5,7 @@ import usePrivateChannel from '../../hooks/usePrivateChannel/usePrivateChannel'
 import PusherLockRequest from './PusherLockRequest'
 import PusherLockAccept from './PusherLockAccept'
 import MicPusher from './MicPusher'
+import MessagePusher from './MessagePusher'
 
 const PusherProvider = () => {
   const privateChannel = usePrivateChannel()
@@ -23,6 +24,7 @@ const PusherProvider = () => {
       <PusherLockRequest />
       <PusherLockAccept />
       <MicPusher />
+      <MessagePusher />
     </>
   )
 }

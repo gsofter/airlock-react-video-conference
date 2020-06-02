@@ -8,5 +8,5 @@ roomRouter.post("/lock_request", jwtParser, roomControl.lockRequest);
 roomRouter.post("/lock_accept", jwtParser, roomControl.lockAccept);
 
 roomRouter.get("/mic", jwtParser, roomControl.mic);
-
+roomRouter.post("/message", jwtParser, roomControl.message);
 module.exports = roomRouter;

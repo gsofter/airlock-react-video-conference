@@ -12,6 +12,7 @@ export const SET_PIN_LOCK = 'SET_PIN_LOCK'
 export const SET_PIN_MIC = 'SET_PIN_MIC'
 export const OPEN_CHAT = 'OPEN_CHAT'
 export const CLOSE_CHAT = 'CLOSE_CHAT'
+export const ADD_MESSAGE = 'ADD_MESSAGE'
 export const setStreamUrlSuccess = createAction(SET_STREAM_URL_SUCCESS)
 export const setStreamUrlFailed = createAction(SET_STREAM_URL_FAILED)
 export const participantJoined = createAction(PARTICIPANT_JOINED)
@@ -23,6 +24,7 @@ export const setPinMic = createAction(SET_PIN_MIC)
 export const setTwilioRoom = createAction(SET_TWILIO_ROOM)
 export const openChat = createAction(OPEN_CHAT)
 export const closeChat = createAction(CLOSE_CHAT)
+export const addMessage = createAction(ADD_MESSAGE)
 export const setStreamUrl = (url) => async (dispatch, getState) => {
   try {
     await api.setStreamUrl(url)
@@ -37,6 +39,18 @@ export const switchMic = ({ identity, isOn }) => async (dispatch, getState) => {
   try {
     await api.switchMic(identity, isOn)
     dispatch(setPinMic({ identity, isOn }))
+  } catch (e) {
+    throw e
+  }
+}
+
+export const sendMessage = ({ identity, message }) => async (
+  dispatch,
+  getState,
+) => {
+  try {
+    await api.sendMessage(identity, message)
+    dispatch(addMessage({ identity, message, sent: true }))
   } catch (e) {
     throw e
   }

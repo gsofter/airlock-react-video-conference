@@ -103,3 +103,14 @@ export const switchMic = (to, micOn) => {
     withCredentials: true,
   })
 }
+
+export const sendMessage = (to, message) => {
+  return axios.post(
+    `${endpoint}/room/message`,
+    {
+      to,
+      message,
+    },
+    { withCredentials: true },
+  )
+}

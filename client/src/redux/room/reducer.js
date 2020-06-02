@@ -166,6 +166,25 @@ const roomReducer = handleActions(
         chatMember: '',
       }
     },
+
+    [actions.ADD_MESSAGE]: (state, action) => {
+      console.log('ADD_MESSAGE =>', action.payload)
+      const pId = action.payload.identity
+      const pins = [...state.pins]
+      const foundIndex = pins.findIndex((pin) => pin.identity === pId)
+      const originPin = pins[foundIndex]
+      pins[foundIndex] = {
+        ...originPin,
+        chats: [
+          ...originPin.chats,
+          { text: action.payload.message, sent: action.payload.sent },
+        ],
+      }
+      return {
+        ...state,
+        pins,
+      }
+    },
   },
   initState,
 )

@@ -131,9 +131,35 @@ const mic = async (req, res, next) => {
   }
 };
 
+/**
+ *
+ * Message control
+ *
+ */
+const message = async (req, res, next) => {
+  try {
+    const to = req.body.to;
+    const message = req.body.message;
+    const userId = req.auth_user.identity;
+
+    console.log("MESSAGE QUERY", req.body);
+    pusher.trigger(`${to}-message`, "message", {
+      name: userId,
+      message: message,
+    });
+
+    res.send("message-sent");
+  } catch (err) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+    });
+  }
+};
+
 module.exports = {
   setStreamUrl,
   lockRequest,
   lockAccept,
   mic,
+  message,
 };
