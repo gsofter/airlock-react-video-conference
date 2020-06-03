@@ -9,7 +9,7 @@ import LoginPage from './pages/LoginPage'
 import LoginRoute from './components/RouteComponents/LoginRoute'
 import PublicRoute from './components/RouteComponents/PublicRoute.jsx'
 import useAuth from './hooks/useAuth'
-import RoomContainer from './components/RoomContainer/RoomContainer'
+import RoomContainer from './containers/RoomContainer/RoomContainer'
 import { SnackbarProvider } from 'notistack'
 
 function App() {
