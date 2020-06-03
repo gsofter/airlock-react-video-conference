@@ -43,6 +43,14 @@ const useStyles = makeStyles((theme) => ({
     width: '50%',
     color: 'white',
   },
+
+  activeButton: {
+    color: '#FF0058',
+  },
+
+  deactiveButton: {
+    color: 'white',
+  },
 }))
 
 const LockButton = withStyles({
@@ -87,7 +95,6 @@ const UnMicButton = withStyles({
 
 const ChatButton = withStyles({
   root: {
-    color: 'white',
     border: '1px solid grey',
     borderRadius: '0px',
     backgroundColor: 'black',
@@ -162,12 +169,28 @@ const PinParticipant = ({ pinId }) => {
                 <MicOffIcon />
               </UnMicButton>
             )}
+            {pin.identity === roomData.chatMember ? (
+              <ChatButton
+                variant="outline"
+                onClick={onChat}
+                className={classes.activeButton}
+              >
+                <Badge color="secondary" variant="dot" invisible={false}>
+                  <ChatIcon />
+                </Badge>
+              </ChatButton>
+            ) : (
+              <ChatButton
+                variant="outline"
+                onClick={onChat}
+                className={classes.deactiveButton}
+              >
+                <Badge color="secondary" variant="dot" invisible={false}>
+                  <ChatIcon />
+                </Badge>
+              </ChatButton>
+            )}
 
-            <ChatButton variant="outline" onClick={onChat}>
-              <Badge color="secondary" variant="dot" invisible={false}>
-                <ChatIcon />
-              </Badge>
-            </ChatButton>
             <LockButton variant="outline">
               <LockIcon />
             </LockButton>
