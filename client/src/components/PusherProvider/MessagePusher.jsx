@@ -13,7 +13,7 @@ const MessagePusher = () => {
     const opp = data.name
     const msg = data.message
     dispatch(addMessage({ identity: opp, message: msg, sent: false }))
-    enqueueSnackbar(`message from ${opp}`, {
+    enqueueSnackbar(`A new message from ${opp}`, {
       variant: 'info',
       anchorOrigin: {
         vertical: 'top',
