@@ -14,7 +14,7 @@ import PartyTabControl from '../../components/Party/PartyTabControl'
 import DeviceControl from '../../components/Party/DeviceControl'
 import ButtonControl from '../../components/Party/ButtonControl'
 import PusherProvider from '../../components/PusherProvider/PusherProvider'
-import Chat from '../../components/Chat/Chat'
+import ChatContainer from '../../containers/ChatContainer/ChatContainer'
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',
   height: '100%',
@@ -158,7 +158,7 @@ const VideoParty = () => {
                 <Typography variant="body2">squareparty</Typography>
               </div>
               <div className={classes.chat}>
-                <Chat />
+                <ChatContainer />
               </div>
               <div className={classes.tabControl}>
                 <PartyTabControl

@@ -4,9 +4,6 @@ import InfoBar from './InfoBar/InfoBar'
 import { useState } from 'react'
 import Input from './Input/Input'
 import Messages from './Messages/Messages'
-import './Chat.css'
-import { useSelector, useDispatch } from 'react-redux'
-import { sendMessage } from '../../redux/room/actions'
 
 const useStyles = makeStyles((theme) => ({
   chatContainer: {
@@ -20,35 +17,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Chat = () => {
-  const roomData = useSelector((state) => state.room)
-  const meIdentity = useSelector((state) => state.user.identity)
+const Chat = ({ me, opponent, messages, handleSendMessage }) => {
   const classes = useStyles()
-  const messages = roomData.pins.find((p) => p.identity === roomData.chatMember)
-    .chats
   const [message, setMessage] = useState('')
-  const dispatch = useDispatch()
-  const handleSendMessage = (e) => {
-    console.log(e)
+  const sendMessage = (e) => {
     e.preventDefault()
-    dispatch(sendMessage({ identity: roomData.chatMember, message: message }))
-    // console.log()
+    handleSendMessage(message)
+    setMessage('')
   }
-
   return (
-    <>
-      {roomData.chatOpen ? (
-        <div className={classes.chatContainer}>
-          <InfoBar room="Andrew" />
-          <Messages messages={messages} name={roomData.chatMember} />
-          <Input
-            message={message}
-            setMessage={setMessage}
-            sendMessage={handleSendMessage}
-          />
-        </div>
-      ) : null}
-    </>
+    <div className={classes.chatContainer}>
+      <InfoBar room="Andrew" />
+      <Messages messages={messages} name={opponent} />
+      <Input
+        message={message}
+        setMessage={setMessage}
+        sendMessage={sendMessage}
+      />
+    </div>
   )
 }
 

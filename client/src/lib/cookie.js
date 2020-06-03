@@ -23,5 +23,5 @@ export function setAccessToken(token) {
 }
 
 export function removeAccessToken() {
-  setCookie('airlock_token', null)
+  setCookie('airlock_token', '')
 }

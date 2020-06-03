@@ -78,6 +78,8 @@ const roomReducer = handleActions(
         ...state,
         participants: filteredParticipants ? filteredParticipants : [],
         pins: filteredPins ? filteredPins : [],
+        chatOpen: state.chatMember === ext.identity ? false : true,
+        chatMember: state.chatMember === ext.identity ? '' : state.chatMember,
       }
     },
 
@@ -146,6 +148,15 @@ const roomReducer = handleActions(
       return {
         ...state,
         pins,
+      }
+    },
+
+    [actions.INIT_CHAT_ROOM]: (state, action) => {
+      console.log('ACTION INIT_CHAT_ROOM')
+      return {
+        ...state,
+        chatMember: '',
+        chatOpen: false,
       }
     },
 
