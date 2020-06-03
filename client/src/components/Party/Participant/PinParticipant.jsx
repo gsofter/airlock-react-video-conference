@@ -112,7 +112,8 @@ const PinParticipant = ({ pinId }) => {
   const pin = pins[pinId]
   if (!pin) return <div className={classes.emptyScene}> not Available</div>
   const pinParticipant = participants.find((p) => p.identity === pin.identity)
-
+  const unreadChats = pin.chats.filter((chat) => chat.read === false)
+  console.log('Unread chats => ', unreadChats)
   const onLockRequest = async () => {
     const from = userData.identity
     const to = pinParticipant.identity
@@ -175,9 +176,7 @@ const PinParticipant = ({ pinId }) => {
                 onClick={onChat}
                 className={classes.activeButton}
               >
-                <Badge color="secondary" variant="dot" invisible={false}>
-                  <ChatIcon />
-                </Badge>
+                <ChatIcon />
               </ChatButton>
             ) : (
               <ChatButton
@@ -185,9 +184,13 @@ const PinParticipant = ({ pinId }) => {
                 onClick={onChat}
                 className={classes.deactiveButton}
               >
-                <Badge color="secondary" variant="dot" invisible={false}>
+                {unreadChats.length > 0 ? (
+                  <Badge color="secondary" badgeContent={unreadChats.length}>
+                    <ChatIcon />
+                  </Badge>
+                ) : (
                   <ChatIcon />
-                </Badge>
+                )}
               </ChatButton>
             )}
 

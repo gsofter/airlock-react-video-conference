@@ -167,10 +167,25 @@ const roomReducer = handleActions(
 
     [actions.OPEN_CHAT]: (state, action) => {
       console.log('OPEN_CHAT => ', action.payload)
+
+      const pins = [...state.pins]
+      const pinIndex = pins.findIndex(
+        (p) => p.identity === action.payload.identity,
+      )
+      const originPin = pins[pinIndex]
+      const updatedChats = originPin.chats.map((chat) => ({
+        ...chat,
+        read: true,
+      }))
+      pins[pinIndex] = {
+        ...originPin,
+        chats: updatedChats,
+      }
       return {
         ...state,
         chatOpen: true,
         chatMember: action.payload.identity,
+        pins,
       }
     },
 
@@ -193,7 +208,15 @@ const roomReducer = handleActions(
         ...originPin,
         chats: [
           ...originPin.chats,
-          { text: action.payload.message, sent: action.payload.sent },
+          {
+            text: action.payload.message,
+            sent: action.payload.sent,
+            read: action.payload.sent
+              ? true
+              : state.chatMember === originPin.identity
+              ? true
+              : false,
+          },
         ],
       }
       return {
