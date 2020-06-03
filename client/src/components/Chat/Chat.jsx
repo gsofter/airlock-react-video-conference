@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Chat = ({ me, opponent, messages, handleSendMessage }) => {
+const Chat = ({ me, opponent, messages, handleSendMessage, handleClose }) => {
   const classes = useStyles()
   const [message, setMessage] = useState('')
   const sendMessage = (e) => {
@@ -27,7 +27,7 @@ const Chat = ({ me, opponent, messages, handleSendMessage }) => {
   }
   return (
     <div className={classes.chatContainer}>
-      <InfoBar room="Andrew" />
+      <InfoBar room={opponent} handleClose={handleClose} />
       <Messages messages={messages} name={opponent} />
       <Input
         message={message}
