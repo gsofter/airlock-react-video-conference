@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions'
 import * as api from '../../lib/api'
-
+export const INIT_ROOM = 'INIT_ROOM'
 export const SET_STREAM_URL_SUCCESS = 'SET_STREAM_URL_SUCCESS'
 export const SET_STREAM_URL_FAILED = 'SET_STREAM_URL_FAILED'
 export const PARTICIPANT_JOINED = 'PARTICIPANT_JOINED'
@@ -14,6 +14,7 @@ export const OPEN_CHAT = 'OPEN_CHAT'
 export const CLOSE_CHAT = 'CLOSE_CHAT'
 export const ADD_MESSAGE = 'ADD_MESSAGE'
 export const INIT_CHAT_ROOM = 'INIT_CHAT_ROOM'
+export const initRoom = createAction(INIT_ROOM)
 export const setStreamUrlSuccess = createAction(SET_STREAM_URL_SUCCESS)
 export const setStreamUrlFailed = createAction(SET_STREAM_URL_FAILED)
 export const participantJoined = createAction(PARTICIPANT_JOINED)

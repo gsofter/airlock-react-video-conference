@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Participant from './Participant'
-import { Button, makeStyles, withStyles } from '@material-ui/core'
+import { Button, makeStyles, withStyles, Badge } from '@material-ui/core'
 import {
   UnlockIcon,
   ChatIcon,
@@ -164,7 +164,9 @@ const PinParticipant = ({ pinId }) => {
             )}
 
             <ChatButton variant="outline" onClick={onChat}>
-              <ChatIcon />
+              <Badge color="secondary" variant="dot" invisible={false}>
+                <ChatIcon />
+              </Badge>
             </ChatButton>
             <LockButton variant="outline">
               <LockIcon />

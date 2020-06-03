@@ -15,6 +15,11 @@ let initState = {
 
 const roomReducer = handleActions(
   {
+    // Init Room
+    [actions.INIT_ROOM]: (state, action) => {
+      return initState
+    },
+
     // Set Stream URL
     [actions.SET_STREAM_URL_SUCCESS]: (state, action) => {
       return {
