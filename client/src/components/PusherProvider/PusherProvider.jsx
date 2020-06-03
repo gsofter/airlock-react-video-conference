@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
 import Pusher from 'react-pusher'
-import UnlockRequestDialog from '../Dialogs/AlertDialog/UnlockRequestDialog'
-import usePrivateChannel from '../../hooks/usePrivateChannel/usePrivateChannel'
 import PusherLockRequest from './PusherLockRequest'
 import PusherLockAccept from './PusherLockAccept'
 import MicPusher from './MicPusher'
 import MessagePusher from './MessagePusher'
 
 const PusherProvider = () => {
-  const privateChannel = usePrivateChannel()
   const onStreamUrlChange = (data) => {
     console.log(data)
   }

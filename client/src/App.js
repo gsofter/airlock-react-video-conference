@@ -10,25 +10,26 @@ import LoginRoute from './components/RouteComponents/LoginRoute'
 import PublicRoute from './components/RouteComponents/PublicRoute.jsx'
 import useAuth from './hooks/useAuth'
 import RoomContainer from './components/RoomContainer/RoomContainer'
+import { SnackbarProvider } from 'notistack'
 
 function App() {
   useAuth()
   return (
-    // <VideoPartyProvider>
-    <Router>
-      <Switch>
-        <LoginRoute path="/login">
-          <LoginPage />
-        </LoginRoute>
-        <PublicRoute path="/party">
-          <RoomContainer />
-        </PublicRoute>
-        <Route path="*">
-          <Redirect to="/party" />
-        </Route>
-      </Switch>
-    </Router>
-    // </VideoPartyProvider>
+    <SnackbarProvider maxSnack={3}>
+      <Router>
+        <Switch>
+          <LoginRoute path="/login">
+            <LoginPage />
+          </LoginRoute>
+          <PublicRoute path="/party">
+            <RoomContainer />
+          </PublicRoute>
+          <Route path="*">
+            <Redirect to="/party" />
+          </Route>
+        </Switch>
+      </Router>
+    </SnackbarProvider>
   )
 }
 export default App
