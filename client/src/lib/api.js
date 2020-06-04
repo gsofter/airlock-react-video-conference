@@ -58,9 +58,9 @@ export const setStreamUrl = (url) => {
  * @param string from
  * @param string to
  */
-export const lockRequest = (from, to) => {
+export const unLockRequest = (from, to) => {
   return axios.post(
-    `${endpoint}/room/lock_request`,
+    `${endpoint}/room/send_unlock_request`,
     {
       from,
       to,

@@ -4,7 +4,7 @@ import UnlockRequestDialog from '../Dialogs/AlertDialog/UnlockRequestDialog'
 import usePrivateChannel from '../../hooks/usePrivateChannel/usePrivateChannel'
 import { useSelector } from 'react-redux'
 import * as api from '../../lib/api'
-const PusherLockRequest = () => {
+const PusherUnLockRequest = () => {
   const [unlock, setUnlock] = useState(false)
   const privateChannel = usePrivateChannel()
   const [senderName, setSenderName] = useState('')
@@ -40,11 +40,11 @@ const PusherLockRequest = () => {
 
       <Pusher
         channel={privateChannel}
-        event="lock-request"
+        event="unlock"
         onUpdate={onLockRequest}
       />
     </>
   )
 }
 
-export default PusherLockRequest
+export default PusherUnLockRequest

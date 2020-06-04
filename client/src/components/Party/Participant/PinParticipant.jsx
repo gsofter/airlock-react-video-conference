@@ -118,10 +118,10 @@ const PinParticipant = ({ pinId }) => {
   if (!pin) return <div className={classes.emptyScene}> not Available</div>
   const pinParticipant = participants.find((p) => p.identity === pin.identity)
   const unreadChats = pin.chats.filter((chat) => chat.read === false)
-  const onLockRequest = async () => {
+  const onUnLockRequest = async () => {
     const from = userData.identity
     const to = pinParticipant.identity
-    await api.lockRequest(from, to)
+    await api.unLockRequest(from, to)
     dispatch(setPinSent({ identity: to }))
   }
 
@@ -208,7 +208,7 @@ const PinParticipant = ({ pinId }) => {
           </div>
         ) : pin.sent === false ? (
           <div className={classes.buttonGroup}>
-            <UnlockButton variant="outline" onClick={onLockRequest}>
+            <UnlockButton variant="outline" onClick={onUnLockRequest}>
               <UnlockIcon />
             </UnlockButton>
           </div>

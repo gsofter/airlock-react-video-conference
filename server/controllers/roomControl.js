@@ -64,12 +64,12 @@ const setStreamUrl = async (req, res, next) => {
  * Send Lock Request
  *
  */
-const lockRequest = async (req, res, next) => {
+const sendUnlockRequest = async (req, res, next) => {
   try {
     const from = req.body.from;
     const to = req.body.to;
-    console.log("LOCK-REQUEST", req.body);
-    pusher.trigger(`${to}-channel`, "lock-request", {
+    console.log("UNLOCK-REQUEST", req.body);
+    pusher.trigger(`${to}-channel`, "unlock", {
       name: from,
     });
     console.log("message sent");
@@ -158,7 +158,7 @@ const message = async (req, res, next) => {
 
 module.exports = {
   setStreamUrl,
-  lockRequest,
+  sendUnlockRequest,
   lockAccept,
   mic,
   message,
