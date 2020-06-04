@@ -61,18 +61,16 @@ const setStreamUrl = async (req, res, next) => {
 
 /**
  *
- * Send Lock Request
+ * Send UnLock Request
  *
  */
-const sendUnlockRequest = async (req, res, next) => {
+const unLockRequest = async (req, res, next) => {
   try {
-    const from = req.body.from;
+    const userId = req.auth_user.identity;
     const to = req.body.to;
-    console.log("UNLOCK-REQUEST", req.body);
-    pusher.trigger(`${to}-channel`, "unlock", {
-      name: from,
+    pusher.trigger(`${to}-unlock`, "unlock", {
+      name: userId,
     });
-    console.log("message sent");
     res.send("message-sent");
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
@@ -83,20 +81,36 @@ const sendUnlockRequest = async (req, res, next) => {
 
 /**
  *
- * Accept Lock Request
+ * Send Lock Request
  *
  */
-const lockAccept = async (req, res, next) => {
+const lockRequest = async (req, res, next) => {
   try {
-    const from = req.body.from;
+    const userId = req.auth_user.identity;
     const to = req.body.to;
-    console.log("LOCK-ACEEPT", req.body);
-    pusher.trigger(`${to}-lock-accept`, "lock-accept", {
-      name: from,
+    pusher.trigger(`${to}-lock`, "lock", {
+      name: userId,
     });
+    res.send("message-sent");
+  } catch (err) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+    });
+  }
+};
 
-    pusher.trigger(`${from}-lock-accept`, "lock-accept", {
-      name: to,
+/**
+ *
+ * Accept UnLock Request
+ *
+ */
+const unLockAccept = async (req, res, next) => {
+  try {
+    const userId = req.auth_user.identity;
+    const to = req.body.to;
+    console.log("UNLOCK-ACEEPT", req.body);
+    pusher.trigger(`${to}-unlock-accept`, "unlock-accept", {
+      name: userId,
     });
     res.send("message-sent");
   } catch (err) {
@@ -158,8 +172,9 @@ const message = async (req, res, next) => {
 
 module.exports = {
   setStreamUrl,
-  sendUnlockRequest,
-  lockAccept,
+  unLockRequest,
+  lockRequest,
+  unLockAccept,
   mic,
   message,
 };

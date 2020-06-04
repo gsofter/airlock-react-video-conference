@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import Pusher from 'react-pusher'
-import PusherUnLockRequest from './PusherUnLockRequest'
-import PusherLockAccept from './PusherLockAccept'
 import MicPusher from './MicPusher'
 import MessagePusher from './MessagePusher'
+import UnLockRequestPusher from './UnLockRequestPusher'
+import LockAcceptPusher from './UnLockAcceptPusher'
+import UnLockAcceptPusher from './UnLockAcceptPusher'
 
 const PusherProvider = () => {
   const onStreamUrlChange = (data) => {
@@ -18,8 +19,9 @@ const PusherProvider = () => {
         onUpdate={onStreamUrlChange}
       />
 
-      <PusherUnLockRequest />
-      <PusherLockAccept />
+      <UnLockRequestPusher />
+      <UnLockAcceptPusher />
+      <LockAcceptPusher />
       <MicPusher />
       <MessagePusher />
     </>

@@ -53,16 +53,30 @@ export const setStreamUrl = (url) => {
 
 /**
  *
- * Lock Request
+ * UnLock Request
  *
- * @param string from
  * @param string to
  */
-export const unLockRequest = (from, to) => {
+export const sendUnLockRequest = (to) => {
   return axios.post(
-    `${endpoint}/room/send_unlock_request`,
+    `${endpoint}/room/unlock_request`,
     {
-      from,
+      to,
+    },
+    { withCredentials: true },
+  )
+}
+
+/**
+ *
+ * Lock Request
+ *
+ * @param string to
+ */
+export const sendLockRequest = (to) => {
+  return axios.post(
+    `${endpoint}/room/lock_request`,
+    {
       to,
     },
     { withCredentials: true },
@@ -76,11 +90,10 @@ export const unLockRequest = (from, to) => {
  * @param string from
  * @param string to
  */
-export const lockAccept = (from, to) => {
+export const unLockAccept = (to) => {
   return axios.post(
-    `${endpoint}/room/lock_accept`,
+    `${endpoint}/room/unlock_accept`,
     {
-      from,
       to,
     },
     { withCredentials: true },

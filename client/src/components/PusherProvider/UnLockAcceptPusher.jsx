@@ -1,17 +1,17 @@
 import React from 'react'
 import Pusher from 'react-pusher'
 import { useSelector, useDispatch } from 'react-redux'
-import { setPinLock } from '../../redux/room/actions'
+import { setPinUnLock } from '../../redux/room/actions'
 import { useSnackbar } from 'notistack'
 
-const PusherLockAccept = () => {
+const UnLockAcceptPusher = () => {
   const userData = useSelector((state) => state.user)
-  const channel = `${userData.identity}-lock-accept`
+  const channel = `${userData.identity}-unlock-accept`
   const dispatch = useDispatch()
   const { enqueueSnackbar } = useSnackbar()
-  const onLockAccept = (data) => {
+  const onUnLockAccept = (data) => {
     const sender = data.name
-    dispatch(setPinLock({ identity: sender }))
+    dispatch(setPinUnLock({ identity: sender }))
     enqueueSnackbar(`${data.name} accepted your lock request`, {
       variant: 'success',
       anchorOrigin: {
@@ -22,8 +22,8 @@ const PusherLockAccept = () => {
   }
 
   return (
-    <Pusher channel={channel} event="lock-accept" onUpdate={onLockAccept} />
+    <Pusher channel={channel} event="unlock-accept" onUpdate={onUnLockAccept} />
   )
 }
 
-export default PusherLockAccept
+export default UnLockAcceptPusher

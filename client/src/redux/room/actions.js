@@ -8,6 +8,7 @@ export const PARTICIPANT_EXIT = 'PARTICIPANT_EXIT'
 export const INIT_PARTICIPANTS = 'INIT_PARTICIPANTS'
 export const SET_TWILIO_ROOM = 'SET_TWILIO_ROOM'
 export const SET_PIN_SENT = 'SET_PIN_SENT'
+export const SET_PIN_UNLOCK = 'SET_PIN_UNLOCK'
 export const SET_PIN_LOCK = 'SET_PIN_LOCK'
 export const SET_PIN_MIC = 'SET_PIN_MIC'
 export const OPEN_CHAT = 'OPEN_CHAT'
@@ -22,6 +23,7 @@ export const participantJoined = createAction(PARTICIPANT_JOINED)
 export const participantExit = createAction(PARTICIPANT_EXIT)
 export const initParticipants = createAction(INIT_PARTICIPANTS)
 export const setPinSent = createAction(SET_PIN_SENT)
+export const setPinUnLock = createAction(SET_PIN_UNLOCK)
 export const setPinLock = createAction(SET_PIN_LOCK)
 export const setPinMic = createAction(SET_PIN_MIC)
 export const setTwilioRoom = createAction(SET_TWILIO_ROOM)
@@ -56,6 +58,36 @@ export const sendMessage = ({ identity, message }) => async (
   try {
     await api.sendMessage(identity, message)
     dispatch(addMessage({ identity, message, sent: true }))
+  } catch (e) {
+    throw e
+  }
+}
+
+export const sendUnLockRequest = ({ identity }) => async (
+  dispatch,
+  getState,
+) => {
+  try {
+    await api.sendUnLockRequest(identity)
+    dispatch(setPinSent({ identity }))
+  } catch (e) {
+    throw e
+  }
+}
+
+export const sendLockRequest = ({ identity }) => async (dispatch, getState) => {
+  try {
+    await api.sendLockRequest(identity)
+    dispatch(setPinLock({ identity }))
+  } catch (e) {
+    throw e
+  }
+}
+
+export const unLockAccept = ({ identity }) => async (dispatch, getState) => {
+  try {
+    await api.unLockAccept(identity)
+    dispatch(setPinUnLock({ identity }))
   } catch (e) {
     throw e
   }

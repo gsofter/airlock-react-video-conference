@@ -16,6 +16,8 @@ import {
   switchMic,
   openChat,
   selectMain,
+  sendLockRequest,
+  sendUnLockRequest,
 } from '../../../redux/room/actions'
 const useStyles = makeStyles((theme) => ({
   pinMainWrapper: {
@@ -118,11 +120,13 @@ const PinParticipant = ({ pinId }) => {
   if (!pin) return <div className={classes.emptyScene}> not Available</div>
   const pinParticipant = participants.find((p) => p.identity === pin.identity)
   const unreadChats = pin.chats.filter((chat) => chat.read === false)
+
   const onUnLockRequest = async () => {
-    const from = userData.identity
-    const to = pinParticipant.identity
-    await api.unLockRequest(from, to)
-    dispatch(setPinSent({ identity: to }))
+    dispatch(sendUnLockRequest({ identity: pin.identity }))
+  }
+
+  const onLockRequest = async () => {
+    dispatch(sendLockRequest({ identity: pin.identity }))
   }
 
   const onMicTurnOn = () => {
@@ -202,7 +206,7 @@ const PinParticipant = ({ pinId }) => {
               </ChatButton>
             )}
 
-            <LockButton variant="outline">
+            <LockButton variant="outline" onClick={onLockRequest}>
               <LockIcon />
             </LockButton>
           </div>

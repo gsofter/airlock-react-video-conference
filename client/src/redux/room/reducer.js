@@ -120,8 +120,8 @@ const roomReducer = handleActions(
       }
     },
 
-    // Set Pin Lock
-    [actions.SET_PIN_LOCK]: (state, action) => {
+    // Set Pin UnLock
+    [actions.SET_PIN_UNLOCK]: (state, action) => {
       const pId = action.payload.identity
       const pins = [...state.pins]
       const foundIndex = pins.findIndex((pin) => pin.identity === pId)
@@ -129,6 +129,27 @@ const roomReducer = handleActions(
       pins[foundIndex] = {
         ...originPin,
         locked: true,
+      }
+
+      return {
+        ...state,
+        pins,
+      }
+    },
+
+    // Set Pin Lock
+    [actions.SET_PIN_LOCK]: (state, action) => {
+      const pId = action.payload.identity
+      const pins = [...state.pins]
+      const foundIndex = pins.findIndex((pin) => pin.identity === pId)
+      const originPin = pins[foundIndex]
+      pins[foundIndex] = {
+        identity: pId,
+        locked: false,
+        sent: false,
+        mic: false,
+        chat: false,
+        chats: [],
       }
 
       return {
