@@ -93,4 +93,13 @@ export const unLockAccept = ({ identity }) => async (dispatch, getState) => {
   }
 }
 
+export const unLockDecline = ({ identity }) => async (dispatch, getState) => {
+  try {
+    await api.unLockDecline(identity)
+    dispatch(setPinLock({ identity }))
+  } catch (e) {
+    throw e
+  }
+}
+
 // export const openChatBox = ({identity}) = as

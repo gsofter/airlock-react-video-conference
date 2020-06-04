@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Pusher from 'react-pusher'
 import UnlockRequestDialog from '../Dialogs/AlertDialog/UnlockRequestDialog'
 import { useSelector, useDispatch } from 'react-redux'
-import { unLockAccept } from '../../redux/room/actions'
+import { unLockAccept, unLockDecline } from '../../redux/room/actions'
 const UnLockRequestPusher = () => {
   const [unlock, setUnlock] = useState(false)
   const [senderName, setSenderName] = useState('')
@@ -24,8 +24,12 @@ const UnLockRequestPusher = () => {
   }
 
   const handleDeclineUnlockRequest = () => {
-    setUnlock(false)
-    console.log('handleDeclineUnlockRequest')
+    try {
+      dispatch(unLockDecline({ identity: senderName }))
+      setUnlock(false)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (

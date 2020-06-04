@@ -154,6 +154,8 @@ const roomReducer = handleActions(
 
       return {
         ...state,
+        chatOpen: false,
+        chatMember: '',
         pins,
       }
     },

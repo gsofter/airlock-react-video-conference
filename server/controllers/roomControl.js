@@ -88,7 +88,7 @@ const lockRequest = async (req, res, next) => {
   try {
     const userId = req.auth_user.identity;
     const to = req.body.to;
-    pusher.trigger(`${to}-lock`, "lock", {
+    pusher.trigger(`${to}-lock-request`, "lock", {
       name: userId,
     });
     res.send("message-sent");
@@ -108,8 +108,27 @@ const unLockAccept = async (req, res, next) => {
   try {
     const userId = req.auth_user.identity;
     const to = req.body.to;
-    console.log("UNLOCK-ACEEPT", req.body);
     pusher.trigger(`${to}-unlock-accept`, "unlock-accept", {
+      name: userId,
+    });
+    res.send("message-sent");
+  } catch (err) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      error: err.message,
+    });
+  }
+};
+
+/**
+ *
+ * Decline UnLock Request
+ *
+ */
+const unLockDecline = async (req, res, next) => {
+  try {
+    const userId = req.auth_user.identity;
+    const to = req.body.to;
+    pusher.trigger(`${to}-unlock-decline`, "unlock-decline", {
       name: userId,
     });
     res.send("message-sent");
@@ -175,6 +194,7 @@ module.exports = {
   unLockRequest,
   lockRequest,
   unLockAccept,
+  unLockDecline,
   mic,
   message,
 };

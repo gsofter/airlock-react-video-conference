@@ -22,7 +22,7 @@ const MicPusher = () => {
     } else {
       dispatch(setPinMic({ identity: data.name, isOn: false }))
       enqueueSnackbar(`microphone turned off with ${data.name}`, {
-        variant: 'info',
+        variant: 'warning',
         anchorOrigin: {
           vertical: 'top',
           horizontal: 'right',

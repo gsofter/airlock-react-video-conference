@@ -87,12 +87,27 @@ export const sendLockRequest = (to) => {
  *
  * Lock Accept
  *
- * @param string from
  * @param string to
  */
 export const unLockAccept = (to) => {
   return axios.post(
     `${endpoint}/room/unlock_accept`,
+    {
+      to,
+    },
+    { withCredentials: true },
+  )
+}
+
+/**
+ *
+ * Lock Accept
+ *
+ * @param string to
+ */
+export const unLockDecline = (to) => {
+  return axios.post(
+    `${endpoint}/room/unlock_decline`,
     {
       to,
     },
