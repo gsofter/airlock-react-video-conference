@@ -11,7 +11,12 @@ import {
   MicOffIcon,
 } from '../../Icons/Icons'
 import * as api from '../../../lib/api'
-import { setPinSent, switchMic, openChat } from '../../../redux/room/actions'
+import {
+  setPinSent,
+  switchMic,
+  openChat,
+  selectMain,
+} from '../../../redux/room/actions'
 const useStyles = makeStyles((theme) => ({
   pinMainWrapper: {
     height: '100%',
@@ -113,7 +118,6 @@ const PinParticipant = ({ pinId }) => {
   if (!pin) return <div className={classes.emptyScene}> not Available</div>
   const pinParticipant = participants.find((p) => p.identity === pin.identity)
   const unreadChats = pin.chats.filter((chat) => chat.read === false)
-  console.log('Unread chats => ', unreadChats)
   const onLockRequest = async () => {
     const from = userData.identity
     const to = pinParticipant.identity
@@ -144,11 +148,15 @@ const PinParticipant = ({ pinId }) => {
   const onChat = () => {
     dispatch(openChat({ identity: pinParticipant.identity }))
   }
-  // when id overflow the length of pins
+
+  const handlePinSelect = () => {
+    dispatch(selectMain({ identity: pin.identity }))
+  }
+
   if (!!pinParticipant) {
     return (
       <div className={classes.pinMainWrapper}>
-        <div className={classes.videoWrapper}>
+        <div className={classes.videoWrapper} onClick={handlePinSelect}>
           <Participant participant={pinParticipant} disableAudio={pin.mic} />
         </div>
         {pin.locked === true ? (

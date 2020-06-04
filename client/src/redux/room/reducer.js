@@ -2,15 +2,17 @@ import { handleActions } from 'redux-actions'
 import * as actions from './actions'
 
 let initState = {
-  room: null,
+  room: null, // twilio room
   stream: {
+    // youtube stream url
     url: '',
   },
-  dj: '',
+  dj: '', // dj id
   pins: [],
   participants: [],
   chatOpen: false,
   chatMember: '',
+  mainSelection: '', // selection id
 }
 
 const roomReducer = handleActions(
@@ -42,7 +44,6 @@ const roomReducer = handleActions(
 
     // Set Participants Joined
     [actions.PARTICIPANT_JOINED]: (state, action) => {
-      console.log('ParticipantJoined Param =>', action.payload)
       const participants = [...state.participants, action.payload]
       const newP = action.payload
       const pin = state.pins.find((pin) => pin.identity === newP.identity)
@@ -72,7 +73,6 @@ const roomReducer = handleActions(
 
     // Remove Participants Exit
     [actions.PARTICIPANT_EXIT]: (state, action) => {
-      console.log('ParticipantExit Param =>', action.payload)
       const ext = action.payload
       const participants = [...state.participants]
       const filteredParticipants = participants.filter(
@@ -89,7 +89,6 @@ const roomReducer = handleActions(
     },
 
     [actions.INIT_PARTICIPANTS]: (state, action) => {
-      console.log('InitParticipants Param => ', action.payload)
       return {
         ...state,
         participants: [...action.payload.participants],
@@ -106,7 +105,6 @@ const roomReducer = handleActions(
 
     // Set Pin Sent
     [actions.SET_PIN_SENT]: (state, action) => {
-      console.log('SET_PIN_SENT', action.payload)
       const pId = action.payload.identity
       const pins = [...state.pins]
       const foundIndex = pins.findIndex((pin) => pin.identity === pId)
@@ -124,7 +122,6 @@ const roomReducer = handleActions(
 
     // Set Pin Lock
     [actions.SET_PIN_LOCK]: (state, action) => {
-      console.log('SET_PIN_LOCK', action.payload)
       const pId = action.payload.identity
       const pins = [...state.pins]
       const foundIndex = pins.findIndex((pin) => pin.identity === pId)
@@ -157,7 +154,6 @@ const roomReducer = handleActions(
     },
 
     [actions.INIT_CHAT_ROOM]: (state, action) => {
-      console.log('ACTION INIT_CHAT_ROOM')
       return {
         ...state,
         chatMember: '',
@@ -166,8 +162,6 @@ const roomReducer = handleActions(
     },
 
     [actions.OPEN_CHAT]: (state, action) => {
-      console.log('OPEN_CHAT => ', action.payload)
-
       const pins = [...state.pins]
       const pinIndex = pins.findIndex(
         (p) => p.identity === action.payload.identity,
@@ -190,7 +184,6 @@ const roomReducer = handleActions(
     },
 
     [actions.CLOSE_CHAT]: (state, action) => {
-      console.log('CLOSE_CHAT => ', action.payload)
       return {
         ...state,
         chatOpen: false,
@@ -199,7 +192,6 @@ const roomReducer = handleActions(
     },
 
     [actions.ADD_MESSAGE]: (state, action) => {
-      console.log('ADD_MESSAGE =>', action.payload)
       const pId = action.payload.identity
       const pins = [...state.pins]
       const foundIndex = pins.findIndex((pin) => pin.identity === pId)
@@ -222,6 +214,14 @@ const roomReducer = handleActions(
       return {
         ...state,
         pins,
+      }
+    },
+
+    // set mainSelection which would be used in MainParticipant
+    [actions.SELECT_MAIN]: (state, action) => {
+      return {
+        ...state,
+        mainSelection: action.payload.identity,
       }
     },
   },

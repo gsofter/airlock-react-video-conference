@@ -14,6 +14,7 @@ export const OPEN_CHAT = 'OPEN_CHAT'
 export const CLOSE_CHAT = 'CLOSE_CHAT'
 export const ADD_MESSAGE = 'ADD_MESSAGE'
 export const INIT_CHAT_ROOM = 'INIT_CHAT_ROOM'
+export const SELECT_MAIN = 'SELECT_MAIN'
 export const initRoom = createAction(INIT_ROOM)
 export const setStreamUrlSuccess = createAction(SET_STREAM_URL_SUCCESS)
 export const setStreamUrlFailed = createAction(SET_STREAM_URL_FAILED)
@@ -28,6 +29,7 @@ export const openChat = createAction(OPEN_CHAT)
 export const closeChat = createAction(CLOSE_CHAT)
 export const addMessage = createAction(ADD_MESSAGE)
 export const initChatRoom = createAction(INIT_CHAT_ROOM)
+export const selectMain = createAction(SELECT_MAIN)
 export const setStreamUrl = (url) => async (dispatch, getState) => {
   try {
     await api.setStreamUrl(url)
