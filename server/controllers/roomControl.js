@@ -10,7 +10,7 @@ const AccessToken = require("twilio").jwt.AccessToken;
 const pusherAppId = process.env.PUSHER_APP_ID;
 const pusherAppKey = process.env.PUSHER_APP_KEY;
 const pusherAppSecret = process.env.PUSHER_APP_SECRET;
-const pusherAppCluster = process.env.PUSHER_APP_Cluster;
+const pusherAppCluster = process.env.PUSHER_APP_CLUSTER;
 
 const pusher = new Pusher({
   appId: pusherAppId,
@@ -59,10 +59,11 @@ const unLockRequest = async (req, res, next) => {
   try {
     const userId = req.auth_user.identity;
     const to = req.body.to;
-    pusher.trigger(`${to}-unlock`, "unlock", {
+    console.log(`UNLOCK REQUEST TO ${to}-unlock`);
+    const output = pusher.trigger(`${to}-unlock`, "unlock", {
       name: userId,
     });
-    res.send("message-sent");
+    res.send({ output });
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       error: err.message,

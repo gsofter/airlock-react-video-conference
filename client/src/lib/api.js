@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { getAccessToken } from './cookie'
-const endpoint = 'http://localhost:5000'
+const endpoint = 'https://airlock-server-dev.herokuapp.com'
 
 /**
  *
@@ -19,7 +19,10 @@ export const userLogin = async (passcode) =>
  *
  */
 export const checkAuth = async () => {
-  return axios.get(`${endpoint}/user/check_auth`, { withCredentials: true })
+  const token = getAccessToken()
+  return axios.get(`${endpoint}/user/check_auth`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
 }
 
 /**
@@ -58,12 +61,14 @@ export const setStreamUrl = (url) => {
  * @param string to
  */
 export const sendUnLockRequest = (to) => {
+  const token = getAccessToken()
+  console.log('Token => ', token)
   return axios.post(
     `${endpoint}/room/unlock_request`,
     {
       to,
     },
-    { withCredentials: true },
+    { headers: { Authorization: `Bearer ${token}` } },
   )
 }
 
@@ -74,12 +79,13 @@ export const sendUnLockRequest = (to) => {
  * @param string to
  */
 export const sendLockRequest = (to) => {
+  const token = getAccessToken()
   return axios.post(
     `${endpoint}/room/lock_request`,
     {
       to,
     },
-    { withCredentials: true },
+    { headers: { Authorization: `Bearer ${token}` } },
   )
 }
 
@@ -90,12 +96,13 @@ export const sendLockRequest = (to) => {
  * @param string to
  */
 export const unLockAccept = (to) => {
+  const token = getAccessToken()
   return axios.post(
     `${endpoint}/room/unlock_accept`,
     {
       to,
     },
-    { withCredentials: true },
+    { headers: { Authorization: `Bearer ${token}` } },
   )
 }
 
@@ -106,12 +113,13 @@ export const unLockAccept = (to) => {
  * @param string to
  */
 export const unLockDecline = (to) => {
+  const token = getAccessToken()
   return axios.post(
     `${endpoint}/room/unlock_decline`,
     {
       to,
     },
-    { withCredentials: true },
+    { headers: { Authorization: `Bearer ${token}` } },
   )
 }
 
@@ -123,6 +131,7 @@ export const unLockDecline = (to) => {
  * @param boolean micOn
  */
 export const switchMic = (to, micOn) => {
+  const token = getAccessToken()
   return axios.get(`${endpoint}/room/mic`, {
     params: {
       to,
@@ -133,12 +142,13 @@ export const switchMic = (to, micOn) => {
 }
 
 export const sendMessage = (to, message) => {
+  const token = getAccessToken()
   return axios.post(
     `${endpoint}/room/message`,
     {
       to,
       message,
     },
-    { withCredentials: true },
+    { headers: { Authorization: `Bearer ${token}` } },
   )
 }

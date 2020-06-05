@@ -14,7 +14,7 @@ export function getCookie(cookieName) {
 }
 
 export function getAccessToken() {
-  const token = getCookie('airlock_access_token')
+  const token = getCookie('airlock_token')
   return token
 }
 
