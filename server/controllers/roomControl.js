@@ -5,11 +5,6 @@ const { Op } = require("sequelize");
 const Pusher = require("pusher");
 
 const AccessToken = require("twilio").jwt.AccessToken;
-const VideoGrant = AccessToken.VideoGrant;
-const MAX_ALLOWED_SESSION_DURATION = 14400;
-const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
-const twilioApiKeySID = process.env.TWILIO_API_KEY_SID;
-const twilioApiKeySecret = process.env.TWILIO_API_KEY_SECRET;
 
 // Pusher credentials
 const pusherAppId = process.env.PUSHER_APP_ID;
@@ -28,8 +23,6 @@ const pusher = new Pusher({
  *
  * Set Stream URL and broadcast
  *
- * @param room_name
- * @return { type: 'SUCCESS' }
  */
 const setStreamUrl = async (req, res, next) => {
   try {
@@ -44,13 +37,11 @@ const setStreamUrl = async (req, res, next) => {
       }
     );
 
-    console.log("URL => ", url);
     pusher.trigger("airlock-channel", "stream-url-change", {
       name: "stream-url",
       message: url,
     });
 
-    console.log("message sent");
     res.send("success");
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({

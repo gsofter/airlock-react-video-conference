@@ -12,7 +12,6 @@ const sequelize = new Sequelize(connectionString);
 
 const models = {
   User: sequelize.import("./user"),
-  Room: sequelize.import("./room"),
   Config: sequelize.import("./config"),
 };
 
