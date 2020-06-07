@@ -48,7 +48,7 @@ const LocalParticipant = () => {
   return (
     <div className={classes.mainWrapper}>
       <div className={classes.participantWrapper}>
-        <Participant participant={localParticipant} />
+        <Participant participant={localParticipant} disableAudio={false} />
       </div>
       <div className={classes.buttonsWrapper}>
         <ExitButton variant="outlined" onClick={onClickExit}>

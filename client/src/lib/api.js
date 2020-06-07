@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { getAccessToken } from './cookie'
 const endpoint = 'https://airlock-server-dev.herokuapp.com'
+// const endpoint = 'http://localhost:5000'
 
 /**
  *
@@ -137,7 +138,7 @@ export const switchMic = (to, micOn) => {
       to,
       mic_on: micOn,
     },
-    withCredentials: true,
+    headers: { Authorization: `Bearer ${token}` },
   })
 }
 

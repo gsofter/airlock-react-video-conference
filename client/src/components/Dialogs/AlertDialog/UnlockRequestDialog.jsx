@@ -28,7 +28,7 @@ const UnlockRequestDialog = ({
       <DialogContent>
         {/* <DialogContentText id="alert-dialog-description"> */}
         <div>
-          <Participant participant={senderP} />
+          <Participant participant={senderP} disableAudio={true} />
         </div>
         <div>{senderName} wants to lock his room with you.</div>
         {/* </DialogContentText> */}

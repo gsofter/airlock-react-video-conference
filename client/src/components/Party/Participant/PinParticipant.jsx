@@ -161,7 +161,7 @@ const PinParticipant = ({ pinId }) => {
     return (
       <div className={classes.pinMainWrapper}>
         <div className={classes.videoWrapper} onClick={handlePinSelect}>
-          <Participant participant={pinParticipant} disableAudio={pin.mic} />
+          <Participant participant={pinParticipant} disableAudio={!pin.mic} />
         </div>
         {pin.locked === true ? (
           <div className={classes.buttonGroup}>
