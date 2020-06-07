@@ -10,10 +10,16 @@ const useStyles = makeStyles((theme) => ({
   tabControlItem: {
     padding: theme.spacing(1),
     opacity: '0.3',
+    '& > img': {
+      width: '100%',
+    },
   },
   tabControlItemActive: {
     padding: theme.spacing(1),
     opacity: 1,
+    '& > img': {
+      width: '100%',
+    },
   },
 }))
 

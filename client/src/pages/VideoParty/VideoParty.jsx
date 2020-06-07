@@ -33,8 +33,11 @@ const useStyles = makeStyles((theme) => ({
   mainWrapper: {
     backgroundColor: '#3f3f3f',
     color: theme.palette.primary.contrastText,
-    height: '100%',
+    height: '100vh',
     position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   mainViewer: {
     gridArea: 'mp',
