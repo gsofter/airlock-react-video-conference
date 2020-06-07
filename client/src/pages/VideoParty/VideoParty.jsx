@@ -16,11 +16,13 @@ import ButtonControl from '../../components/Party/ButtonControl'
 import PusherProvider from '../../components/PusherProvider/PusherProvider'
 import ChatContainer from '../../containers/ChatContainer/ChatContainer'
 const Container = styled('div')(({ theme }) => ({
+  border: '1px solid #757575',
   position: 'relative',
-  height: '100%',
+  width: '1225px',
+  height: '900px',
   display: 'grid',
-  gridTemplateColumns: `1fr 1fr 1fr 1fr 1fr 1fr`,
-  gridTemplateRows: `1fr 1fr 1fr 1fr 1fr`,
+  gridTemplateColumns: `200px 200px 200px 200px 200px 200px`,
+  gridTemplateRows: `175px 175px 175px 175px 175px`,
   gap: '5px 5px',
   gridTemplateAreas: `"lg mp mp mp mp ct"
                       "mg mp mp mp mp bt"
