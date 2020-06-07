@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Video from 'twilio-video'
 import useUserData from '../../hooks/useUserData/useUserData'
 import {
@@ -8,6 +8,7 @@ import {
 } from '../../redux/room/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import VideoParty from '../../pages/VideoParty/VideoParty'
+import useLocalTracks from '../../hooks/useLocalTracks/useLocalTracks'
 
 const connectionOptions = {
   bandwidthProfile: {
@@ -25,13 +26,22 @@ const connectionOptions = {
   maxAudioBitrate: 12000,
   networkQuality: { local: 1, remote: 1 },
   preferredVideoCodecs: [{ codec: 'VP8', simulcast: true }],
-  tracks: [],
 }
 
 const RoomContainer = () => {
   const userData = useUserData()
   const token = userData.token
   const dispatch = useDispatch()
+  const { localTracks, getLocalVideoTrack } = useLocalTracks()
+  const disconnectHandlerRef = useRef(() => {})
+  const localTracksRef = useRef([])
+  useEffect(() => {
+    // It can take a moment for Video.connect to connect to a room. During this time, the user may have enabled or disabled their
+    // local audio or video tracks. If this happens, we store the localTracks in this ref, so that they are correctly published
+    // once the user is connected to the room.
+    localTracksRef.current = localTracks
+  }, [localTracks])
+
   useEffect(() => {
     const participantConnected = (participant) => {
       console.log(participant.identity, '=> connected')
@@ -43,9 +53,36 @@ const RoomContainer = () => {
       dispatch(participantExit(participant))
     }
 
-    Video.connect(token, connectionOptions).then((room) => {
+    Video.connect(token, { ...connectionOptions, tracks: [] }).then((room) => {
       console.log('CONNECTED', room)
       dispatch(setTwilioRoom(room))
+      room.once('disconnected', () => {
+        // Reset the room only after all other `disconnected` listeners have been called.
+        setTimeout(() => dispatch(setTwilioRoom(null)))
+        window.removeEventListener('beforeunload', disconnectHandlerRef.current)
+      })
+
+      // @ts-ignore
+      window.twilioRoom = room
+
+      localTracksRef.current.forEach((track) =>
+        // Tracks can be supplied as arguments to the Video.connect() function and they will automatically be published.
+        // However, tracks must be published manually in order to set the priority on them.
+        // All video tracks are published with 'low' priority. This works because the video
+        // track that is displayed in the 'MainParticipant' component will have it's priority
+        // set to 'high' via track.setPriority()
+        room.localParticipant.publishTrack(track, {
+          priority: track.kind === 'video' ? 'low' : 'standard',
+        }),
+      )
+
+      disconnectHandlerRef.current = () => {
+        console.log('beforeunload hook called!')
+        room.disconnect()
+      }
+
+      window.addEventListener('beforeunload', disconnectHandlerRef.current)
+
       room.on('participantConnected', participantConnected)
       room.on('participantDisconnected', participantDisconnected)
       room.participants.forEach(participantConnected)

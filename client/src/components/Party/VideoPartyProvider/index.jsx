@@ -3,7 +3,7 @@ import useHandleRoomDisconnectionErrors from '../../../hooks/useHandleRoomDiscon
 import useHandleTrackPublicationFailed from '../../../hooks/useHandleTrackPublicationFailed'
 import useHandleOnDisconnect from '../../../hooks/useHandleOnDisconnect'
 import useRoom from '../../../hooks/useRoom/useRoom'
-import useLocalTracks from '../../../hooks/useLocalTracks'
+import useLocalTracks from '../../../hooks/useLocalTracks/useLocalTracks'
 import { SelectedParticipantProvider } from '../../../hooks/useSelectedParticipant'
 
 const connectionOptions = {
