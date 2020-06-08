@@ -28,16 +28,20 @@ const ParticipantListView = () => {
   const classes = useStyles()
   return (
     <ScrollContainer>
-      {/* {participants.map((participant) => (
+      {participants.map((participant) => (
         <div className={classes.listItem}>
-          <Participant key={participant.sid} participant={participant} />
+          <Participant
+            key={participant.sid}
+            participant={participant}
+            disableAudio={true}
+          />
         </div>
-      ))} */}
-      {[...Array(10)].map((id) => (
+      ))}
+      {/* {[...Array(10)].map((id) => (
         <div className={classes.listItem}>
           <Participant participant={localParticipant} disableAudio={true} />
         </div>
-      ))}
+      ))} */}
     </ScrollContainer>
   )
 }
