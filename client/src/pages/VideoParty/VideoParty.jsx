@@ -15,6 +15,7 @@ import DeviceControl from '../../components/Party/DeviceControl'
 import ButtonControl from '../../components/Party/ButtonControl'
 import PusherProvider from '../../components/PusherProvider/PusherProvider'
 import ChatContainer from '../../containers/ChatContainer/ChatContainer'
+import ParticipantsListView from '../../components/Party/ParticipantsListView/ParticipantsListView'
 const Container = styled('div')(({ theme }) => ({
   border: '1px solid #757575',
   position: 'relative',
@@ -134,29 +135,17 @@ const VideoParty = () => {
             <Container>
               <div className={classes.mainViewer}>
                 {tabStatus === 'dj' ? (
-                  // dj view mode
-                  <>
-                    <LiveStream />
-                    <ButtonControl
-                      role={userData.role}
-                      onConfigureLiveStream={onConfigureLiveStream}
-                      onRandomButton={onRandomButton}
-                    />
-                  </>
+                  <LiveStream />
                 ) : tabStatus === 'fav' ? (
-                  // fav view mode
-                  <>
-                    <MainParticipant />
-                    <ButtonControl
-                      role={userData.role}
-                      onConfigureLiveStream={onConfigureLiveStream}
-                      onRandomButton={onRandomButton}
-                    />
-                  </>
+                  <MainParticipant />
                 ) : (
-                  // grid view mode
-                  <div> This is grid view screen </div>
+                  <ParticipantsListView />
                 )}
+                <ButtonControl
+                  role={userData.role}
+                  onConfigureLiveStream={onConfigureLiveStream}
+                  onRandomButton={onRandomButton}
+                />
               </div>
               <div className={classes.logo}>
                 <img src="./assets/white-logo.png" alt="white-logo" />
