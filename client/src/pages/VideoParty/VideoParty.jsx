@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
   chat: {
     gridArea: 'mg',
+    paddingLeft: '5px',
   },
   me: {
     gridArea: 'me',

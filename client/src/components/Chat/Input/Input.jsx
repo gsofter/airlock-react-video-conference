@@ -5,17 +5,23 @@ import { PaperPlanIcon } from '../../Icons/Icons'
 
 import { makeStyles } from '@material-ui/core'
 const useStyles = makeStyles((theme) => ({
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '0px 5px',
+  },
   sendButton: {
     backgroundColor: 'blue',
-    marginRight: '10px',
     marginTop: '2px',
     float: 'right',
     textDecoration: 'none',
     background: '#2979FF',
     padding: '10px',
-    border: 'none',
     color: '#fff !important',
-
+    border: 'none',
+    width: 'fit-content',
+    alignSelf: 'flex-end',
+    borderRadius: '5px',
     '&:focus': {
       outline: 'none',
     },
@@ -24,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const Input = ({ sendMessage, setMessage, message }) => {
   const classes = useStyles()
   return (
-    <form>
+    <form className={classes.form}>
       <input
         type="text"
         placeholder="Type a message..."
