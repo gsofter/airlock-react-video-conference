@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import ParticipantTracks from './ParticipantTracks'
 import MainParticipantInfo from './MainParticipantInfo'
 import { useSelector } from 'react-redux'
@@ -19,20 +19,29 @@ const useStyles = makeStyles({
   },
 })
 export default function MainParticipant() {
-  // const mainParticipant = useMainSpeaker()
-  // const [selectedParticipant] = useSelectedParticipant()
-  // const videoPriority = mainParticipant === selectedParticipant ? 'high' : null
   const classes = useStyles()
   const roomData = useSelector((state) => state.room)
   const participants = roomData.participants
-  const mainParticipant = participants.find(
-    (p) => p.identity === roomData.mainSelection,
+  const [mainParticipant, setMainParticipant] = useState(
+    participants[Math.floor(Math.random() * participants.length)],
   )
+  const selectMainRandomly = () =>
+    setMainParticipant(
+      participants[Math.floor(Math.random() * participants.length)],
+    )
+  const duration = 15000
+  useEffect(() => {
+    const interval = setInterval(() => {
+      selectMainRandomly()
+    }, duration)
+    return () => clearInterval(interval)
+  }, [])
+
   return mainParticipant ? (
     <MainParticipantInfo participant={mainParticipant}>
       <ParticipantTracks
         participant={mainParticipant}
-        // disableAudio
+        disableAudio
         // videoPriority={videoPriority}
       />
     </MainParticipantInfo>
