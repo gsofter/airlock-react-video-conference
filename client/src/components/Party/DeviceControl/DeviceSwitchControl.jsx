@@ -6,6 +6,10 @@ import Grid from '@material-ui/core/Grid'
 import CameraIcon from '@material-ui/icons/Camera'
 import MicIcon from '@material-ui/icons/Mic'
 import Typography from '@material-ui/core/Typography'
+import useRoomState from '../../../hooks/useRoomState'
+import { useHistory } from 'react-router-dom'
+import useLocalAudioToggle from '../../../hooks/useLocalAudioToggle'
+import useLocalVideoToggle from '../../../hooks/useLocalVideoToggle'
 
 const IOSSwitch = withStyles((theme) => ({
   root: {
@@ -60,6 +64,26 @@ const IOSSwitch = withStyles((theme) => ({
   )
 })
 
+const ToggleMicButton = () => {
+  const [isAudioEnabled, toggleAudioEnabled] = useLocalAudioToggle()
+  const handleChange = () => {
+    toggleAudioEnabled()
+  }
+  return (
+    <IOSSwitch checked={isAudioEnabled} onChange={handleChange} name="camera" />
+  )
+}
+
+const ToggleCameraButton = () => {
+  const [isVideoEnabled, toggleVideoEnabled] = useLocalVideoToggle()
+
+  const handleChange = () => {
+    toggleVideoEnabled()
+  }
+  return (
+    <IOSSwitch checked={isVideoEnabled} onChange={handleChange} name="camera" />
+  )
+}
 const DeviceSwitchControl = () => {
   const [state, setState] = React.useState({
     mic: true,
@@ -80,11 +104,7 @@ const DeviceSwitchControl = () => {
           Webcam
         </Grid>
         <Grid item>
-          <IOSSwitch
-            checked={state.camera}
-            onChange={handleChange}
-            name="camera"
-          />
+          <ToggleCameraButton />
         </Grid>
       </Grid>
       <Grid container spacing={2}>
@@ -92,10 +112,11 @@ const DeviceSwitchControl = () => {
           <MicIcon />
         </Grid>
         <Grid item xs>
-          Webcam
+          Microphone
         </Grid>
         <Grid item>
-          <IOSSwitch checked={state.mic} onChange={handleChange} name="mic" />
+          {/* <IOSSwitch checked={state.mic} onChange={handleChange} name="mic" /> */}
+          <ToggleMicButton />
         </Grid>
       </Grid>
     </>

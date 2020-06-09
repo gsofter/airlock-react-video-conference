@@ -247,6 +247,39 @@ const roomReducer = handleActions(
         mainSelection: action.payload.identity,
       }
     },
+
+    // radomize pins triggered from random button click
+    [actions.RANDOMIZE_PINS]: (state, action) => {
+      const pins = [...state.pins]
+      for (let pinIndex = 0; pinIndex < 7; pinIndex++) {
+        if (pins[pinIndex] && pins[pinIndex].locked === true) {
+          continue
+        }
+        const candidates = state.participants.filter((p) => {
+          const pinned = pins.find((pin) => pin.identity === p.identity)
+          if (pinned) return false
+          else return true
+        })
+
+        const randomPin =
+          candidates[Math.floor(Math.random() * candidates.length)]
+
+        if (!randomPin) continue
+        pins[pinIndex] = {
+          identity: randomPin.identity,
+          locked: false,
+          sent: false,
+          mic: false,
+          chat: false,
+          chats: [],
+        }
+      }
+
+      return {
+        ...state,
+        pins,
+      }
+    },
   },
   initState,
 )

@@ -16,6 +16,7 @@ export const CLOSE_CHAT = 'CLOSE_CHAT'
 export const ADD_MESSAGE = 'ADD_MESSAGE'
 export const INIT_CHAT_ROOM = 'INIT_CHAT_ROOM'
 export const SELECT_MAIN = 'SELECT_MAIN'
+export const RANDOMIZE_PINS = 'RANDOMIZE_PINS'
 export const initRoom = createAction(INIT_ROOM)
 export const setStreamUrlSuccess = createAction(SET_STREAM_URL_SUCCESS)
 export const setStreamUrlFailed = createAction(SET_STREAM_URL_FAILED)
@@ -32,6 +33,7 @@ export const closeChat = createAction(CLOSE_CHAT)
 export const addMessage = createAction(ADD_MESSAGE)
 export const initChatRoom = createAction(INIT_CHAT_ROOM)
 export const selectMain = createAction(SELECT_MAIN)
+export const randomizePins = createAction(RANDOMIZE_PINS)
 export const setStreamUrl = (url) => async (dispatch, getState) => {
   try {
     await api.setStreamUrl(url)
@@ -102,4 +104,5 @@ export const unLockDecline = ({ identity }) => async (dispatch, getState) => {
   }
 }
 
+// export const randomizePins = () => async (dispatch, getState) => {}
 // export const openChatBox = ({identity}) = as

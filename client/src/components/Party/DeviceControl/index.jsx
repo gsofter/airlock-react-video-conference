@@ -11,14 +11,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 const DeviceControl = ({ tabStatus }) => {
   const classes = useStyles()
-  const pLen = useSelector((state) => state.room.room).participants.length
+  const pLen = useSelector((state) => state.room).participants.length
   return (
     <>
       <Grid container spacing={2}>
         <Grid item>
           <Typography>
             participants (
-            <span className={classes.participantInfo}>{pLen}</span>)
+            <span className={classes.participantInfo}>{pLen + 1}</span>)
           </Typography>
         </Grid>
       </Grid>

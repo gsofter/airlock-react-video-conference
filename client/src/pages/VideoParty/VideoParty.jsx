@@ -116,6 +116,7 @@ const VideoParty = () => {
   }
 
   const onRandomButton = () => {
+    dispatch(roomActions.randomizePins())
     console.log('asdf')
   }
 

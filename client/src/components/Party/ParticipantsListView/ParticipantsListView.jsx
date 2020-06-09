@@ -7,6 +7,7 @@ import Participant from '../Participant/Participant'
 const useStyles = makeStyles((theme) => ({
   listItem: {
     width: '33%',
+    height: 'fit-content',
     [theme.breakpoints.down('xs')]: {
       width: '50%',
     },
@@ -37,7 +38,7 @@ const ParticipantListView = () => {
           />
         </div>
       ))}
-      {/* {[...Array(10)].map((id) => (
+      {/* {[...Array(11)].map((id) => (
         <div className={classes.listItem}>
           <Participant participant={localParticipant} disableAudio={true} />
         </div>

@@ -1,14 +1,12 @@
 import { useCallback } from 'react'
 import useVideoPartyContext from '../useVideoPartyContext'
+import useLocalTracks from '../useLocalTracks/useLocalTracks'
+import { useSelector } from 'react-redux'
 
 export default function useLocalVideoToggle() {
-  const {
-    room: { localParticipant },
-    localTracks,
-    getLocalVideoTrack,
-  } = useVideoPartyContext()
+  const { localTracks, getLocalVideoTrack } = useLocalTracks()
   const videoTrack = localTracks.find((track) => track.name === 'camera')
-
+  const localParticipant = useSelector((state) => state.room.localParticipant)
   const toggleVideoEnabled = useCallback(() => {
     if (videoTrack) {
       if (localParticipant) {
