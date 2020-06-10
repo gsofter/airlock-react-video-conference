@@ -6,18 +6,15 @@ export function useLocalAudioTrack() {
 
   useEffect(() => {
     Video.createLocalAudioTrack().then((newTrack) => {
-      console.log('newAudioTrack =>', newTrack)
       setTrack(newTrack)
     })
   }, [])
 
   useEffect(() => {
-    console.log('Audio track => ', track)
     const handleStopped = () => setTrack(undefined)
     if (track) {
       track.on('stopped', handleStopped)
       return () => {
-        console.log('AUDIO TRACK STOPPED')
         track.off('stopped', handleStopped)
       }
     }
@@ -37,7 +34,6 @@ export function useLocalVideoTrack() {
         width: 1280,
         name: 'camera',
       }).then((newTrack) => {
-        console.log('newVideoTrack => ', newTrack)
         setTrack(newTrack)
         return newTrack
       }),
@@ -50,12 +46,10 @@ export function useLocalVideoTrack() {
   }, [getLocalVideoTrack])
 
   useEffect(() => {
-    console.log('localVideoTrack => ', track)
     const handleStopped = () => setTrack(undefined)
     if (track) {
       track.on('stopped', handleStopped)
       return () => {
-        console.log('VIDEO TRACK STOPPED')
         track.off('stopped', handleStopped)
       }
     }

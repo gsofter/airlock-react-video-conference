@@ -12,7 +12,6 @@ export default function VideoTrack({ track, isLocal }) {
 
   useEffect(() => {
     if (!track) return
-    console.log('Videotrack', track)
     const el = ref.current
     // el.muted = true
     // if (track.setPriority && priority) {
