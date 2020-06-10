@@ -46,12 +46,13 @@ export const getTwilioToken = () => {
  *
  */
 export const setStreamUrl = (url) => {
+  const token = getAccessToken()
   return axios.post(
     `${endpoint}/room/set_stream_url`,
     {
       url: url,
     },
-    { withCredentials: true },
+    { headers: { Authorization: `Bearer ${token}` } },
   )
 }
 

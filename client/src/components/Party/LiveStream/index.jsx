@@ -16,6 +16,10 @@ const LiveStream = () => {
   const classes = useStyles()
   const roomData = useSelector((state) => state.room)
   const url = roomData.stream.url
+
+  const onError = () => {
+    console.log('ERROR')
+  }
   return (
     <div className={classes.streamWrrapper}>
       <ReactPlayer
@@ -28,6 +32,7 @@ const LiveStream = () => {
             playerVars: { showinfo: 1, modestbranding: 1 },
           },
         }}
+        onError={onError}
         playing
       />
     </div>
