@@ -4,7 +4,7 @@
   "description": "Vide Conference Web Application",
   "author": "DreamWeb Innovation",
   "scripts": {
-    "start": "npm run build && node index.js",
+    "start": "node index.js",
     "dev": "nodemon index.js",
     "serve": "node index.js",
     "start-client": "react-scripts start",
