@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import useRoomState from '../../hooks/useRoomState'
+import clsx from 'clsx'
 import { styled } from '@material-ui/core/styles'
 import { makeStyles, Typography } from '@material-ui/core'
 import PinParticipant from '../../components/Party/Participant/PinParticipant'
@@ -19,11 +20,11 @@ import ParticipantsListView from '../../components/Party/ParticipantsListView/Pa
 const Container = styled('div')(({ theme }) => ({
   border: '1px solid #757575',
   position: 'relative',
-  width: '1225px',
-  height: '900px',
   display: 'grid',
-  gridTemplateColumns: `200px 200px 200px 200px 200px 200px`,
-  gridTemplateRows: `175px 175px 175px 175px 175px`,
+  width: '100%',
+  height: '100%',
+  gridTemplateColumns: `repeat(6, minmax(0, 1fr))`,
+  gridTemplateRows: `repeat(5, minmax(0, 1fr))`,
   gap: '5px 5px',
   gridTemplateAreas: `"lg mp mp mp mp ct"
                       "mg mp mp mp mp bt"
@@ -67,35 +68,33 @@ const useStyles = makeStyles((theme) => ({
   },
   t1: {
     gridArea: 't1',
-    minWidth: '200px',
   },
   t2: {
     gridArea: 't2',
-    minWidth: '200px',
   },
   t3: {
     gridArea: 't3',
-    minWidth: '200px',
   },
   t4: {
     gridArea: 't4',
-    minWidth: '200px',
   },
   t5: {
     gridArea: 't5',
-    minWidth: '200px',
   },
   t6: {
     gridArea: 't6',
-    minWidth: '200px',
   },
   t7: {
     gridArea: 't7',
-    minWidth: '200px',
   },
   t8: {
     gridArea: 't8',
-    minWidth: '200px',
+  },
+  showVideo: {
+    display: 'block',
+  },
+  hideVideo: {
+    display: 'none',
   },
 }))
 
@@ -136,9 +135,8 @@ const VideoParty = () => {
             <PusherProvider />
             <Container>
               <div className={classes.mainViewer}>
-                {tabStatus === 'dj' ? (
-                  <LiveStream />
-                ) : tabStatus === 'fav' ? (
+                <LiveStream tabStatus={tabStatus} />
+                {tabStatus === 'dj' ? null : tabStatus === 'fav' ? (
                   <MainParticipant />
                 ) : (
                   <ParticipantsListView />
@@ -150,7 +148,7 @@ const VideoParty = () => {
                 />
               </div>
               <div className={classes.logo}>
-                <img src="./assets/white-logo.png" alt="white-logo" />
+                <img src="./assets/logo.png" alt="logo" />
                 <Typography variant="body2">squareparty</Typography>
               </div>
               <div className={classes.chat}>

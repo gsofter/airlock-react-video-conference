@@ -2,18 +2,17 @@ import React from 'react'
 import ReactPlayer from 'react-player'
 import { makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
-const useStyles = makeStyles((theme) => ({
-  streamWrrapper: {
-    display: 'flex',
+const useStyles = makeStyles({
+  streamWrapper: {
+    display: (props) => (props.tabStatus === 'dj' ? 'flex' : 'none'),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     height: 'calc(100% - 70px)',
   },
-}))
-
-const LiveStream = () => {
-  const classes = useStyles()
+})
+const LiveStream = ({ tabStatus }) => {
+  const classes = useStyles({ tabStatus: tabStatus })
   const roomData = useSelector((state) => state.room)
   const url = roomData.stream.url
 
@@ -21,7 +20,7 @@ const LiveStream = () => {
     console.log('ERROR')
   }
   return (
-    <div className={classes.streamWrrapper}>
+    <div className={classes.streamWrapper}>
       <ReactPlayer
         url={url}
         width="100%"
