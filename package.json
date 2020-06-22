@@ -1,0 +1,27 @@
+{
+  "name": "squareparty",
+  "version": "1.0.0",
+  "description": "Vide Conference Web Application",
+  "author": "DreamWeb Innovation",
+  "scripts": {
+    "start": "(cd client && npm run build) && (cd ../ && node index.js)",
+    "dev": "nodemon index.js",
+    "watch:webpack": "webpack -w",
+    "watch:server": "nodemon --ext js,jsx --ignore client/src/assets index.js"
+  },
+  "main": "index.js",
+  "squareparty": [
+    "legably"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "path": "^0.12.7"
+  }
+}
