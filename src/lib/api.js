@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { getAccessToken } from './cookie'
-const endpoint = 'https://airlock-server-dev.herokuapp.com/api'
-// const endpoint = 'http://localhost:5000/api'
+import { API_ENDPOINT } from '../config/settings'
 
 /**
  *
@@ -11,7 +10,7 @@ const endpoint = 'https://airlock-server-dev.herokuapp.com/api'
  * @return {* access_code: string, identity: string, token: string }
  */
 export const userLogin = async (passcode) =>
-  axios.post(`${endpoint}/login`, { passcode })
+  axios.post(`${API_ENDPOINT}/login`, { passcode })
 
 /**
  *
@@ -21,7 +20,7 @@ export const userLogin = async (passcode) =>
  */
 export const checkAuth = async () => {
   const token = getAccessToken()
-  return axios.get(`${endpoint}/user/check_auth`, {
+  return axios.get(`${API_ENDPOINT}/user/check_auth`, {
     headers: { Authorization: `Bearer ${token}` },
   })
 }
@@ -35,7 +34,7 @@ export const checkAuth = async () => {
  */
 export const getTwilioToken = () => {
   const token = getAccessToken()
-  return axios.get(`${endpoint}/twilio/token`, {
+  return axios.get(`${API_ENDPOINT}/twilio/token`, {
     headers: { Authorization: `Bearer ${token}` },
   })
 }
@@ -48,7 +47,7 @@ export const getTwilioToken = () => {
 export const setStreamUrl = (url) => {
   const token = getAccessToken()
   return axios.post(
-    `${endpoint}/room/set_stream_url`,
+    `${API_ENDPOINT}/room/set_stream_url`,
     {
       url: url,
     },
@@ -66,7 +65,7 @@ export const sendUnLockRequest = (to) => {
   const token = getAccessToken()
   console.log('Token => ', token)
   return axios.post(
-    `${endpoint}/room/unlock_request`,
+    `${API_ENDPOINT}/room/unlock_request`,
     {
       to,
     },
@@ -83,7 +82,7 @@ export const sendUnLockRequest = (to) => {
 export const sendLockRequest = (to) => {
   const token = getAccessToken()
   return axios.post(
-    `${endpoint}/room/lock_request`,
+    `${API_ENDPOINT}/room/lock_request`,
     {
       to,
     },
@@ -100,7 +99,7 @@ export const sendLockRequest = (to) => {
 export const unLockAccept = (to) => {
   const token = getAccessToken()
   return axios.post(
-    `${endpoint}/room/unlock_accept`,
+    `${API_ENDPOINT}/room/unlock_accept`,
     {
       to,
     },
@@ -117,7 +116,7 @@ export const unLockAccept = (to) => {
 export const unLockDecline = (to) => {
   const token = getAccessToken()
   return axios.post(
-    `${endpoint}/room/unlock_decline`,
+    `${API_ENDPOINT}/room/unlock_decline`,
     {
       to,
     },
@@ -134,7 +133,7 @@ export const unLockDecline = (to) => {
  */
 export const switchMic = (to, micOn) => {
   const token = getAccessToken()
-  return axios.get(`${endpoint}/room/mic`, {
+  return axios.get(`${API_ENDPOINT}/room/mic`, {
     params: {
       to,
       mic_on: micOn,
@@ -146,7 +145,7 @@ export const switchMic = (to, micOn) => {
 export const sendMessage = (to, message) => {
   const token = getAccessToken()
   return axios.post(
-    `${endpoint}/room/message`,
+    `${API_ENDPOINT}/room/message`,
     {
       to,
       message,
