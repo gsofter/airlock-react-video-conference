@@ -11,6 +11,8 @@ import PublicRoute from './components/RouteComponents/PublicRoute.jsx'
 import useAuth from './hooks/useAuth'
 import RoomContainer from './containers/RoomContainer/RoomContainer'
 import { SnackbarProvider } from 'notistack'
+import HomePage from './pages/HomePage/HomePage'
+import ConnectStreamPage from './pages/ConnectStreamPage/ConnectStreamPage'
 
 function App() {
   useAuth()
@@ -18,6 +20,12 @@ function App() {
     <SnackbarProvider maxSnack={3}>
       <Router>
         <Switch>
+          <Route path="/home">
+            <HomePage />
+          </Route>
+          <Route path="connect-stream">
+            <ConnectStreamPage />
+          </Route>
           <LoginRoute path="/login">
             <LoginPage />
           </LoginRoute>
@@ -25,7 +33,7 @@ function App() {
             <RoomContainer />
           </PublicRoute>
           <Route path="*">
-            <Redirect to="/party" />
+            <Redirect to="/home" />
           </Route>
         </Switch>
       </Router>

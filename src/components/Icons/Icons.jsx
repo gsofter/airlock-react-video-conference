@@ -16,6 +16,7 @@ import {
   faTimes,
 } from '@fortawesome/free-solid-svg-icons'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
+import { faYoutube, faFacebook } from '@fortawesome/free-brands-svg-icons'
 
 export const LockIcon = () => {
   return <FontAwesomeIcon icon={faLock} />
@@ -42,4 +43,12 @@ export const PaperPlanIcon = () => {
 
 export const CloseIcon = () => {
   return <FontAwesomeIcon icon={faTimes} />
+}
+
+export const YoutubeIcon = () => {
+  return <FontAwesomeIcon icon={faYoutube} />
+}
+
+export const FacebookIcon = () => {
+  return <FontAwesomeIcon icon={faFacebook} />
 }

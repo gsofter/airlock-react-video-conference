@@ -5,9 +5,10 @@ const theme = createMuiTheme({
   type: 'dark',
   palette: {
     primary: {
-      main: '#383E4A',
+      main: '#235BF6',
     },
   },
+  shadows: ['none'],
   sidebarWidth: 260,
   sidebarMobileHeight: 90,
 })
