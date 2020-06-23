@@ -81,7 +81,7 @@ const HomePage = () => {
   const classes = useStyles()
   const history = useHistory()
   const onConnectLiveStream = () => {
-    history.push('/connect-stream')
+    history.push('/connect_stream')
   }
   return (
     <>

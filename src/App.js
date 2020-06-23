@@ -23,7 +23,7 @@ function App() {
           <Route path="/home">
             <HomePage />
           </Route>
-          <Route path="connect-stream">
+          <Route path="/connect_stream">
             <ConnectStreamPage />
           </Route>
           <LoginRoute path="/login">
