@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   makeStyles,
   AppBar,
@@ -79,6 +79,18 @@ const ConnectStreamPage = () => {
   const gotoHome = () => {
     history.push('/home')
   }
+
+  const [form, setForm] = useState({
+    username: '',
+    dj: '',
+  })
+
+  const handleChange = (event) => {
+    setForm({ ...form, [event.target.name]: event.target.value })
+  }
+  const onStartConnecting = (event) => {
+    event.preventDefault()
+  }
   return (
     <>
       <div className={classes.header}>
@@ -128,13 +140,16 @@ const ConnectStreamPage = () => {
                 easily
               </p>
             </div>
-            <form className={classes.form}>
+            <form className={classes.form} onSubmit={onStartConnecting}>
               <div className="form-control username">
                 <Input
                   placeholder="Instagram username"
                   variant="filled"
                   disableUnderline
                   fullWidth
+                  name="username"
+                  value={form.username}
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-control link">
@@ -144,6 +159,9 @@ const ConnectStreamPage = () => {
                   disableUnderline
                   required
                   fullWidth
+                  name="link"
+                  value={form.link}
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-control btn-submit">
@@ -154,6 +172,7 @@ const ConnectStreamPage = () => {
                   className={classes.submit}
                   required
                   fullWidth
+                  type="submit"
                 >
                   START CONNECTING YOUR STREAM
                 </Button>

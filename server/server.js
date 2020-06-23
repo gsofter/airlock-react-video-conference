@@ -1,16 +1,23 @@
 const express = require('express')
 const apiRouter = require('./routes/apiRouter')
-const staticRouter = require('./routes/staticRouter')
 const app = express()
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
+const mongoose = require('mongoose')
 
 function start() {
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
   app.use(cookieParser())
+
+  // connect to mongo db
+  mongoose.connect(
+    'mongodb+srv://gurusoft:jyuS4J1obK2U8KPQ@cluster0-fpfsx.mongodb.net/squareparty?retryWrites=true&w=majority',
+    { useNewUrlParser: true, useUnifiedTopology: true },
+  )
+
   const whitelist = ['http://localhost:3000', 'https://squareparty.netlify.app']
   const corsOptions = {
     origin: whitelist,

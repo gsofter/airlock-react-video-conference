@@ -41,3 +41,11 @@ export const logout = () => (dispatch) => {
   dispatch(loginFailed())
   dispatch(initRoom())
 }
+
+export const djConnect = (username, link) => async (dispatch) => {
+  try {
+    api.djConnect(username, link)
+  } catch (e) {
+    throw e
+  }
+}

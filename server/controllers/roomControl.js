@@ -1,23 +1,18 @@
-const models = require("../models");
-const jwt = require("jsonwebtoken");
-const HttpStatus = require("http-status-codes");
-const { Op } = require("sequelize");
-const Pusher = require("pusher");
-
-const AccessToken = require("twilio").jwt.AccessToken;
+const HttpStatus = require('http-status-codes')
+const Pusher = require('pusher')
 
 // Pusher credentials
-const pusherAppId = process.env.PUSHER_APP_ID;
-const pusherAppKey = process.env.PUSHER_APP_KEY;
-const pusherAppSecret = process.env.PUSHER_APP_SECRET;
-const pusherAppCluster = process.env.PUSHER_APP_CLUSTER;
+const pusherAppId = process.env.PUSHER_APP_ID
+const pusherAppKey = process.env.PUSHER_APP_KEY
+const pusherAppSecret = process.env.PUSHER_APP_SECRET
+const pusherAppCluster = process.env.PUSHER_APP_CLUSTER
 
 const pusher = new Pusher({
   appId: pusherAppId,
   key: pusherAppKey,
   secret: pusherAppSecret,
   cluster: pusherAppCluster,
-});
+})
 
 /**
  *
@@ -26,29 +21,20 @@ const pusher = new Pusher({
  */
 const setStreamUrl = async (req, res, next) => {
   try {
-    const { Config } = models;
-    const url = req.body.url;
-    await Config.update(
-      {
-        value: url,
-      },
-      {
-        where: { key: "stream_url" },
-      }
-    );
+    const url = req.body.url
 
-    pusher.trigger("airlock-channel", "stream-url-change", {
-      name: "stream-url",
+    pusher.trigger('airlock-channel', 'stream-url-change', {
+      name: 'stream-url',
       message: url,
-    });
+    })
 
-    res.send("success");
+    res.send('success')
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-    });
+    })
   }
-};
+}
 
 /**
  *
@@ -57,19 +43,19 @@ const setStreamUrl = async (req, res, next) => {
  */
 const unLockRequest = async (req, res, next) => {
   try {
-    const userId = req.auth_user.identity;
-    const to = req.body.to;
-    console.log(`UNLOCK REQUEST TO ${to}-unlock`);
-    const output = pusher.trigger(`${to}-unlock`, "unlock", {
+    const userId = req.auth_user.identity
+    const to = req.body.to
+    console.log(`UNLOCK REQUEST TO ${to}-unlock`)
+    const output = pusher.trigger(`${to}-unlock`, 'unlock', {
       name: userId,
-    });
-    res.send({ output });
+    })
+    res.send({ output })
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-    });
+    })
   }
-};
+}
 
 /**
  *
@@ -78,18 +64,18 @@ const unLockRequest = async (req, res, next) => {
  */
 const lockRequest = async (req, res, next) => {
   try {
-    const userId = req.auth_user.identity;
-    const to = req.body.to;
-    pusher.trigger(`${to}-lock-request`, "lock", {
+    const userId = req.auth_user.identity
+    const to = req.body.to
+    pusher.trigger(`${to}-lock-request`, 'lock', {
       name: userId,
-    });
-    res.send("message-sent");
+    })
+    res.send('message-sent')
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-    });
+    })
   }
-};
+}
 
 /**
  *
@@ -98,18 +84,18 @@ const lockRequest = async (req, res, next) => {
  */
 const unLockAccept = async (req, res, next) => {
   try {
-    const userId = req.auth_user.identity;
-    const to = req.body.to;
-    pusher.trigger(`${to}-unlock-accept`, "unlock-accept", {
+    const userId = req.auth_user.identity
+    const to = req.body.to
+    pusher.trigger(`${to}-unlock-accept`, 'unlock-accept', {
       name: userId,
-    });
-    res.send("message-sent");
+    })
+    res.send('message-sent')
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-    });
+    })
   }
-};
+}
 
 /**
  *
@@ -118,18 +104,18 @@ const unLockAccept = async (req, res, next) => {
  */
 const unLockDecline = async (req, res, next) => {
   try {
-    const userId = req.auth_user.identity;
-    const to = req.body.to;
-    pusher.trigger(`${to}-unlock-decline`, "unlock-decline", {
+    const userId = req.auth_user.identity
+    const to = req.body.to
+    pusher.trigger(`${to}-unlock-decline`, 'unlock-decline', {
       name: userId,
-    });
-    res.send("message-sent");
+    })
+    res.send('message-sent')
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-    });
+    })
   }
-};
+}
 
 /**
  *
@@ -138,23 +124,23 @@ const unLockDecline = async (req, res, next) => {
  */
 const mic = async (req, res, next) => {
   try {
-    const to = req.query.to;
-    const micOn = req.query.mic_on;
-    const userId = req.auth_user.identity;
+    const to = req.query.to
+    const micOn = req.query.mic_on
+    const userId = req.auth_user.identity
 
-    console.log("MIC QUERY", req.query);
-    pusher.trigger(`${to}-mic`, "mic-on", {
+    console.log('MIC QUERY', req.query)
+    pusher.trigger(`${to}-mic`, 'mic-on', {
       name: userId,
-      message: micOn === "true" ? "on" : "off",
-    });
+      message: micOn === 'true' ? 'on' : 'off',
+    })
 
-    res.send("message-sent");
+    res.send('message-sent')
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-    });
+    })
   }
-};
+}
 
 /**
  *
@@ -163,23 +149,23 @@ const mic = async (req, res, next) => {
  */
 const message = async (req, res, next) => {
   try {
-    const to = req.body.to;
-    const message = req.body.message;
-    const userId = req.auth_user.identity;
+    const to = req.body.to
+    const message = req.body.message
+    const userId = req.auth_user.identity
 
-    console.log("MESSAGE QUERY", req.body);
-    pusher.trigger(`${to}-message`, "message", {
+    console.log('MESSAGE QUERY', req.body)
+    pusher.trigger(`${to}-message`, 'message', {
       name: userId,
       message: message,
-    });
+    })
 
-    res.send("message-sent");
+    res.send('message-sent')
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-    });
+    })
   }
-};
+}
 
 module.exports = {
   setStreamUrl,
@@ -189,4 +175,4 @@ module.exports = {
   unLockDecline,
   mic,
   message,
-};
+}

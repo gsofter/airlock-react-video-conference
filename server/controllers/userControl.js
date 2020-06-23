@@ -1,14 +1,14 @@
-const jwt = require("jsonwebtoken");
-const models = require("../models");
-const HttpStatus = require("http-status-codes");
-const AccessToken = require("twilio").jwt.AccessToken;
-const VideoGrant = AccessToken.VideoGrant;
+const jwt = require('jsonwebtoken')
+const UserModel = require('../models/user')
+const HttpStatus = require('http-status-codes')
+const AccessToken = require('twilio').jwt.AccessToken
+const VideoGrant = AccessToken.VideoGrant
 
-const MAX_ALLOWED_SESSION_DURATION = 14400;
-const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
-const twilioApiKeySID = process.env.TWILIO_API_KEY_SID;
-const twilioApiKeySecret = process.env.TWILIO_API_KEY_SECRET;
-const TWILIO_ROOM_NAME = "squareparty";
+const MAX_ALLOWED_SESSION_DURATION = 14400
+const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID
+const twilioApiKeySID = process.env.TWILIO_API_KEY_SID
+const twilioApiKeySecret = process.env.TWILIO_API_KEY_SECRET
+const TWILIO_ROOM_NAME = 'squareparty'
 /**
  *
  * Returns token for user with passcode
@@ -20,19 +20,19 @@ const TWILIO_ROOM_NAME = "squareparty";
  */
 const login = async (req, res, next) => {
   try {
-    const { passcode } = req.body;
-    const { User, Config } = models;
+    const { passcode } = req.body
+    const { User, Config } = models
     const user = await User.findOne({
       where: { access_code: passcode },
-      attributes: ["name", "access_code", "room_name", "role"],
-    });
+      attributes: ['name', 'access_code', 'room_name', 'role'],
+    })
 
     if (!user) {
       // user not exist => 404 {type: 'USER_NOT_FOUND'}
       res.status(HttpStatus.NOT_FOUND).json({
-        type: "USER_NOT_FOUND",
-      });
-      return;
+        type: 'USER_NOT_FOUND',
+      })
+      return
     }
     const token = new AccessToken(
       twilioAccountSid,
@@ -40,16 +40,16 @@ const login = async (req, res, next) => {
       twilioApiKeySecret,
       {
         ttl: MAX_ALLOWED_SESSION_DURATION,
-      }
-    );
-    const videoGrant = new VideoGrant({ room: TWILIO_ROOM_NAME });
-    token.identity = user.name;
-    token.addGrant(videoGrant);
+      },
+    )
+    const videoGrant = new VideoGrant({ room: TWILIO_ROOM_NAME })
+    token.identity = user.name
+    token.addGrant(videoGrant)
 
     const config = await Config.findOne({
-      where: { key: "stream_url" },
-      attributes: ["key", "value"],
-    });
+      where: { key: 'stream_url' },
+      attributes: ['key', 'value'],
+    })
 
     const userData = {
       access_code: user.access_code,
@@ -57,27 +57,27 @@ const login = async (req, res, next) => {
       role: user.role,
       token: token.toJwt(),
       stream_url: config.value,
-    };
+    }
 
     const jwtToken = jwt.sign(userData, process.env.AUTH_TOKEN_SECRET, {
-      expiresIn: "24h",
-    });
-    res.cookie("airlock_token", jwtToken, {
+      expiresIn: '24h',
+    })
+    res.cookie('airlock_token', jwtToken, {
       maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
-    });
+    })
 
     const sendData = {
       ...userData,
       access_token: jwtToken,
-    };
-    res.send(sendData);
+    }
+    res.send(sendData)
   } catch (err) {
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-    });
+    })
   }
-};
+}
 
 /**
  *
@@ -91,19 +91,19 @@ const login = async (req, res, next) => {
  */
 const checkAuth = async (req, res, next) => {
   try {
-    const access_code = req.auth_user.access_code;
-    const { User, Config } = models;
+    const access_code = req.auth_user.access_code
+    const { User, Config } = models
     const user = await User.findOne({
       where: { access_code: access_code },
-      attributes: ["name", "access_code", "room_name", "role"],
-    });
+      attributes: ['name', 'access_code', 'room_name', 'role'],
+    })
 
     if (!user) {
       // user not exist => 404 {type: 'USER_NOT_FOUND'}
       res.status(HttpStatus.NOT_FOUND).json({
-        type: "USER_NOT_FOUND",
-      });
-      return;
+        type: 'USER_NOT_FOUND',
+      })
+      return
     }
     const token = new AccessToken(
       twilioAccountSid,
@@ -111,16 +111,16 @@ const checkAuth = async (req, res, next) => {
       twilioApiKeySecret,
       {
         ttl: MAX_ALLOWED_SESSION_DURATION,
-      }
-    );
-    const videoGrant = new VideoGrant({ room: TWILIO_ROOM_NAME });
-    token.identity = user.name;
-    token.addGrant(videoGrant);
+      },
+    )
+    const videoGrant = new VideoGrant({ room: TWILIO_ROOM_NAME })
+    token.identity = user.name
+    token.addGrant(videoGrant)
 
     const config = await Config.findOne({
-      where: { key: "stream_url" },
-      attributes: ["key", "value"],
-    });
+      where: { key: 'stream_url' },
+      attributes: ['key', 'value'],
+    })
     // generate twilio token
     const userData = {
       access_code: user.access_code,
@@ -128,27 +128,43 @@ const checkAuth = async (req, res, next) => {
       role: user.role,
       token: token.toJwt(),
       stream_url: config.value,
-    };
+    }
 
     const jwtToken = jwt.sign(userData, process.env.AUTH_TOKEN_SECRET, {
-      expiresIn: "24h",
-    });
-    res.cookie("airlock_token", jwtToken, {
+      expiresIn: '24h',
+    })
+    res.cookie('airlock_token', jwtToken, {
       maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
-    });
+    })
 
     const sendData = {
       ...userData,
       access_token: jwtToken,
-    };
-    res.send(sendData);
+    }
+    res.send(sendData)
   } catch (err) {
-    console.log(err);
+    console.log(err)
     res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       error: err.message,
-    });
+    })
   }
-};
+}
 
-module.exports = { login, checkAuth };
+const djConnect = async (req, res, next) => {
+  try {
+    const { username, link } = req.body
+    if (!username || !link) {
+      res.status(HttpStatus.NOT_ACCEPTABLE).json({
+        message: 'Not Acceptable',
+      })
+    }
+    const newDj = new UserModel({ username, link })
+    newDj.save(function (err, result) {
+      if (err) console.log(err)
+      else console.log('success')
+    })
+  } catch (err) {}
+}
+
+module.exports = { login, checkAuth, djConnect }

@@ -1,14 +1,12 @@
-module.exports = (sequelize, DataTypes) => {
-  return sequelize.define(
-    "users",
-    {
-      access_code: DataTypes.STRING, // access_code (passcode)
-      room_name: DataTypes.STRING, // joined room name
-      name: DataTypes.STRING, // identity
-      role: DataTypes.STRING, // dj or not
-    },
-    {
-      timestamps: false,
-    }
-  );
-};
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+
+const userSchema = new Schema({
+  email: { type: String, lowercase: true },
+  link: { type: String },
+  username: { type: String, unique: true },
+})
+
+const UserModel = mongoose.model('user', userSchema)
+
+module.exports = UserModel

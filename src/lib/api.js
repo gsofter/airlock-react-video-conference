@@ -153,3 +153,10 @@ export const sendMessage = (to, message) => {
     { headers: { Authorization: `Bearer ${token}` } },
   )
 }
+
+export const djConnect = (username, link) => {
+  return axios.post(`${API_ENDPOINT}/user/dj_connect`, {
+    username,
+    link,
+  })
+}

@@ -48,6 +48,7 @@
     "http-status-codes": "^1.4.0",
     "jsonwebtoken": "^8.5.1",
     "lodash.throttle": "^4.1.1",
+    "mongoose": "^5.9.20",
     "node-sass": "^4.14.1",
     "notistack": "^0.9.16",
     "path": "^0.12.7",
