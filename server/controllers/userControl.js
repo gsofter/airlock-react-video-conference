@@ -159,12 +159,39 @@ const djConnect = async (req, res, next) => {
         message: 'Not Acceptable',
       })
     }
-    const newDj = new UserModel({ username, link })
-    newDj.save(function (err, result) {
-      if (err) console.log(err)
-      else console.log('success')
+    const filter = { username } // { username : username }
+    const update = { link } // { link: link }
+    await UserModel.countDocuments(filter)
+    let newDj = await UserModel.findOneAndUpdate(filter, update, {
+      new: true,
+      upsert: true, // Make this update into an upsert
     })
-  } catch (err) {}
+    console.log('newDj => ', newDj)
+    console.log('twilioAccountSid => ', twilioAccountSid)
+    console.log('env => ', process.env)
+    const token = new AccessToken(
+      twilioAccountSid,
+      twilioApiKeySID,
+      twilioApiKeySecret,
+      {
+        ttl: MAX_ALLOWED_SESSION_DURATION,
+      },
+    )
+    console.log('tToken => ', token)
+    const videoGrant = new VideoGrant({ room: newDj.username })
+    token.identity = newDj.username
+    token.addGrant(videoGrant)
+    const responseData = {
+      token,
+      username,
+    }
+    res.send(responseData)
+  } catch (err) {
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      message: err,
+    })
+    return
+  }
 }
 
 module.exports = { login, checkAuth, djConnect }

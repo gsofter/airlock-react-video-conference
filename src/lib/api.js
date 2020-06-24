@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getAccessToken } from './cookie'
 import { API_ENDPOINT } from '../config/settings'
-
+console.log(process.env)
 /**
  *
  * Return identity and twilio_token for user corresponding to passcode
