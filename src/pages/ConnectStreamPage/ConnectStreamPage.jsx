@@ -10,6 +10,8 @@ import {
   Button,
 } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { djConnect } from '../../redux/user/actions'
 const useStyles = makeStyles((theme) => ({
   header: {
     flexGrow: 1,
@@ -76,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
 const ConnectStreamPage = () => {
   const classes = useStyles()
   const history = useHistory()
+  const dispatch = useDispatch()
   const gotoHome = () => {
     history.push('/home')
   }
@@ -90,6 +93,7 @@ const ConnectStreamPage = () => {
   }
   const onStartConnecting = (event) => {
     event.preventDefault()
+    dispatch(djConnect(form.username, form.link))
   }
   return (
     <>

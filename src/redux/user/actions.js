@@ -1,10 +1,6 @@
 import { createAction } from 'redux-actions'
 import * as api from '../../lib/api'
-import {
-  setStreamUrlSuccess,
-  setStreamUrlFailed,
-  initRoom,
-} from '../room/actions'
+import { setStreamUrlSuccess, initRoom } from '../room/actions'
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILED = 'LOGIN_FAILED'
@@ -43,6 +39,7 @@ export const logout = () => (dispatch) => {
 }
 
 export const djConnect = (username, link) => async (dispatch) => {
+  console.log('DJ CONNECT THUNK ACTION')
   try {
     api.djConnect(username, link)
   } catch (e) {
