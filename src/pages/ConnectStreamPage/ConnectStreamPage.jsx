@@ -123,7 +123,7 @@ const ConnectStreamPage = () => {
           </Toolbar>
         </AppBar>
       </div>
-      <main className={classes.mainContainer}>
+      <main>
         <Container className={classes.container}>
           <div className={classes.formContainer}>
             <div className={classes.description}>

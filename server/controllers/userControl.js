@@ -166,9 +166,6 @@ const djConnect = async (req, res, next) => {
       new: true,
       upsert: true, // Make this update into an upsert
     })
-    console.log('newDj => ', newDj)
-    console.log('twilioAccountSid => ', twilioAccountSid)
-    console.log('env => ', process.env)
     const token = new AccessToken(
       twilioAccountSid,
       twilioApiKeySID,
@@ -182,7 +179,7 @@ const djConnect = async (req, res, next) => {
     token.identity = newDj.username
     token.addGrant(videoGrant)
     const responseData = {
-      token,
+      token: token.toJwt(),
       username,
     }
     res.send(responseData)
