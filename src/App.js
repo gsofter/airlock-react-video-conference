@@ -13,6 +13,7 @@ import RoomContainer from './containers/RoomContainer/RoomContainer'
 import { SnackbarProvider } from 'notistack'
 import HomePage from './pages/HomePage/HomePage'
 import ConnectStreamPage from './pages/ConnectStreamPage/ConnectStreamPage'
+import PrivateRoute from './components/RouteComponents/PrivateRoute'
 
 function App() {
   useAuth()
@@ -32,6 +33,9 @@ function App() {
           <PublicRoute path="/party">
             <RoomContainer />
           </PublicRoute>
+          <PrivateRoute path="/room/:RoomName">
+            <RoomContainer />
+          </PrivateRoute>
           <Route path="*">
             <Redirect to="/home" />
           </Route>

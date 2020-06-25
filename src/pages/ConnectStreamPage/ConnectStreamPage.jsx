@@ -93,7 +93,16 @@ const ConnectStreamPage = () => {
   }
   const onStartConnecting = (event) => {
     event.preventDefault()
-    dispatch(djConnect(form.username, form.link))
+    dispatch(djConnect(form.username, form.link)).then((res) => {
+      history.push('/party')
+      window.history.replaceState(
+        null,
+        '',
+        window.encodeURI(
+          `/room/${form.username} || ${window.location.search || ''}`,
+        ),
+      )
+    })
   }
   return (
     <>
@@ -177,6 +186,7 @@ const ConnectStreamPage = () => {
                   required
                   fullWidth
                   type="submit"
+                  disabled={!form.username || !form.link}
                 >
                   START CONNECTING YOUR STREAM
                 </Button>

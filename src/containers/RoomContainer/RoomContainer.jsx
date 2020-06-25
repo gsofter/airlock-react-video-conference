@@ -54,10 +54,8 @@ const RoomContainer = () => {
     }
 
     Video.connect(token, { ...connectionOptions, tracks: [] }).then((room) => {
-      console.log('CONNECTED', room)
       dispatch(setTwilioRoom(room))
       room.once('disconnected', () => {
-        // Reset the room only after all other `disconnected` listeners have been called.
         setTimeout(() => dispatch(setTwilioRoom(null)))
         window.removeEventListener('beforeunload', disconnectHandlerRef.current)
       })

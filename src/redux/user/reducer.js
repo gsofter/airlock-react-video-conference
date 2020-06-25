@@ -1,26 +1,30 @@
 import { handleActions } from 'redux-actions'
 import * as actions from './actions'
-import { setAccessToken, removeAccessToken } from '../../lib/cookie'
+// import { setAccessToken, removeAccessToken } from '../../lib/cookie'
 
 let initState = {
-  access_code: '',
-  name: '',
+  identity: '',
   token: '',
-  role: '',
+  link: '',
 }
 
 const userReducer = handleActions(
   {
     [actions.LOGIN_FAILED]: () => {
-      removeAccessToken()
       return initState
     },
 
     [actions.LOGIN_SUCCESS]: (state, action) => {
       if (action.payload === null) return initState
-      setAccessToken(action.payload.access_token)
       return {
         ...action.payload,
+      }
+    },
+    [actions.DJ_CONNECT_SUCCESS]: (state, action) => {
+      return {
+        identity: action.payload.username,
+        token: action.payload.token,
+        link: action.payload.link,
       }
     },
   },
