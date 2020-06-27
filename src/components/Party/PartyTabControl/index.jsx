@@ -1,4 +1,5 @@
 import React from 'react'
+import path from 'path'
 import { makeStyles } from '@material-ui/core'
 const useStyles = makeStyles((theme) => ({
   tabControlWrapper: {
@@ -35,7 +36,10 @@ const PartyTabControl = ({ status, setTabStatus }) => {
         }`}
         onClick={() => setTabStatus('dj')}
       >
-        <img src="./assets/live-dj-white.png" alt="DJ" />
+        <img
+          src={path.resolve(__dirname, 'assets', 'live-dj-white.png')}
+          alt="DJ"
+        />
       </div>
       <div
         className={`${
@@ -45,7 +49,7 @@ const PartyTabControl = ({ status, setTabStatus }) => {
         }`}
         onClick={() => setTabStatus('fav')}
       >
-        <img src="./assets/fav.png" alt="fav" />
+        <img src={path.resolve(__dirname, 'assets', 'fav.png')} alt="fav" />
       </div>
       <div
         className={`${
@@ -55,7 +59,7 @@ const PartyTabControl = ({ status, setTabStatus }) => {
         }`}
         onClick={() => setTabStatus('grid')}
       >
-        <img src="./assets/grid.png" alt="Grid" />
+        <img src={path.resolve(__dirname, 'assets', 'grid.png')} alt="Grid" />
       </div>
     </div>
   )

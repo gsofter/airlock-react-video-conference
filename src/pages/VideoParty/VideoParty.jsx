@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import useRoomState from '../../hooks/useRoomState'
+import path from 'path'
 import clsx from 'clsx'
 import { styled } from '@material-ui/core/styles'
 import { makeStyles, Typography } from '@material-ui/core'
@@ -148,8 +149,10 @@ const VideoParty = () => {
                 />
               </div>
               <div className={classes.logo}>
-                <img src="./assets/logo.png" alt="logo" />
-                <Typography variant="body2">squareparty</Typography>
+                <img
+                  src={path.resolve(__dirname, 'assets', 'logo.png')}
+                  alt="logo"
+                />
               </div>
               <div className={classes.chat}>
                 <ChatContainer />

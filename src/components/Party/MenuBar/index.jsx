@@ -1,4 +1,5 @@
 import React from 'react'
+import path from 'path'
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
@@ -17,7 +18,10 @@ const MenuBar = ({ roomTitle, onLeft, onJoinToParty }) => {
           noWrap
           className={classes.roomTitle}
         >
-          <img src="./assets/brand-logo.png" alt="brand-logo" />
+          <img
+            src={path.resolve(__dirname, 'assets', 'brand-logo.png')}
+            alt="brand-logo"
+          />
           {roomTitle}
         </Typography>
         {roomState === 'disconnected' ? (

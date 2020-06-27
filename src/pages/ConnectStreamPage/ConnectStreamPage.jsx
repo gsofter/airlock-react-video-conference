@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import path from 'path'
 import {
   makeStyles,
   AppBar,
@@ -94,14 +95,12 @@ const ConnectStreamPage = () => {
   const onStartConnecting = (event) => {
     event.preventDefault()
     dispatch(djConnect(form.username, form.link)).then((res) => {
-      history.push('/party')
-      window.history.replaceState(
-        null,
-        '',
-        window.encodeURI(
-          `/room/${form.username} || ${window.location.search || ''}`,
-        ),
-      )
+      history.push(`/room/${form.username}`)
+      // window.history.replaceState(
+      //   null,
+      //   '',
+      //   window.encodeURI(`/room/${form.username}}`),
+      // )
     })
   }
   return (
@@ -115,7 +114,10 @@ const ConnectStreamPage = () => {
               aria-label="menu"
               onClick={gotoHome}
             >
-              <img src="assets/logo-blue.png" alt="logo-blue" />
+              <img
+                src={path.resolve(__dirname, 'assets', 'logo-blue.png')}
+                alt="logo-blue"
+              />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
               Square
@@ -127,7 +129,10 @@ const ConnectStreamPage = () => {
         <Container className={classes.container}>
           <div className={classes.formContainer}>
             <div className={classes.description}>
-              <img src="assets/link-solid.png" alt="link-solid" />
+              <img
+                src={path.resolve(__dirname, 'assets', 'link-solid.png')}
+                alt="link-solid"
+              />
               <h2>Embed Your Live</h2>
               <p>
                 Embed your live from
