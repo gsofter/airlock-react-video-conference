@@ -4,7 +4,7 @@ import useRoomState from '../../hooks/useRoomState'
 import path from 'path'
 import clsx from 'clsx'
 import { styled } from '@material-ui/core/styles'
-import { makeStyles, Typography } from '@material-ui/core'
+import { makeStyles, Typography, Button, withStyles } from '@material-ui/core'
 import PinParticipant from '../../components/Party/Participant/PinParticipant'
 import ConfigureDialog from '../../components/Dialogs/ConfigureDialog'
 import LocalParticipant from '../../components/Party/Participant/LocalParticipant'
@@ -18,12 +18,14 @@ import ButtonControl from '../../components/Party/ButtonControl'
 import PusherProvider from '../../components/PusherProvider/PusherProvider'
 import ChatContainer from '../../containers/ChatContainer/ChatContainer'
 import ParticipantsListView from '../../components/Party/ParticipantsListView/ParticipantsListView'
+import { ExternalLinkIcon } from '../../components/Icons/Icons'
+import ShareLinkDialog from '../../components/Dialogs/ShareLinkDialog/ShareLinkDialog'
 const Container = styled('div')(({ theme }) => ({
   border: '1px solid #757575',
   position: 'relative',
   display: 'grid',
-  width: '100%',
-  height: '100%',
+  width: 'calc(100% - 10px)',
+  height: 'calc(100% - 10px)',
   gridTemplateColumns: `repeat(6, minmax(0, 1fr))`,
   gridTemplateRows: `repeat(5, minmax(0, 1fr))`,
   gap: '5px 5px',
@@ -43,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   mainViewer: {
     gridArea: 'mp',
@@ -51,8 +54,11 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     gridArea: 'lg',
-    textAlign: 'center',
     paddingTop: '10px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'left',
+    alignItems: 'self-start',
   },
   chat: {
     gridArea: 'mg',
@@ -99,12 +105,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const ShareLinkButton = withStyles({
+  root: {
+    color: 'white',
+    border: '2px solid white',
+    borderRadius: '0px',
+    backgroundColor: 'black',
+    alignSelf: 'center',
+    marginTop: '5px',
+  },
+})(Button)
+
 const VideoParty = () => {
   const classes = useStyles()
   const roomState = useRoomState()
   const [tabStatus, setTabStatus] = useState('dj')
   const userData = useSelector((state) => state.user)
   const [showConfigDialog, setShowConfigDialog] = useState(false)
+  const [showShareLinkDialog, setShowShareLinkDialog] = useState(false)
   const dispatch = useDispatch()
 
   const onConfigureLiveStream = () => {
@@ -112,13 +130,15 @@ const VideoParty = () => {
   }
 
   const setStreamUrl = (url) => {
-    console.log(url)
     dispatch(roomActions.setStreamUrl(url))
   }
 
   const onRandomButton = () => {
     dispatch(roomActions.randomizePins())
-    console.log('asdf')
+  }
+
+  const onShareLink = () => {
+    setShowShareLinkDialog(!showShareLinkDialog)
   }
 
   return (
@@ -128,6 +148,12 @@ const VideoParty = () => {
           showDialog={showConfigDialog}
           closeDialog={() => setShowConfigDialog(false)}
           setStreamUrl={setStreamUrl}
+        />
+      ) : null}
+      {showShareLinkDialog ? (
+        <ShareLinkDialog
+          open={showShareLinkDialog}
+          handleClose={() => setShowShareLinkDialog(false)}
         />
       ) : null}
       <main className={classes.mainWrapper}>
@@ -153,6 +179,9 @@ const VideoParty = () => {
                   src={path.resolve(__dirname, 'assets', 'logo.png')}
                   alt="logo"
                 />
+                <ShareLinkButton onClick={onShareLink}>
+                  SHARE WITH YOUR FAN <ExternalLinkIcon />
+                </ShareLinkButton>
               </div>
               <div className={classes.chat}>
                 <ChatContainer />

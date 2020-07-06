@@ -160,7 +160,7 @@ const djConnect = async (req, res, next) => {
       })
     }
     const filter = { username } // { username : username }
-    const update = { link } // { link: link }
+    const update = { link, role: 'dj' } // { link: link, role: 'dj' }
     await UserModel.countDocuments(filter)
     let newDj = await UserModel.findOneAndUpdate(filter, update, {
       new: true,

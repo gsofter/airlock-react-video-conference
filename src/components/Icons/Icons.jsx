@@ -14,8 +14,9 @@ import {
   faCheck,
   faPaperPlane,
   faTimes,
+  faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons'
-import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
+import { faCommentDots, faCopy } from '@fortawesome/free-regular-svg-icons'
 import { faYoutube, faFacebook } from '@fortawesome/free-brands-svg-icons'
 
 export const LockIcon = () => {
@@ -51,4 +52,12 @@ export const YoutubeIcon = () => {
 
 export const FacebookIcon = () => {
   return <FontAwesomeIcon icon={faFacebook} />
+}
+
+export const ExternalLinkIcon = () => {
+  return <FontAwesomeIcon icon={faExternalLinkAlt} />
+}
+
+export const CopyIcon = () => {
+  return <FontAwesomeIcon icon={faCopy} />
 }

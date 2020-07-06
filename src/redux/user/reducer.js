@@ -6,6 +6,7 @@ let initState = {
   identity: '',
   token: '',
   link: '',
+  role: '',
 }
 
 const userReducer = handleActions(
@@ -25,6 +26,7 @@ const userReducer = handleActions(
         identity: action.payload.username,
         token: action.payload.token,
         link: action.payload.link,
+        role: 'dj',
       }
     },
   },
