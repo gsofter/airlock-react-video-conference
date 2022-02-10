@@ -50,7 +50,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash.throttle": "^4.1.1",
     "mongoose": "^5.9.20",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "notistack": "^0.9.16",
     "path": "^0.12.7",
     "pg": "^8.0.2",
